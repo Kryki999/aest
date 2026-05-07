@@ -8,6 +8,7 @@ import SiteFooter from "./components/SiteFooter";
 import ScrollBoundHandsBridge from "./components/ScrollBoundHandsBridge";
 import CinematicSiteHeader from "./components/CinematicSiteHeader";
 import VideoKeysSection from "./components/VideoKeysSection";
+import TestimonialsSection from "./components/TestimonialsSection";
 
 const LOGO_ITEMS = [
   "Nova",
@@ -142,6 +143,7 @@ export default function Home() {
       <ScrollBoundHandsBridge />
 
       <PortfolioBentoSection />
+      <TestimonialsSection />
 
       <div className="px-[6vw] pb-8">
         <FaqAccordionSection />

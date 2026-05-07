@@ -61,6 +61,11 @@ export default function CinematicSiteHeader() {
   }, []);
 
   const closeNewsfeed = useCallback(() => setNewsfeedOpen(false), []);
+  const handleBrandClick = useCallback(() => {
+    closeMenu();
+    closeNewsfeed();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [closeMenu, closeNewsfeed]);
 
   const { scrollY } = useScroll();
 
@@ -214,13 +219,16 @@ export default function CinematicSiteHeader() {
             <Bell className="size-6 md:size-7" strokeWidth={1.35} aria-hidden />
           </button>
 
-          <h1
-            className="pointer-events-none text-center text-4xl italic lowercase tracking-tight text-foreground md:text-5xl"
+          <Link
+            href="/"
+            scroll
+            aria-label="Go to homepage"
+            className="text-center text-4xl italic lowercase tracking-tight text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent md:text-5xl"
             style={{ fontFamily: "var(--font-serif)" }}
+            onClick={handleBrandClick}
           >
-            aest{" "}
-            <span className="text-[var(--cinematic-accent)]">media</span>
-          </h1>
+            aest <span className="text-[var(--cinematic-accent)]">media</span>
+          </Link>
 
           <button
             type="button"
