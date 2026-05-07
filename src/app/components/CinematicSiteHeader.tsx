@@ -228,7 +228,7 @@ export default function CinematicSiteHeader() {
               }
         }
       >
-        <div className="relative mx-auto flex w-full max-w-[1600px] items-center justify-between gap-3">
+        <div className="relative mx-auto flex w-full max-w-[1600px] items-center justify-between gap-2 md:gap-3">
           <button
             type="button"
             aria-label="Open newsfeed"
@@ -236,51 +236,51 @@ export default function CinematicSiteHeader() {
             aria-controls={NEWSFEED_PANEL_ID}
             disabled={bellUnreachableUnderDrawer}
             tabIndex={bellUnreachableUnderDrawer ? -1 : 0}
-            className="flex size-11 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent disabled:pointer-events-none disabled:opacity-40 md:size-12"
+            className="flex size-10 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent disabled:pointer-events-none disabled:opacity-40 md:size-12"
             onClick={() =>
               newsfeedOpen ? closeNewsfeed() : openNewsfeed()
             }
           >
-            <Bell className="size-6 md:size-7" strokeWidth={1.35} aria-hidden />
+            <Bell className="size-5 md:size-7" strokeWidth={1.35} aria-hidden />
           </button>
 
           <Link
             href="/"
             scroll
             aria-label="Go to homepage"
-            className="text-center text-4xl italic lowercase tracking-tight text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent md:text-5xl"
+            className="whitespace-nowrap text-center text-3xl italic lowercase leading-none tracking-tight text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent sm:text-4xl md:text-5xl"
             style={{ fontFamily: "var(--font-serif)" }}
             onClick={handleBrandClick}
           >
             aest <span className="text-[var(--cinematic-accent)]">media</span>
           </Link>
 
-          <div className="flex shrink-0 items-center gap-0.5 md:gap-1">
+          <div className="flex shrink-0 items-center gap-0 md:gap-1">
             <button
               type="button"
               aria-label="Otwórz konfigurator kontaktu"
               aria-expanded={configuratorOpen}
               aria-controls={CONFIGURATOR_PANEL_ID}
-              className="flex size-11 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent md:size-12"
+              className="flex size-10 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent md:size-12"
               onClick={() =>
                 configuratorOpen ? closeConfigurator() : openConfiguratorFromHeader()
               }
             >
-              <Mail className="size-6 md:size-7" strokeWidth={1.35} aria-hidden />
+              <Mail className="size-5 md:size-7" strokeWidth={1.35} aria-hidden />
             </button>
             <button
               type="button"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               aria-expanded={menuOpen}
               aria-controls={MENU_PANEL_ID}
-              className="flex size-11 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent md:size-12"
+              className="flex size-10 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent md:size-12"
               onClick={() => (menuOpen ? closeMenu() : openMenu())}
             >
               {menuOpen ? (
-                <X className="size-6 md:size-7" strokeWidth={1.35} aria-hidden />
+                <X className="size-5 md:size-7" strokeWidth={1.35} aria-hidden />
               ) : (
                 <Menu
-                  className="size-6 md:size-7"
+                  className="size-5 md:size-7"
                   strokeWidth={1.35}
                   aria-hidden
                 />

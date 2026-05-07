@@ -223,9 +223,9 @@ export default function NewsfeedFilmstripSection() {
 
       <div
         ref={trackRef}
-        className="no-scrollbar relative w-full overflow-x-auto overflow-y-hidden overscroll-x-contain [-webkit-overflow-scrolling:touch] [scroll-snap-type:x_proximity]"
+        className="no-scrollbar relative w-full overflow-x-auto overflow-y-clip overscroll-x-contain [-webkit-overflow-scrolling:touch] [scroll-snap-type:x_proximity]"
       >
-        <ul className="flex items-center gap-4 px-[6vw] pb-3 pr-[14vw] md:gap-6 md:pr-[12vw]">
+        <ul className="flex items-center gap-4 px-[6vw] py-6 pr-[14vw] md:gap-6 md:py-8 md:pr-[12vw]">
           {DISPATCH_ITEMS.map((item) => (
             <li
               key={item.title}
