@@ -293,24 +293,16 @@ export default function VideoKeysSection() {
             <button
               aria-label="Tryb Multi-Track"
               onClick={() => setMode("multiTrack")}
-              className={`inline-flex h-10 w-10 items-center justify-center rounded-full border transition ${
-                mode === "multiTrack"
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border bg-card/30 text-muted-foreground hover:border-primary/50 hover:text-foreground"
-              }`}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-primary bg-primary text-primary-foreground transition"
             >
-              <ModeIcon type="multiTrack" active={mode === "multiTrack"} />
+              <ModeIcon type="multiTrack" active />
             </button>
             <button
               aria-label="Tryb Hero Story"
               onClick={() => setMode("heroStory")}
-              className={`inline-flex h-10 w-10 items-center justify-center rounded-full border transition ${
-                mode === "heroStory"
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border bg-card/30 text-muted-foreground hover:border-primary/50 hover:text-foreground"
-              }`}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/30 text-muted-foreground transition hover:border-primary/50 hover:text-foreground"
             >
-              <ModeIcon type="heroStory" active={mode === "heroStory"} />
+              <ModeIcon type="heroStory" active={false} />
             </button>
           </div>
         </>
@@ -445,24 +437,16 @@ export default function VideoKeysSection() {
             <button
               aria-label="Tryb Multi-Track"
               onClick={() => setMode("multiTrack")}
-              className={`inline-flex h-10 w-10 items-center justify-center rounded-full border transition ${
-                mode === "multiTrack"
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border bg-card/30 text-muted-foreground hover:border-primary/50 hover:text-foreground"
-              }`}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/30 text-muted-foreground transition hover:border-primary/50 hover:text-foreground"
             >
-              <ModeIcon type="multiTrack" active={mode === "multiTrack"} />
+              <ModeIcon type="multiTrack" active={false} />
             </button>
             <button
               aria-label="Tryb Hero Story"
               onClick={() => setMode("heroStory")}
-              className={`inline-flex h-10 w-10 items-center justify-center rounded-full border transition ${
-                mode === "heroStory"
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border bg-card/30 text-muted-foreground hover:border-primary/50 hover:text-foreground"
-              }`}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-primary bg-primary text-primary-foreground transition"
             >
-              <ModeIcon type="heroStory" active={mode === "heroStory"} />
+              <ModeIcon type="heroStory" active />
             </button>
           </div>
         </>
