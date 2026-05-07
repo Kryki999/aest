@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Accordion } from "@base-ui/react/accordion";
 import { Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -57,18 +58,17 @@ export default function FaqAccordionSection() {
       style={{ marginInline: "calc(50% - 50vw)" }}
     >
       <div className="relative mx-auto w-full max-w-7xl px-6 md:px-10 lg:px-14 xl:px-16">
-        <div className="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:items-start lg:gap-x-12 lg:gap-y-0 xl:gap-x-16">
-          <header className="lg:sticky lg:top-28 lg:min-h-0 lg:self-start">
-            <h2
-              id="faq-heading"
-              className="max-w-[12ch] text-balance text-4xl font-bold leading-[1.08] tracking-tight md:text-5xl lg:max-w-none lg:text-5xl xl:text-6xl"
-            >
-              <span className="block">Jak wygląda przebieg </span>
-              <span className="block text-[var(--cinematic-accent)]">współpracy?</span>
-            </h2>
-          </header>
-
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(460px,0.95fr)] lg:items-end lg:gap-x-12 xl:grid-cols-[minmax(0,1fr)_minmax(520px,1fr)] xl:gap-x-16">
           <div className="lg:min-h-0">
+            <header className="mb-7 md:mb-9">
+              <h2
+                id="faq-heading"
+                className="max-w-[12ch] text-balance text-4xl font-bold leading-[1.08] tracking-tight md:text-5xl lg:max-w-none lg:text-5xl xl:text-6xl"
+              >
+                <span className="block">Jak wygląda przebieg </span>
+                <span className="block text-[var(--cinematic-accent)]">współpracy?</span>
+              </h2>
+            </header>
             <Accordion.Root multiple={false} keepMounted className="flex flex-col">
               {FAQ_ITEMS.map((item, index) => (
                 <Accordion.Item
@@ -121,6 +121,33 @@ export default function FaqAccordionSection() {
                 </Accordion.Item>
               ))}
             </Accordion.Root>
+          </div>
+
+          <div className="lg:self-end">
+            {/* Używamy przyciętego assetu, bo oryginał miał duże transparentne marginesy. */}
+            <div className="relative left-1/2 mt-2 flex w-screen -translate-x-1/2 justify-center lg:hidden">
+              <Image
+                src="/faqaest-cropped.webp"
+                alt="Telefon z podglądem aplikacji Aest Media"
+                width={964}
+                height={1302}
+                priority={false}
+                className="h-auto w-[96vw] max-w-[520px] object-contain sm:w-[90vw] sm:max-w-[620px]"
+                sizes="100vw"
+              />
+            </div>
+
+            <div className="hidden w-full justify-end lg:flex">
+              <Image
+                src="/faqaest-cropped.webp"
+                alt="Telefon z podglądem aplikacji Aest Media"
+                width={964}
+                height={1302}
+                priority={false}
+                className="h-auto w-full max-w-[560px] object-contain object-bottom xl:max-w-[620px]"
+                sizes="(max-width: 1279px) 44vw, (max-width: 1535px) 40vw, 620px"
+              />
+            </div>
           </div>
         </div>
       </div>
