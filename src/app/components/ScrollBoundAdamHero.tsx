@@ -72,8 +72,8 @@ export default function ScrollBoundHandsBridge() {
       <div className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-0 py-8 md:hidden">
         <div className="relative z-10 -mb-12 w-[118vw] max-w-[520px] -translate-x-[25vw] -translate-y-[3vh] rotate-[-6deg]">
           <motion.div
-            animate={{ x: [0, 4, 0, -3, 0], y: [0, 2, 0, -2, 0] }}
-            transition={{ duration: 7.5, ease: "easeInOut", repeat: Infinity }}
+            animate={{ x: [0, 9, 0, -7, 0], y: [0, 5, 0, -4, 0] }}
+            transition={{ duration: 7.2, ease: "easeInOut", repeat: Infinity }}
             className="will-change-transform"
           >
             <Image
@@ -97,10 +97,10 @@ export default function ScrollBoundHandsBridge() {
 
         <div className="relative z-10 -mt-3 w-[118vw] max-w-[520px] translate-x-[25vw] translate-y-[4vh] rotate-[2deg]">
           <motion.div
-            animate={{ x: [0, -4, 0, 3, 0], y: [0, -2, 0, 2, 0] }}
+            animate={{ x: [0, -9, 0, 7, 0], y: [0, -5, 0, 4, 0] }}
             transition={{
               delay: 0.8,
-              duration: 8.25,
+              duration: 7.9,
               ease: "easeInOut",
               repeat: Infinity,
             }}
