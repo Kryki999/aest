@@ -44,7 +44,7 @@ export default function CinematicSiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [newsfeedOpen, setNewsfeedOpen] = useState(false);
 
-  const chromeInnerRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
   const firstMenuLinkRef = useRef<HTMLAnchorElement>(null);
   const newsfeedCloseRef = useRef<HTMLButtonElement>(null);
 
@@ -74,7 +74,7 @@ export default function CinematicSiteHeader() {
   );
 
   useEffect(() => {
-    const el = chromeInnerRef.current;
+    const el = headerRef.current;
     if (!el) return;
     const apply = () => {
       document.documentElement.style.setProperty(
@@ -85,8 +85,11 @@ export default function CinematicSiteHeader() {
     apply();
     const ro = new ResizeObserver(apply);
     ro.observe(el);
+    const onScroll = () => apply();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       ro.disconnect();
+      window.removeEventListener("scroll", onScroll);
       document.documentElement.style.removeProperty("--site-header-h");
     };
   }, []);
@@ -126,15 +129,10 @@ export default function CinematicSiteHeader() {
     return () => window.cancelAnimationFrame(t);
   }, [newsfeedOpen]);
 
+  const bellUnreachableUnderDrawer = newsfeedOpen;
+
   return (
     <>
-      <NewsfeedDrawer
-        open={newsfeedOpen}
-        onClose={closeNewsfeed}
-        drawerId={NEWSFEED_PANEL_ID}
-        closeButtonRef={newsfeedCloseRef}
-      />
-
       <AnimatePresence>
         {menuOpen ? (
           <motion.div
@@ -147,15 +145,15 @@ export default function CinematicSiteHeader() {
             animate={{ clipPath: "inset(0 0 0% 0)" }}
             exit={{ clipPath: "inset(0 0 100% 0)" }}
             transition={menuCurtainTransition}
-            className="fixed inset-0 z-[90] flex flex-col bg-[var(--cinematic-base)]"
+            className="fixed left-0 right-0 top-0 z-[90] flex h-[100dvh] min-h-0 flex-col overflow-hidden bg-[var(--cinematic-base)] md:h-[min(640px,68vh)] md:rounded-b-[1.25rem] md:border-b md:border-white/[0.06] md:shadow-[0_28px_90px_rgba(0,0,0,0.55)]"
           >
-            <div className="flex min-h-[100dvh] flex-col px-[6vw] pb-14 pt-[var(--site-header-h,7rem)]">
+            <div className="flex h-full flex-col px-[6vw] pb-16 pt-[calc(var(--site-header-h,7rem)+1.25rem)] md:pb-14 md:pt-[calc(var(--site-header-h,5rem)+2rem)]">
               <nav
                 aria-label="Primary"
-                className="flex flex-1 flex-col items-center justify-center md:pb-10 md:pt-6"
+                className="flex flex-1 flex-col items-center justify-center"
               >
                 <motion.ul
-                  className="flex flex-col items-center gap-6 md:flex-row md:flex-wrap md:justify-center md:gap-x-14 md:gap-y-8"
+                  className="flex flex-col items-center gap-7 md:flex-row md:flex-wrap md:justify-center md:gap-x-14 md:gap-y-7"
                   variants={menuContainerVariants}
                   initial="hidden"
                   animate="visible"
@@ -165,7 +163,7 @@ export default function CinematicSiteHeader() {
                       <Link
                         href={href}
                         ref={i === 0 ? firstMenuLinkRef : undefined}
-                        className="block rounded-md text-center text-4xl font-medium tracking-tight text-foreground outline-none transition-colors hover:text-primary focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--cinematic-base)] md:text-3xl"
+                        className="block rounded-md text-center text-[2.4rem] font-medium tracking-tight text-foreground outline-none transition-colors hover:text-primary focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--cinematic-base)] md:text-[clamp(1.5rem,2.4vw,2.05rem)]"
                         onClick={closeMenu}
                       >
                         {label}
@@ -180,25 +178,35 @@ export default function CinematicSiteHeader() {
       </AnimatePresence>
 
       <motion.header
+        ref={headerRef}
         className="fixed left-0 top-0 z-[100] w-full px-[6vw]"
-        style={{
-          paddingTop: padY,
-          paddingBottom: padY,
-          backgroundColor: headerBg,
-          backdropFilter: backdropBlur,
-          WebkitBackdropFilter: backdropBlur,
-        }}
+        style={
+          menuOpen
+            ? {
+                paddingTop: padY,
+                paddingBottom: padY,
+                backgroundColor: "var(--cinematic-base)",
+                backdropFilter: "none",
+                WebkitBackdropFilter: "none",
+              }
+            : {
+                paddingTop: padY,
+                paddingBottom: padY,
+                backgroundColor: headerBg,
+                backdropFilter: backdropBlur,
+                WebkitBackdropFilter: backdropBlur,
+              }
+        }
       >
-        <div
-          ref={chromeInnerRef}
-          className="mx-auto flex w-full max-w-[1600px] items-center justify-between gap-3"
-        >
+        <div className="relative mx-auto flex w-full max-w-[1600px] items-center justify-between gap-3">
           <button
             type="button"
             aria-label="Open newsfeed"
             aria-expanded={newsfeedOpen}
             aria-controls={NEWSFEED_PANEL_ID}
-            className="flex size-11 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent md:size-12"
+            disabled={bellUnreachableUnderDrawer}
+            tabIndex={bellUnreachableUnderDrawer ? -1 : 0}
+            className="flex size-11 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent disabled:pointer-events-none disabled:opacity-40 md:size-12"
             onClick={() =>
               newsfeedOpen ? closeNewsfeed() : openNewsfeed()
             }
@@ -234,6 +242,13 @@ export default function CinematicSiteHeader() {
           </button>
         </div>
       </motion.header>
+
+      <NewsfeedDrawer
+        open={newsfeedOpen}
+        onClose={closeNewsfeed}
+        drawerId={NEWSFEED_PANEL_ID}
+        closeButtonRef={newsfeedCloseRef}
+      />
     </>
   );
 }

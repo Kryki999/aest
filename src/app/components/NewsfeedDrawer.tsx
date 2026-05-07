@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { X } from "lucide-react";
@@ -59,7 +60,7 @@ export default function NewsfeedDrawer({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35, ease: drawerSlideTransition.ease }}
-            className="fixed inset-0 z-[85] bg-[var(--cinematic-base)]/60"
+            className="fixed inset-0 z-[105] bg-[var(--cinematic-base)]/60"
             onClick={onClose}
           />
           <motion.aside
@@ -72,21 +73,21 @@ export default function NewsfeedDrawer({
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={drawerSlideTransition}
-            className="fixed left-0 top-0 z-[95] flex h-[100dvh] w-full flex-row bg-[var(--cinematic-surface)] shadow-[8px_0_48px_rgba(0,0,0,0.35)] md:w-[min(40vw,520px)]"
+            className="fixed left-0 top-0 z-[110] flex h-[100dvh] w-full flex-row bg-[var(--cinematic-surface)] shadow-[12px_0_56px_rgba(0,0,0,0.45)] md:w-[min(40vw,520px)]"
           >
-            <div className="flex w-14 shrink-0 flex-col items-center justify-between border-r border-border/55 py-4 md:w-16">
+            <div className="relative z-[2] flex w-14 shrink-0 flex-col items-center justify-between border-r border-border/55 bg-[var(--cinematic-surface)] py-4 md:w-16">
               <button
                 ref={closeButtonRef}
                 type="button"
                 aria-label="Close newsfeed"
-                className="rounded-md p-2 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--cinematic-surface)]"
+                className="relative z-[2] rounded-md p-2 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--cinematic-surface)]"
                 onClick={onClose}
               >
                 <X className="size-5 shrink-0" strokeWidth={1.5} aria-hidden />
               </button>
               <nav
                 aria-label="Social links"
-                className="flex flex-col items-center gap-5 pb-2"
+                className="relative z-[2] flex flex-col items-center gap-5 pb-2"
               >
                 {SOCIAL_LINKS.map(({ href, label, Icon }) => (
                   <Link
@@ -101,46 +102,77 @@ export default function NewsfeedDrawer({
               </nav>
             </div>
 
-            <div className="newsfeed-scrollbar flex min-w-0 flex-1 overflow-y-auto">
+            <div className="newsfeed-scrollbar relative z-[1] flex min-w-0 flex-1 overflow-y-auto bg-[var(--cinematic-surface)]">
               <motion.div
-                className="flex w-full flex-col gap-8 px-5 py-7 pb-12 md:px-7 md:py-8"
+                className="flex w-full flex-col gap-10 px-5 py-7 pb-14 md:gap-11 md:px-7 md:py-8 md:pb-16"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
               >
                 <motion.div variants={itemVariants}>
                   <h2
-                    className="font-semibold tracking-tight text-foreground"
+                    className="text-xl font-semibold tracking-tight text-foreground md:text-2xl"
                     style={{ fontFamily: "var(--font-serif)" }}
                   >
                     Latest Dispatches
                   </h2>
-                  <p className="mt-1 text-sm text-muted-foreground">
+                  <p className="mt-2 max-w-prose text-sm leading-relaxed text-muted-foreground">
                     Notes from the studio — shoots, grade, and sound.
                   </p>
                 </motion.div>
 
-                {DISPATCH_ITEMS.map((item) => (
-                  <motion.article key={item.title} variants={itemVariants}>
-                    <Link
-                      href={item.href}
-                      className="group block rounded-lg outline-none transition-colors focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--cinematic-surface)]"
+                <div className="flex flex-col gap-9 md:gap-10">
+                  {DISPATCH_ITEMS.map((item) => (
+                    <motion.article
+                      key={item.title}
+                      variants={itemVariants}
+                      className="overflow-hidden rounded-xl border border-border/50 bg-[rgb(24_24_27_/0.55)] shadow-[0_1px_0_rgb(255_255_255_/0.04)_inset]"
                     >
-                      <time
-                        dateTime={item.date}
-                        className="text-xs uppercase tracking-wider text-muted-foreground"
+                      <Link
+                        href={item.href}
+                        className="group block outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--cinematic-surface)]"
                       >
-                        {item.date}
-                      </time>
-                      <span className="mt-1 block text-lg font-medium leading-snug text-foreground transition-colors group-hover:text-primary">
-                        {item.title}
-                      </span>
-                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                        {item.excerpt}
-                      </p>
-                    </Link>
-                  </motion.article>
-                ))}
+                        <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
+                          <Image
+                            src={item.image}
+                            alt={item.imageAlt}
+                            fill
+                            sizes="(max-width: 768px) 100vw, min(40vw, 520px)"
+                            className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
+                          />
+                          <div
+                            aria-hidden
+                            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--cinematic-surface)]/80 via-transparent to-transparent opacity-90"
+                          />
+                          <time
+                            dateTime={item.date}
+                            className="absolute left-4 top-4 rounded bg-[var(--cinematic-base)]/75 px-2 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground backdrop-blur-[2px]"
+                          >
+                            {item.date}
+                          </time>
+                        </div>
+
+                        <div className="space-y-3 px-5 pb-6 pt-5 md:px-6 md:pb-7 md:pt-6">
+                          <h3
+                            className="text-[1.35rem] font-semibold leading-[1.15] tracking-tight text-foreground transition-colors group-hover:text-primary md:text-2xl md:leading-snug"
+                            style={{ fontFamily: "var(--font-serif)" }}
+                          >
+                            {item.title}
+                          </h3>
+                          <p className="text-sm leading-relaxed text-muted-foreground md:text-[0.9375rem] md:leading-[1.65]">
+                            {item.excerpt}
+                          </p>
+                          <span className="inline-flex items-center gap-1.5 pt-1 text-xs font-medium uppercase tracking-[0.2em] text-[var(--cinematic-accent)] transition-colors group-hover:text-[var(--cinematic-accent-neon)]">
+                            Więcej
+                            <span aria-hidden className="translate-x-0 transition-transform duration-300 group-hover:translate-x-1">
+                              →
+                            </span>
+                          </span>
+                        </div>
+                      </Link>
+                    </motion.article>
+                  ))}
+                </div>
               </motion.div>
             </div>
           </motion.aside>
