@@ -91,6 +91,7 @@ const MULTI_TRACK_COUNT = 9;
 const SWIPE_THRESHOLD_PX = 40;
 const HERO_MOBILE_STAGGER_PATTERN = [-14, 0, 14, 0, -14];
 const HERO_MOBILE_STAGGER_PAD_PX = 18;
+const VERTICAL_GESTURE_TOLERANCE_PX = 10;
 const mod = (n: number, m: number) => ((n % m) + m) % m;
 
 function ModeIcon({
@@ -134,6 +135,7 @@ export default function VideoKeysSection() {
   const [activeIndex, setActiveIndex] = useState(4);
   const [heroStartIndex, setHeroStartIndex] = useState(0);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchStartY, setTouchStartY] = useState<number | null>(null);
 
   const multiTrackItems = useMemo(() => PANELS.slice(0, MULTI_TRACK_COUNT), []);
   const activeMultiTrack = multiTrackItems[mod(activeIndex, multiTrackItems.length)];
@@ -149,30 +151,48 @@ export default function VideoKeysSection() {
 
   const onMultiTrackTouchStart = (event: TouchEvent<HTMLDivElement>) => {
     setTouchStartX(event.touches[0]?.clientX ?? null);
+    setTouchStartY(event.touches[0]?.clientY ?? null);
   };
 
   const onMultiTrackTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
-    if (touchStartX === null) return;
+    if (touchStartX === null || touchStartY === null) return;
     const endX = event.changedTouches[0]?.clientX ?? touchStartX;
+    const endY = event.changedTouches[0]?.clientY ?? touchStartY;
     const deltaX = endX - touchStartX;
-    if (Math.abs(deltaX) >= SWIPE_THRESHOLD_PX) {
+    const deltaY = endY - touchStartY;
+
+    const isHorizontalSwipe =
+      Math.abs(deltaX) >= SWIPE_THRESHOLD_PX &&
+      Math.abs(deltaX) > Math.abs(deltaY) + VERTICAL_GESTURE_TOLERANCE_PX;
+
+    if (isHorizontalSwipe) {
       moveMultiTrack(deltaX > 0 ? -1 : 1);
     }
     setTouchStartX(null);
+    setTouchStartY(null);
   };
 
   const onHeroTouchStart = (event: TouchEvent<HTMLDivElement>) => {
     setTouchStartX(event.touches[0]?.clientX ?? null);
+    setTouchStartY(event.touches[0]?.clientY ?? null);
   };
 
   const onHeroTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
-    if (touchStartX === null) return;
+    if (touchStartX === null || touchStartY === null) return;
     const endX = event.changedTouches[0]?.clientX ?? touchStartX;
+    const endY = event.changedTouches[0]?.clientY ?? touchStartY;
     const deltaX = endX - touchStartX;
-    if (Math.abs(deltaX) >= SWIPE_THRESHOLD_PX) {
+    const deltaY = endY - touchStartY;
+
+    const isHorizontalSwipe =
+      Math.abs(deltaX) >= SWIPE_THRESHOLD_PX &&
+      Math.abs(deltaX) > Math.abs(deltaY) + VERTICAL_GESTURE_TOLERANCE_PX;
+
+    if (isHorizontalSwipe) {
       moveHero(deltaX > 0 ? -1 : 1);
     }
     setTouchStartX(null);
+    setTouchStartY(null);
   };
 
   return (
