@@ -38,7 +38,7 @@ const HAND_MOTION: Record<
   },
 };
 
-export default function ScrollBoundAdamHero() {
+export default function ScrollBoundHandsBridge() {
   const trackRef = useRef<HTMLElement | null>(null);
 
   const { scrollYProgress } = useScroll({
