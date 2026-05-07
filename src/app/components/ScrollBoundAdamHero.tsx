@@ -87,7 +87,7 @@ export default function ScrollBoundHandsBridge() {
           className="relative z-20 max-w-[12ch] text-center text-[clamp(2.4rem,12vw,4.1rem)] font-semibold leading-[0.92] tracking-[-0.06em] text-[var(--cinematic-accent)]"
           style={{ fontFamily: "var(--font-serif)" }}
         >
-          Twoje wartości w kinowym kadrze.
+          Sztuka wizualnego wpływu.
         </p>
 
         <div className="relative z-10 -mt-3 w-[118vw] max-w-[520px] translate-x-[25vw] translate-y-[4vh] rotate-[2deg]">
