@@ -90,6 +90,7 @@ const PANELS: Panel[] = [
 const MULTI_TRACK_COUNT = 9;
 const SWIPE_THRESHOLD_PX = 40;
 const HERO_MOBILE_STAGGER_PATTERN = [-14, 0, 14, 0, -14];
+const HERO_MOBILE_STAGGER_PAD_PX = 18;
 const mod = (n: number, m: number) => ((n % m) + m) % m;
 
 function ModeIcon({
@@ -380,7 +381,14 @@ export default function VideoKeysSection() {
               onTouchEnd={onHeroTouchEnd}
             >
               <div className="relative h-full w-full">
-                <div className="grid h-[calc(100%-2.5rem)] grid-cols-5 gap-1 overflow-hidden pt-5">
+                <div
+                  className="grid grid-cols-5 gap-1 overflow-hidden"
+                  style={{
+                    height: `calc(100% - 2.5rem - ${HERO_MOBILE_STAGGER_PAD_PX * 2}px)`,
+                    paddingTop: `${HERO_MOBILE_STAGGER_PAD_PX}px`,
+                    paddingBottom: `${HERO_MOBILE_STAGGER_PAD_PX}px`,
+                  }}
+                >
                 {Array.from({ length: 5 }, (_, idx) => {
                   const offsetY = HERO_MOBILE_STAGGER_PATTERN[idx] ?? 0;
                   return (
