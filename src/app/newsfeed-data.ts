@@ -8,6 +8,7 @@ export type DispatchItem = {
   imageAlt: string;
 };
 
+/** Wszystkie wpisy (np. szuflada w nagłówku). */
 export const DISPATCH_ITEMS: DispatchItem[] = [
   {
     date: "2026-05-02",

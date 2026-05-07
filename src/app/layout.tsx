@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Noto_Serif, Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { ConfiguratorProvider } from "./components/ConfiguratorProvider";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -38,7 +39,9 @@ export default function RootLayout({
         geist.variable,
       )}
     >
-      <body className="flex min-h-full max-w-full flex-col overflow-x-clip">{children}</body>
+      <body className="flex min-h-full max-w-full flex-col overflow-x-clip">
+        <ConfiguratorProvider>{children}</ConfiguratorProvider>
+      </body>
     </html>
   );
 }

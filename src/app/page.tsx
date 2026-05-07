@@ -4,11 +4,14 @@ import Image from "next/image";
 
 import PortfolioBentoSection from "./components/PortfolioBentoSection";
 import FaqAccordionSection from "./components/FaqAccordionSection";
+import NewsfeedFilmstripSection from "./components/NewsfeedFilmstripSection";
+import PreFooterConfigurator from "./components/PreFooterConfigurator";
 import SiteFooter from "./components/SiteFooter";
 import ScrollBoundHandsBridge from "./components/ScrollBoundHandsBridge";
 import CinematicSiteHeader from "./components/CinematicSiteHeader";
 import VideoKeysSection from "./components/VideoKeysSection";
 import TestimonialsSection from "./components/TestimonialsSection";
+import { useConfigurator } from "./components/configurator-shared";
 
 const LOGO_ITEMS = [
   "Nova",
@@ -63,6 +66,7 @@ const SERVICES_DATA = [
 ];
 
 export default function Home() {
+  const { open: openConfigurator } = useConfigurator();
   const marqueeItems = [...LOGO_ITEMS, ...LOGO_ITEMS];
 
   return (
@@ -87,12 +91,22 @@ export default function Home() {
             mocniej. Przekuwamy surową energię w najwyższej klasy produkcje
             wideo i foto.
           </p>
-          <button
-            type="button"
-            className="mt-7 rounded-full border border-primary/35 bg-primary px-8 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground shadow-[0_0_24px_-4px_var(--cinematic-accent-neon)] transition duration-300 hover:-translate-y-0.5 hover:border-[var(--cinematic-accent-neon)] hover:bg-[var(--cinematic-accent-neon)] md:mt-8"
-          >
-            Skontaktuj się
-          </button>
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-4 md:mt-8">
+            <button
+              type="button"
+              className="rounded-full border border-primary/35 bg-primary px-8 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground shadow-[0_0_24px_-4px_var(--cinematic-accent-neon)] transition duration-300 hover:-translate-y-0.5 hover:border-[var(--cinematic-accent-neon)] hover:bg-[var(--cinematic-accent-neon)]"
+              onClick={openConfigurator}
+            >
+              Skontaktuj się
+            </button>
+            <button
+              type="button"
+              className="rounded-full border border-border/80 bg-transparent px-8 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-foreground transition duration-300 hover:-translate-y-0.5 hover:border-primary/50 hover:text-primary"
+              onClick={openConfigurator}
+            >
+              Wyceń projekt
+            </button>
+          </div>
         </div>
 
         <div className="relative overflow-hidden rounded-full border border-border bg-card/95 px-5 py-5 shadow-[0_20px_60px_rgba(0,0,0,0.45)] md:px-8 md:py-6">
@@ -149,6 +163,8 @@ export default function Home() {
         <FaqAccordionSection />
       </div>
 
+      <NewsfeedFilmstripSection />
+
       <style jsx global>{`
         @keyframes logoMarquee {
           from {
@@ -165,6 +181,7 @@ export default function Home() {
       `}</style>
     </main>
 
+    <PreFooterConfigurator />
     <SiteFooter />
     </>
   );

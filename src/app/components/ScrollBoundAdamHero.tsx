@@ -54,7 +54,6 @@ export default function ScrollBoundHandsBridge() {
   const rightDesktopScale = useTransform(scrollYProgress, DESKTOP_HAND_PROGRESS, HAND_MOTION.desktop.right.scale);
   const auraOpacity = useTransform(scrollYProgress, [0, 0.48, 0.68], [0.42, 0.82, 0]);
   const darkRevealOpacity = useTransform(scrollYProgress, [0.5, 0.72, 1], [0, 0.92, 0.92]);
-  const finalTextOpacity = useTransform(scrollYProgress, [0.5, 0.54, 0.96, 1], [0, 1, 1, 0]);
   const finalTextX = useTransform(
     scrollYProgress,
     [0.48, 0.68, 0.9, 1],
@@ -144,7 +143,6 @@ export default function ScrollBoundHandsBridge() {
           <motion.p
             style={{
               fontFamily: "var(--font-serif)",
-              opacity: finalTextOpacity,
               x: finalTextX,
             }}
             className="absolute left-0 w-max whitespace-nowrap text-left text-[clamp(4.2rem,7.4vw,8.8rem)] font-semibold leading-none tracking-[-0.06em] text-[var(--cinematic-accent)] will-change-transform"

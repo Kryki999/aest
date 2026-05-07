@@ -8,15 +8,17 @@ import {
   useScroll,
   useTransform,
 } from "motion/react";
-import { Bell, Menu, X } from "lucide-react";
+import { Bell, Mail, Menu, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { NAV_LINKS } from "../nav-links";
+import { useConfigurator } from "./configurator-shared";
 import NewsfeedDrawer from "./NewsfeedDrawer";
 import { CINEMATIC_EASE, menuCurtainTransition } from "./nav-motion";
 
 const MENU_PANEL_ID = "site-primary-menu";
 const NEWSFEED_PANEL_ID = "site-newsfeed-drawer";
+const CONFIGURATOR_PANEL_ID = "site-slide-in-configurator";
 
 const menuContainerVariants = {
   hidden: {},
@@ -44,28 +46,37 @@ export default function CinematicSiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [newsfeedOpen, setNewsfeedOpen] = useState(false);
 
+  const {
+    isOpen: configuratorOpen,
+    open: openConfigurator,
+    close: closeConfigurator,
+  } = useConfigurator();
+
   const headerRef = useRef<HTMLElement>(null);
   const firstMenuLinkRef = useRef<HTMLAnchorElement>(null);
   const newsfeedCloseRef = useRef<HTMLButtonElement>(null);
 
   const openMenu = useCallback(() => {
+    closeConfigurator();
     setNewsfeedOpen(false);
     setMenuOpen(true);
-  }, []);
+  }, [closeConfigurator]);
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
   const openNewsfeed = useCallback(() => {
+    closeConfigurator();
     setMenuOpen(false);
     setNewsfeedOpen(true);
-  }, []);
+  }, [closeConfigurator]);
 
   const closeNewsfeed = useCallback(() => setNewsfeedOpen(false), []);
   const handleBrandClick = useCallback(() => {
+    closeConfigurator();
     closeMenu();
     closeNewsfeed();
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [closeMenu, closeNewsfeed]);
+  }, [closeConfigurator, closeMenu, closeNewsfeed]);
 
   const { scrollY } = useScroll();
 
@@ -100,23 +111,31 @@ export default function CinematicSiteHeader() {
   }, []);
 
   useEffect(() => {
-    if (!menuOpen && !newsfeedOpen) return;
+    if (!menuOpen && !newsfeedOpen && !configuratorOpen) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = prev;
     };
-  }, [menuOpen, newsfeedOpen]);
+  }, [menuOpen, newsfeedOpen, configuratorOpen]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "Escape") return;
-      if (menuOpen) closeMenu();
+      if (configuratorOpen) closeConfigurator();
+      else if (menuOpen) closeMenu();
       else if (newsfeedOpen) closeNewsfeed();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [menuOpen, newsfeedOpen, closeMenu, closeNewsfeed]);
+  }, [
+    menuOpen,
+    newsfeedOpen,
+    configuratorOpen,
+    closeMenu,
+    closeNewsfeed,
+    closeConfigurator,
+  ]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -134,7 +153,13 @@ export default function CinematicSiteHeader() {
     return () => window.cancelAnimationFrame(t);
   }, [newsfeedOpen]);
 
-  const bellUnreachableUnderDrawer = newsfeedOpen;
+  const bellUnreachableUnderDrawer = newsfeedOpen || configuratorOpen;
+
+  const openConfiguratorFromHeader = useCallback(() => {
+    closeMenu();
+    closeNewsfeed();
+    openConfigurator();
+  }, [closeMenu, closeNewsfeed, openConfigurator]);
 
   return (
     <>
@@ -230,24 +255,38 @@ export default function CinematicSiteHeader() {
             aest <span className="text-[var(--cinematic-accent)]">media</span>
           </Link>
 
-          <button
-            type="button"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={menuOpen}
-            aria-controls={MENU_PANEL_ID}
-            className="flex size-11 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent md:size-12"
-            onClick={() => (menuOpen ? closeMenu() : openMenu())}
-          >
-            {menuOpen ? (
-              <X className="size-6 md:size-7" strokeWidth={1.35} aria-hidden />
-            ) : (
-              <Menu
-                className="size-6 md:size-7"
-                strokeWidth={1.35}
-                aria-hidden
-              />
-            )}
-          </button>
+          <div className="flex shrink-0 items-center gap-0.5 md:gap-1">
+            <button
+              type="button"
+              aria-label="Otwórz konfigurator kontaktu"
+              aria-expanded={configuratorOpen}
+              aria-controls={CONFIGURATOR_PANEL_ID}
+              className="flex size-11 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent md:size-12"
+              onClick={() =>
+                configuratorOpen ? closeConfigurator() : openConfiguratorFromHeader()
+              }
+            >
+              <Mail className="size-6 md:size-7" strokeWidth={1.35} aria-hidden />
+            </button>
+            <button
+              type="button"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              aria-controls={MENU_PANEL_ID}
+              className="flex size-11 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent md:size-12"
+              onClick={() => (menuOpen ? closeMenu() : openMenu())}
+            >
+              {menuOpen ? (
+                <X className="size-6 md:size-7" strokeWidth={1.35} aria-hidden />
+              ) : (
+                <Menu
+                  className="size-6 md:size-7"
+                  strokeWidth={1.35}
+                  aria-hidden
+                />
+              )}
+            </button>
+          </div>
         </div>
       </motion.header>
 

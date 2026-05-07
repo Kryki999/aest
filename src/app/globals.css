@@ -176,6 +176,15 @@ a {
   --sidebar-ring: var(--cinematic-accent);
 }
 
+/* Hidden scrollbar utility (used on horizontal filmstrips) */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Minimal dark scrollbar for newsfeed / drawers */
 .newsfeed-scrollbar {
   scrollbar-width: thin;
@@ -204,5 +213,6 @@ a {
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
   }
 }
