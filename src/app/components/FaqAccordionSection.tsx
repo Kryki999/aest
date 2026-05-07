@@ -63,8 +63,8 @@ export default function FaqAccordionSection() {
               id="faq-heading"
               className="max-w-[12ch] text-balance text-4xl font-bold leading-[1.08] tracking-tight md:text-5xl lg:max-w-none lg:text-5xl xl:text-6xl"
             >
-              <span className="block">Najczęściej zadawane</span>
-              <span className="block text-[var(--cinematic-accent)]">pytania</span>
+              <span className="block">Jak wygląda przebieg </span>
+              <span className="block text-[var(--cinematic-accent)]">współpracy?</span>
             </h2>
           </header>
 

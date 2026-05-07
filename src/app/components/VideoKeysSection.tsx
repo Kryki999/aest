@@ -89,7 +89,7 @@ const PANELS: Panel[] = [
 
 const MULTI_TRACK_COUNT = 9;
 const SWIPE_THRESHOLD_PX = 40;
-
+const HERO_MOBILE_STAGGER_PATTERN = [-14, 0, 14, 0, -14];
 const mod = (n: number, m: number) => ((n % m) + m) % m;
 
 function ModeIcon({
@@ -275,21 +275,37 @@ export default function VideoKeysSection() {
           <div className="mx-auto mt-5 flex w-full max-w-[460px] items-center justify-between md:hidden">
             <button
               aria-label="Poprzedni materiał Multi-Track"
-              className="text-sm uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+              className="text-2xl leading-none text-muted-foreground transition-colors hover:text-foreground"
               onClick={() => moveMultiTrack(-1)}
             >
-              ← {multiTrackItems[mod(activeIndex - 1, multiTrackItems.length)].title}
+              ←
             </button>
+            <div className="flex items-center justify-center gap-3">
+              <button
+                aria-label="Tryb Multi-Track"
+                onClick={() => setMode("multiTrack")}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-primary bg-primary text-primary-foreground transition"
+              >
+                <ModeIcon type="multiTrack" active />
+              </button>
+              <button
+                aria-label="Tryb Hero Story"
+                onClick={() => setMode("heroStory")}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/30 text-muted-foreground transition hover:border-primary/50 hover:text-foreground"
+              >
+                <ModeIcon type="heroStory" active={false} />
+              </button>
+            </div>
             <button
               aria-label="Następny materiał Multi-Track"
-              className="text-sm uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+              className="text-2xl leading-none text-muted-foreground transition-colors hover:text-foreground"
               onClick={() => moveMultiTrack(1)}
             >
-              {multiTrackItems[mod(activeIndex + 1, multiTrackItems.length)].title} →
+              →
             </button>
           </div>
 
-          <div className="mt-6 flex items-center justify-center gap-3">
+          <div className="mt-6 hidden items-center justify-center gap-3 md:flex">
             <button
               aria-label="Tryb Multi-Track"
               onClick={() => setMode("multiTrack")}
@@ -363,13 +379,15 @@ export default function VideoKeysSection() {
               onTouchStart={onHeroTouchStart}
               onTouchEnd={onHeroTouchEnd}
             >
-              <div className="grid h-full w-full grid-cols-5 gap-1 overflow-hidden bg-[#09090B]">
+              <div className="relative h-full w-full">
+                <div className="grid h-[calc(100%-2.5rem)] grid-cols-5 gap-1 overflow-hidden pt-5">
                 {Array.from({ length: 5 }, (_, idx) => {
-                  const item = PANELS[mod(heroStartIndex + idx, PANELS.length)];
+                  const offsetY = HERO_MOBILE_STAGGER_PATTERN[idx] ?? 0;
                   return (
                     <article
                       key={`${activeHero.title}-hero-mobile-${idx}`}
-                      className={`relative h-full overflow-hidden ${item.shiftClass}`}
+                      className="relative h-full overflow-hidden"
+                      style={{ transform: `translateY(${offsetY}px)` }}
                     >
                       <video
                         src={activeHero.video}
@@ -378,13 +396,14 @@ export default function VideoKeysSection() {
                         autoPlay
                         playsInline
                         preload="auto"
-                        className="absolute inset-y-0 left-0 h-full w-[500%] max-w-none object-cover"
-                        style={{ transform: `translateX(-${idx * 20}%)` }}
+                        className="absolute left-0 top-[-20px] h-[calc(100%+40px)] w-[500%] max-w-none object-cover"
+                        style={{ transform: `translate(-${idx * 20}%, ${-offsetY}px)` }}
                       />
-                      <div className="absolute inset-0 bg-stone-950/34 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]" />
+                      <div className="absolute inset-0 bg-stone-950/34" />
                     </article>
                   );
                 })}
+                </div>
               </div>
             </div>
 
@@ -403,37 +422,53 @@ export default function VideoKeysSection() {
             <div className="mx-auto mt-5 flex w-full max-w-[460px] items-center justify-between">
               <button
                 aria-label="Poprzedni materiał Hero Story"
-                className="text-sm uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+                className="text-2xl leading-none text-muted-foreground transition-colors hover:text-foreground"
                 onClick={() => moveHero(-1)}
               >
-                ← {PANELS[mod(heroStartIndex - 1, PANELS.length)].title}
+                ←
               </button>
+              <div className="flex items-center justify-center gap-3">
+                <button
+                  aria-label="Tryb Multi-Track"
+                  onClick={() => setMode("multiTrack")}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card/30 text-muted-foreground transition hover:border-primary/50 hover:text-foreground"
+                >
+                  <ModeIcon type="multiTrack" active={false} />
+                </button>
+                <button
+                  aria-label="Tryb Hero Story"
+                  onClick={() => setMode("heroStory")}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-primary bg-primary text-primary-foreground transition"
+                >
+                  <ModeIcon type="heroStory" active />
+                </button>
+              </div>
               <button
                 aria-label="Następny materiał Hero Story"
-                className="text-sm uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+                className="text-2xl leading-none text-muted-foreground transition-colors hover:text-foreground"
                 onClick={() => moveHero(1)}
               >
-                {PANELS[mod(heroStartIndex + 1, PANELS.length)].title} →
+                →
               </button>
             </div>
           </div>
 
           <div className="mx-auto mt-9 hidden w-full max-w-[1600px] items-center justify-between md:flex">
             <button
-              className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+              className="text-3xl leading-none text-muted-foreground transition-colors hover:text-foreground"
               onClick={() => moveHero(-1)}
             >
-              ← {PANELS[mod(heroStartIndex - 1, PANELS.length)].title}
+              ←
             </button>
             <button
-              className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+              className="text-3xl leading-none text-muted-foreground transition-colors hover:text-foreground"
               onClick={() => moveHero(1)}
             >
-              {PANELS[mod(heroStartIndex + 1, PANELS.length)].title} →
+              →
             </button>
           </div>
 
-          <div className="mt-6 flex items-center justify-center gap-3">
+          <div className="mt-6 hidden items-center justify-center gap-3 md:flex">
             <button
               aria-label="Tryb Multi-Track"
               onClick={() => setMode("multiTrack")}
