@@ -9,8 +9,7 @@ import { cn } from "@/lib/utils";
 
 import { DISPATCH_ITEMS, type DispatchItem } from "../newsfeed-data";
 
-const CARD_WIDTH_CLS =
-  "w-[78vw] max-w-[300px] md:w-[clamp(260px,26vw,340px)] md:max-w-none";
+const MOBILE_CARD_WIDTH_CLS = "w-[78vw] max-w-[300px] sm:w-[72vw] sm:max-w-[330px]";
 
 const CARD_ASPECT = "aspect-[3/4]";
 
@@ -180,23 +179,35 @@ function NewsletterPanel() {
 
 export default function NewsfeedFilmstripSection() {
   const trackRef = useRef<HTMLDivElement>(null);
+  const [mobileProgress, setMobileProgress] = useState(0);
+  const featuredItems = DISPATCH_ITEMS.slice(0, 3);
 
   useEffect(() => {
     const el = trackRef.current;
     if (!el) return;
 
-    const onWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-      const atStart = el.scrollLeft <= 0;
-      const atEnd =
-        el.scrollLeft + el.clientWidth >= el.scrollWidth - 1;
-      if ((atEnd && e.deltaY > 0) || (atStart && e.deltaY < 0)) return;
-      e.preventDefault();
-      el.scrollBy({ left: e.deltaY * 1.15, behavior: "smooth" });
+    const updateProgress = () => {
+      if (window.innerWidth >= 768) {
+        setMobileProgress(0);
+        return;
+      }
+
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      if (maxScroll <= 0) {
+        setMobileProgress(0);
+        return;
+      }
+
+      setMobileProgress(Math.min(1, Math.max(0, el.scrollLeft / maxScroll)));
     };
 
-    el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
+    updateProgress();
+    el.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    return () => {
+      el.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+    };
   }, []);
 
   return (
@@ -221,17 +232,30 @@ export default function NewsfeedFilmstripSection() {
         </h2>
       </header>
 
+      <div className="hidden px-[6vw] md:block">
+        <ul className="grid grid-cols-4 gap-6 lg:gap-7">
+          {featuredItems.map((item) => (
+            <li key={item.title} className="w-full">
+              <ArticleCard item={item} />
+            </li>
+          ))}
+          <li className="w-full">
+            <PortalCard />
+          </li>
+        </ul>
+      </div>
+
       <div
         ref={trackRef}
-        className="no-scrollbar relative w-full overflow-x-auto overflow-y-clip overscroll-x-contain [-webkit-overflow-scrolling:touch] [scroll-snap-type:x_proximity]"
+        className="no-scrollbar relative w-full overflow-x-auto overflow-y-clip overscroll-x-contain md:hidden [-webkit-overflow-scrolling:touch] [scroll-snap-type:x_proximity]"
       >
-        <ul className="flex items-center gap-4 px-[6vw] py-6 pr-[14vw] md:gap-6 md:py-8 md:pr-[12vw]">
-          {DISPATCH_ITEMS.map((item) => (
+        <ul className="flex items-center gap-4 px-[6vw] py-6 pr-[22vw]">
+          {featuredItems.map((item) => (
             <li
               key={item.title}
               className={cn(
-                "shrink-0 [scroll-snap-align:center] [scroll-snap-stop:always]",
-                CARD_WIDTH_CLS,
+                "shrink-0 [scroll-snap-align:start] [scroll-snap-stop:always]",
+                MOBILE_CARD_WIDTH_CLS,
               )}
             >
               <ArticleCard item={item} />
@@ -239,13 +263,22 @@ export default function NewsfeedFilmstripSection() {
           ))}
           <li
             className={cn(
-              "shrink-0 [scroll-snap-align:center] [scroll-snap-stop:always]",
-              CARD_WIDTH_CLS,
+              "shrink-0 [scroll-snap-align:start] [scroll-snap-stop:always]",
+              MOBILE_CARD_WIDTH_CLS,
             )}
           >
             <PortalCard />
           </li>
         </ul>
+      </div>
+
+      <div className="px-[6vw] md:hidden">
+        <div className="h-1.5 w-full rounded-full bg-white/10">
+          <div
+            className="h-full rounded-full bg-[var(--cinematic-accent)] transition-[width] duration-150"
+            style={{ width: `${Math.max(8, mobileProgress * 100)}%` }}
+          />
+        </div>
       </div>
 
       <NewsletterPanel />

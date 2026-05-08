@@ -2,9 +2,11 @@
 
 import { X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-import ConfiguratorFormBody from "./ConfiguratorFormBody";
+import CinematicDrawerConfigurator, {
+  type CinematicStep,
+} from "./CinematicDrawerConfigurator";
 import { useConfigurator } from "./configurator-shared";
 import { drawerSlideTransition } from "./nav-motion";
 
@@ -18,14 +20,30 @@ export default function SlideInConfigurator() {
   const panelRef = useRef<HTMLElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const panEligible = useRef(false);
+  const [wizardStep, setWizardStep] = useState<CinematicStep | null>(null);
+  const [keyboardBottomInset, setKeyboardBottomInset] = useState(0);
 
   useEffect(() => {
-    if (!isOpen) return;
-    const t = window.requestAnimationFrame(() => {
-      closeRef.current?.focus();
-    });
-    return () => window.cancelAnimationFrame(t);
+    if (!isOpen) {
+      setWizardStep(null);
+    }
   }, [isOpen]);
+
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const update = () => {
+      const overlap = window.innerHeight - vv.height - vv.offsetTop;
+      setKeyboardBottomInset(overlap > 64 ? Math.min(overlap, 220) + 8 : 0);
+    };
+    update();
+    vv.addEventListener("resize", update);
+    vv.addEventListener("scroll", update);
+    return () => {
+      vv.removeEventListener("resize", update);
+      vv.removeEventListener("scroll", update);
+    };
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -58,7 +76,7 @@ export default function SlideInConfigurator() {
 
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [isOpen]);
+  }, [isOpen, wizardStep]);
 
   const onPanStart = useCallback(
     (
@@ -156,36 +174,22 @@ export default function SlideInConfigurator() {
               </div>
             </div>
 
-            <div className="relative flex min-h-0 w-full flex-1 flex-col md:w-1/2">
-              <div className="flex shrink-0 items-start justify-between gap-4 border-b border-border/50 px-5 pb-4 pt-5 md:px-9 md:pb-5 md:pt-8">
-                <div className="min-w-0 pt-0.5">
-                  <h2
-                    id="configurator-dialog-title"
-                    className="text-xl font-semibold tracking-tight text-foreground md:text-2xl"
-                    style={{ fontFamily: "var(--font-serif)" }}
-                  >
-                    Slide-in DMs
-                  </h2>
-                  <p className="mt-1 max-w-[42ch] text-sm leading-relaxed text-muted-foreground">
-                    Krótki brief — wrócimy z kierunkiem i kolejnym krokiem.
-                  </p>
-                </div>
-                <button
-                  ref={closeRef}
-                  type="button"
-                  aria-label="Zamknij konfigurator"
-                  className="rounded-md p-2 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--cinematic-surface)]"
-                  onClick={close}
-                >
-                  <X className="size-5 shrink-0" strokeWidth={1.5} aria-hidden />
-                </button>
+            <div className="relative flex min-h-0 w-full flex-1 flex-col bg-[var(--cinematic-base)] md:w-1/2">
+              <div className="relative min-h-0 flex-1 overflow-y-auto px-5 pb-12 pt-14 md:px-9 md:pb-14 md:pt-16">
+                <CinematicDrawerConfigurator
+                  onStepChange={setWizardStep}
+                  keyboardBottomInset={keyboardBottomInset}
+                />
               </div>
-
-              <div className="relative min-h-0 flex-1 overflow-y-auto px-5 py-7 pb-12 md:px-9 md:py-9 md:pb-14">
-                <div className="mx-auto max-w-lg md:max-w-xl">
-                  <ConfiguratorFormBody variant="drawer" />
-                </div>
-              </div>
+              <button
+                ref={closeRef}
+                type="button"
+                aria-label="Zamknij konfigurator"
+                className="absolute right-5 top-5 z-[2] rounded-md p-2 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--cinematic-base)] md:right-9 md:top-8"
+                onClick={close}
+              >
+                <X className="size-5 shrink-0" strokeWidth={1.5} aria-hidden />
+              </button>
             </div>
           </motion.aside>
         </>
