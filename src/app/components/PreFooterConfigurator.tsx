@@ -1,6 +1,6 @@
 "use client";
 
-import ConfiguratorFormBody from "./ConfiguratorFormBody";
+import CinematicDrawerConfigurator from "./CinematicDrawerConfigurator";
 
 const PREFOOTER_VISUAL_POSTER =
   "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&q=85&auto=format&fit=crop";
@@ -60,9 +60,9 @@ export default function PreFooterConfigurator() {
               </div>
             </div>
 
-            <div className="w-full p-6 md:w-1/2 md:p-9 lg:p-10">
+            <div className="w-full bg-[var(--cinematic-base)] p-6 md:w-1/2 md:p-9 lg:p-10">
               <div className="mx-auto max-w-xl">
-                <ConfiguratorFormBody variant="embedded" />
+                <CinematicDrawerConfigurator mode="embedded" />
               </div>
             </div>
           </div>

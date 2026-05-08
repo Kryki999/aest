@@ -1,6 +1,5 @@
 "use client";
 
-import { useConfigurator } from "./configurator-shared";
 import { CINEMATIC_EASE } from "./nav-motion";
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
@@ -25,6 +24,11 @@ const ghostField =
 type CinematicDrawerConfiguratorProps = {
   onStepChange?: (step: CinematicStep) => void;
   keyboardBottomInset?: number;
+  mode?: "drawer" | "embedded";
+  titleId?: string;
+  onSuccessClose?: () => void;
+  quickContactPhone?: string;
+  quickContactEmail?: string;
 };
 
 const stepVariants = {
@@ -44,9 +48,14 @@ const stepVariants = {
 export default function CinematicDrawerConfigurator({
   onStepChange,
   keyboardBottomInset = 0,
+  mode = "drawer",
+  titleId,
+  onSuccessClose,
+  quickContactPhone = "+48 570 220 680",
+  quickContactEmail = "kontakt@aestmedia.pl",
 }: CinematicDrawerConfiguratorProps) {
-  const { close } = useConfigurator();
   const uid = useId();
+  const resolvedTitleId = titleId ?? `${uid}-title`;
   const [step, setStep] = useState<CinematicStep>(1);
   const [direction, setDirection] = useState(1);
   const [projectKind, setProjectKind] = useState<KindId | "">("");
@@ -186,6 +195,21 @@ export default function CinematicDrawerConfigurator({
     el.scrollIntoView({ block: "center", behavior: "smooth" });
   };
 
+  const resetWizard = () => {
+    setStep(1);
+    setDirection(1);
+    setProjectKind("");
+    setReferenceUrl("");
+    setStory("");
+    setName("");
+    setPhone("");
+    setEmail("");
+    setFax("");
+    setSubmitError(null);
+    setFieldErrors({});
+    setFlashId(null);
+  };
+
   return (
     <div
       ref={formContainerRef}
@@ -228,24 +252,37 @@ export default function CinematicDrawerConfigurator({
             className="flex min-h-[40vh] flex-col items-center justify-center gap-6 py-6 text-center"
           >
             <div
-              id="configurator-dialog-title"
+              id={resolvedTitleId}
               className="max-w-sm text-balance text-2xl font-semibold leading-tight text-foreground md:text-3xl"
               style={{ fontFamily: "var(--font-serif)" }}
             >
               Dziękujemy — ekran już pracuje na Twoim froncie.
             </div>
             <p className="max-w-md text-pretty text-sm leading-relaxed text-muted-foreground md:text-[0.9375rem]">
-              Wrócimy z pierwszym kontaktem na podany numer. Jeśli chcesz,
-              możesz już zamknąć ten panel.
+              Wrócimy z pierwszym kontaktem na podany numer.
+              {mode === "drawer"
+                ? " Jeśli chcesz, możesz już zamknąć ten panel."
+                : " Jeśli chcesz, możesz od razu wysłać kolejny brief."}
             </p>
-            <button
-              ref={closeSuccessRef}
-              type="button"
-              className="rounded-full border border-primary/35 bg-primary px-10 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-primary-foreground shadow-[0_0_24px_-4px_var(--cinematic-accent-neon)] transition duration-300 hover:-translate-y-0.5 hover:border-[var(--cinematic-accent-neon)] hover:bg-[var(--cinematic-accent-neon)]"
-              onClick={close}
-            >
-              Zamknij
-            </button>
+            {mode === "drawer" ? (
+              <button
+                ref={closeSuccessRef}
+                type="button"
+                className="rounded-full border border-primary/35 bg-primary px-10 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-primary-foreground shadow-[0_0_24px_-4px_var(--cinematic-accent-neon)] transition duration-300 hover:-translate-y-0.5 hover:border-[var(--cinematic-accent-neon)] hover:bg-[var(--cinematic-accent-neon)]"
+                onClick={onSuccessClose}
+              >
+                Zamknij
+              </button>
+            ) : (
+              <button
+                ref={closeSuccessRef}
+                type="button"
+                className="rounded-full border border-white/15 bg-transparent px-10 py-3.5 text-xs font-semibold uppercase tracking-[0.2em] text-foreground transition duration-300 hover:-translate-y-0.5 hover:border-[var(--cinematic-accent)]/60 hover:text-[var(--cinematic-accent)]"
+                onClick={resetWizard}
+              >
+                Wyślij kolejny brief
+              </button>
+            )}
           </motion.div>
         ) : (
           <motion.div
@@ -258,8 +295,43 @@ export default function CinematicDrawerConfigurator({
             className="space-y-6"
           >
             <header className="space-y-2">
+              {step === 1 && mode === "drawer" ? (
+                <p className="mb-4 text-pretty text-[0.95rem] leading-relaxed text-foreground/95 md:text-base">
+                  Wolisz działać od razu? Zadzwoń na{" "}
+                  <a
+                    href={`tel:${quickContactPhone.replace(/\s+/g, "")}`}
+                    className="group relative inline-flex items-center text-[var(--cinematic-accent)] transition-colors duration-300 hover:text-[var(--cinematic-accent-neon)] focus-visible:text-[var(--cinematic-accent-neon)] focus-visible:outline-none"
+                  >
+                    <span className="relative z-[1]">{quickContactPhone}</span>
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[var(--cinematic-accent)]/65 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+                    />
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute -bottom-1 left-1/2 h-3 w-14 -translate-x-1/2 rounded-full bg-[var(--cinematic-accent)]/35 opacity-0 blur-md transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+                    />
+                  </a>{" "}
+                  lub wyslij{" "}
+                  <a
+                    href={`mailto:${quickContactEmail}`}
+                    className="group relative inline-flex items-center text-[var(--cinematic-accent)] transition-colors duration-300 hover:text-[var(--cinematic-accent-neon)] focus-visible:text-[var(--cinematic-accent-neon)] focus-visible:outline-none"
+                  >
+                    <span className="relative z-[1]">{quickContactEmail}</span>
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[var(--cinematic-accent)]/65 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+                    />
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute -bottom-1 left-1/2 h-3 w-14 -translate-x-1/2 rounded-full bg-[var(--cinematic-accent)]/35 opacity-0 blur-md transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+                    />
+                  </a>
+                  . Albo nakreśl swoją wizję poniżej a my się z tobą skontaktujemy.
+                </p>
+              ) : null}
               <h3
-                id="configurator-dialog-title"
+                id={resolvedTitleId}
                 className="text-balance text-xl font-semibold leading-snug tracking-tight text-foreground md:text-2xl"
                 style={{ fontFamily: "var(--font-serif)" }}
               >
@@ -283,7 +355,7 @@ export default function CinematicDrawerConfigurator({
                       "hover:border-[var(--cinematic-accent)]/45 hover:bg-[var(--cinematic-accent)]/[0.07]",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--cinematic-accent)]/55",
                       flashId === opt.id &&
-                        "border-[var(--cinematic-accent)]/90 bg-[var(--cinematic-accent)]/15 shadow-[0_0_36px_-8px_rgba(225,29,72,0.65)]",
+                      "border-[var(--cinematic-accent)]/90 bg-[var(--cinematic-accent)]/15 shadow-[0_0_36px_-8px_rgba(225,29,72,0.65)]",
                     )}
                     whileTap={{ scale: 0.985 }}
                     onClick={() => goNextFromTile(opt.id)}

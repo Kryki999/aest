@@ -5,6 +5,7 @@ import {
   AnimatePresence,
   motion,
   useMotionTemplate,
+  useMotionValueEvent,
   useScroll,
   useTransform,
 } from "motion/react";
@@ -80,7 +81,8 @@ export default function CinematicSiteHeader() {
 
   const { scrollY } = useScroll();
 
-  const padY = useTransform(scrollY, [0, 130], [40, 15]);
+  /* Smukły profil startowy — cienka linia, nie blok. */
+  const padY = useTransform(scrollY, [0, 110], [14, 9]);
   const bgAlpha = useTransform(scrollY, [0, 108], [0, 0.94]);
   const blurPx = useTransform(scrollY, [0, 96], [0, 14]);
 
@@ -88,6 +90,33 @@ export default function CinematicSiteHeader() {
   const backdropBlur = useTransform(blurPx, (v) =>
     v < 0.75 ? "blur(0px)" : `blur(${v.toFixed(1)}px)`,
   );
+
+  /* Smart-scroll: chowamy belkę przy zjeździe w dół, pokazujemy przy ruchu w górę. */
+  const [hidden, setHidden] = useState(false);
+  const lastScrollRef = useRef(0);
+  const overlayOpen = menuOpen || newsfeedOpen || configuratorOpen;
+
+  useMotionValueEvent(scrollY, "change", (current) => {
+    if (overlayOpen) {
+      setHidden(false);
+      lastScrollRef.current = current;
+      return;
+    }
+    /* W obrębie hero zawsze widoczny — żeby nie pojawiał się/znikał na drobnych ruchach. */
+    if (current < 90) {
+      setHidden(false);
+      lastScrollRef.current = current;
+      return;
+    }
+    const delta = current - lastScrollRef.current;
+    if (delta > 6) setHidden(true);
+    else if (delta < -4) setHidden(false);
+    lastScrollRef.current = current;
+  });
+
+  useEffect(() => {
+    if (overlayOpen) setHidden(false);
+  }, [overlayOpen]);
 
   useEffect(() => {
     const el = headerRef.current;
@@ -209,7 +238,13 @@ export default function CinematicSiteHeader() {
 
       <motion.header
         ref={headerRef}
-        className="fixed left-0 top-0 z-[100] w-full px-[6vw]"
+        className="fixed left-0 top-0 z-[100] w-full px-[6vw] will-change-transform"
+        initial={{ y: 0 }}
+        animate={{ y: hidden ? "-110%" : "0%" }}
+        transition={{
+          duration: hidden ? 0.42 : 0.55,
+          ease: CINEMATIC_EASE,
+        }}
         style={
           menuOpen
             ? {

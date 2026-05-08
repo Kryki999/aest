@@ -74,7 +74,7 @@ export default function Home() {
       <main className="relative min-h-screen max-w-full overflow-x-clip text-foreground">
         <CinematicSiteHeader />
 
-        <div className="px-[6vw] pb-8 pt-32 md:pt-36">
+        <div className="px-[6vw] pb-8 pt-20 md:pt-24">
           <VideoKeysSection />
 
           <section className="mx-auto mt-16 w-full max-w-[1080px] px-3 pb-10 md:mt-20">

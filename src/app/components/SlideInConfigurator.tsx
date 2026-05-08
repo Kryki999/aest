@@ -179,6 +179,9 @@ export default function SlideInConfigurator() {
                 <CinematicDrawerConfigurator
                   onStepChange={setWizardStep}
                   keyboardBottomInset={keyboardBottomInset}
+                  mode="drawer"
+                  titleId="configurator-dialog-title"
+                  onSuccessClose={close}
                 />
               </div>
               <button
