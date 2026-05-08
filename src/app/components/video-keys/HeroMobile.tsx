@@ -24,7 +24,7 @@ type HeroMobileProps = {
 const TILE_COUNT = 5;
 const GAP_PX = 4;
 const CURTAIN_BG = "var(--background)";
-const TILE_TINT = "rgba(12, 10, 9, 0.34)";
+const TILE_TINT = "rgba(12, 10, 9, 0)";
 
 const FILLER_BASE: CSSProperties = {
   position: "absolute",

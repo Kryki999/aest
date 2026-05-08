@@ -33,7 +33,7 @@ export function MultiTrackDesktop({
         const isActive = idx === safeActive;
         return (
           <motion.article
-            key={panel.title}
+            key={`mt-desktop-${idx}-${panel.title}`}
             layout
             layoutId={tileLayoutId(idx)}
             onMouseEnter={() => onActivate(idx)}

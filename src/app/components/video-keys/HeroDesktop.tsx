@@ -16,7 +16,7 @@ const LEFT_TILE_COUNT = 5;
 const SHIFT_SAFE_PADDING_PX = 28;
 const GAP_PX = 8;
 const CURTAIN_BG = "var(--background)";
-const TILE_TINT = "rgba(12, 10, 9, 0.30)";
+const TILE_TINT = "rgba(12, 10, 9, 0)";
 
 /**
  * Tailwind v4 spacing-5 = 1.25rem ≈ 20px. We map the panel shiftClass to
@@ -153,7 +153,7 @@ export function HeroDesktop({
             }}
           >
             <p
-              className="vertical-title text-[56px] leading-none text-foreground md:text-[64px]"
+              className="vertical-title text-[44px] leading-none text-foreground md:text-[52px]"
               style={{ fontFamily: "var(--font-serif)" }}
             >
               {activeHero.title}
