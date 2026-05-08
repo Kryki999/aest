@@ -144,7 +144,7 @@ const panelTransition = {
   stiffness: 240,
   damping: 34,
   mass: 0.9,
-};
+} as const;
 
 function layoutCardId(scope: string, id: string) {
   return `${scope}-card-${id}`;
