@@ -10,71 +10,63 @@ export const PANELS: Panel[] = [
   {
     title: "HELLFIELD, MACIAS - Fendi RMX",
     subtitle: "Klip Muzyczny",
-    image:
-      "/fendihd.png",
+    image: "https://image.mux.com/BSGBcuzgEiulmCqZi6L6wxg6uUuxP1zJ3fcTnQ402y5Y/thumbnail.jpg",
     video: "https://stream.mux.com/BSGBcuzgEiulmCqZi6L6wxg6uUuxP1zJ3fcTnQ402y5Y.m3u8",
     shiftClass: "-translate-y-5",
   },
   {
     title: "Ace Dean - Do Rana",
     subtitle: "Klip Muzyczny",
-    image:
-      "/doranahd.png",
+    image: "https://image.mux.com/GDQazxEbxbhCohMMwurmMreTzkZJnCEdpgbm3oCeF1c/thumbnail.jpg",
     video: "https://stream.mux.com/GDQazxEbxbhCohMMwurmMreTzkZJnCEdpgbm3oCeF1c.m3u8",
     shiftClass: "translate-y-0",
   },
   {
     title: "Cleo, Margarita, Martirenti - DOM",
     subtitle: "Klip Muzyczny",
-    image:
-      "/domhd.png",
+    image: "https://image.mux.com/7IrKgRphrIL1nMr2JqIgBw2AgnQxuk4dHQobDketA8c/thumbnail.jpg",
     video: "https://stream.mux.com/7IrKgRphrIL1nMr2JqIgBw2AgnQxuk4dHQobDketA8c.m3u8",
     shiftClass: "translate-y-5",
   },
   {
     title: "Vin Vinci & Stecu ft Amster - MORDOR",
     subtitle: "Klip Muzyczny",
-    image:
-      "/mordorhd.png",
+    image: "https://image.mux.com/9CVKhvqqfDqU6VUJSey013yrJT66zlwT77ASHqPyjwyQ/thumbnail.jpg",
     video: "https://stream.mux.com/9CVKhvqqfDqU6VUJSey013yrJT66zlwT77ASHqPyjwyQ.m3u8",
     shiftClass: "translate-y-0",
   },
   {
     title: "HELLFIELD, DIVIX - Ale Ale",
     subtitle: "Klip Muzyczny",
-    image: "/alealehd.png",
+    image: "https://image.mux.com/hYMbdGGUQP8XU31Hr63Aha5lBjrAfSswz9txpfGmlRI/thumbnail.jpg",
     video: "https://stream.mux.com/hYMbdGGUQP8XU31Hr63Aha5lBjrAfSswz9txpfGmlRI.m3u8",
     shiftClass: "-translate-y-5",
   },
   {
     title: "HELLFIELD, MACIAS - Fendi RMX",
     subtitle: "Klip Muzyczny",
-    image:
-      "/fendihd.png",
+    image: "https://image.mux.com/BSGBcuzgEiulmCqZi6L6wxg6uUuxP1zJ3fcTnQ402y5Y/thumbnail.jpg",
     video: "https://stream.mux.com/BSGBcuzgEiulmCqZi6L6wxg6uUuxP1zJ3fcTnQ402y5Y.m3u8",
     shiftClass: "-translate-y-5",
   },
   {
     title: "Ace Dean - Do Rana",
     subtitle: "Klip Muzyczny",
-    image:
-      "/doranahd.png",
+    image: "https://image.mux.com/GDQazxEbxbhCohMMwurmMreTzkZJnCEdpgbm3oCeF1c/thumbnail.jpg",
     video: "https://stream.mux.com/GDQazxEbxbhCohMMwurmMreTzkZJnCEdpgbm3oCeF1c.m3u8",
     shiftClass: "translate-y-0",
   },
   {
     title: "Cleo, Margarita, Martirenti - DOM",
     subtitle: "Klip Muzyczny",
-    image:
-      "/domhd.png",
+    image: "https://image.mux.com/7IrKgRphrIL1nMr2JqIgBw2AgnQxuk4dHQobDketA8c/thumbnail.jpg",
     video: "https://stream.mux.com/7IrKgRphrIL1nMr2JqIgBw2AgnQxuk4dHQobDketA8c.m3u8",
     shiftClass: "translate-y-5",
   },
   {
     title: "Vin Vinci & Stecu ft Amster - MORDOR",
     subtitle: "Klip Muzyczny",
-    image:
-      "/mordorhd.png",
+    image: "https://image.mux.com/9CVKhvqqfDqU6VUJSey013yrJT66zlwT77ASHqPyjwyQ/thumbnail.jpg",
     video: "https://stream.mux.com/9CVKhvqqfDqU6VUJSey013yrJT66zlwT77ASHqPyjwyQ.m3u8",
     shiftClass: "translate-y-0",
   },
