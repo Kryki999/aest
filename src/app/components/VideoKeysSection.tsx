@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { LayoutGroup } from "motion/react";
-import { AudioLines, Clapperboard } from "lucide-react";
+import { AudioLines, ChevronLeft, ChevronRight, Clapperboard } from "lucide-react";
 
 import { HeroDesktop } from "./video-keys/HeroDesktop";
 import { HeroMobile } from "./video-keys/HeroMobile";
@@ -115,18 +115,18 @@ function ArrowControls({
       <button
         type="button"
         aria-label={ariaLabelPrev}
-        className="text-2xl leading-none text-muted-foreground transition-colors hover:text-foreground md:text-3xl"
+        className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-white/18 bg-black/35 text-foreground transition-all hover:-translate-y-0.5 hover:border-[var(--cinematic-accent)]/75 hover:text-white md:h-16 md:w-16"
         onClick={onPrev}
       >
-        ←
+        <ChevronLeft className="h-8 w-8 md:h-9 md:w-9" strokeWidth={2.8} />
       </button>
       <button
         type="button"
         aria-label={ariaLabelNext}
-        className="text-2xl leading-none text-muted-foreground transition-colors hover:text-foreground md:text-3xl"
+        className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-white/18 bg-black/35 text-foreground transition-all hover:-translate-y-0.5 hover:border-[var(--cinematic-accent)]/75 hover:text-white md:h-16 md:w-16"
         onClick={onNext}
       >
-        →
+        <ChevronRight className="h-8 w-8 md:h-9 md:w-9" strokeWidth={2.8} />
       </button>
     </div>
   );
@@ -212,19 +212,19 @@ function VideoKeysContent() {
                 <button
                   type="button"
                   aria-label="Poprzedni materiał Multi-Track"
-                  className="text-2xl leading-none text-muted-foreground transition-colors hover:text-foreground"
+                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/18 bg-black/35 text-foreground transition-all hover:border-[var(--cinematic-accent)]/75 hover:text-white"
                   onClick={() => moveMultiTrack(-1)}
                 >
-                  ←
+                  <ChevronLeft className="h-7 w-7" strokeWidth={2.8} />
                 </button>
                 <ModeToggleButtons mode={mode} setMode={setMode} />
                 <button
                   type="button"
                   aria-label="Następny materiał Multi-Track"
-                  className="text-2xl leading-none text-muted-foreground transition-colors hover:text-foreground"
+                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/18 bg-black/35 text-foreground transition-all hover:border-[var(--cinematic-accent)]/75 hover:text-white"
                   onClick={() => moveMultiTrack(1)}
                 >
-                  →
+                  <ChevronRight className="h-7 w-7" strokeWidth={2.8} />
                 </button>
               </div>
             </div>
@@ -258,19 +258,19 @@ function VideoKeysContent() {
                 <button
                   type="button"
                   aria-label="Poprzedni materiał Hero Story"
-                  className="text-2xl leading-none text-muted-foreground transition-colors hover:text-foreground"
+                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/18 bg-black/35 text-foreground transition-all hover:border-[var(--cinematic-accent)]/75 hover:text-white"
                   onClick={() => moveHero(-1)}
                 >
-                  ←
+                  <ChevronLeft className="h-7 w-7" strokeWidth={2.8} />
                 </button>
                 <ModeToggleButtons mode={mode} setMode={setMode} />
                 <button
                   type="button"
                   aria-label="Następny materiał Hero Story"
-                  className="text-2xl leading-none text-muted-foreground transition-colors hover:text-foreground"
+                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/18 bg-black/35 text-foreground transition-all hover:border-[var(--cinematic-accent)]/75 hover:text-white"
                   onClick={() => moveHero(1)}
                 >
-                  →
+                  <ChevronRight className="h-7 w-7" strokeWidth={2.8} />
                 </button>
               </div>
             </div>

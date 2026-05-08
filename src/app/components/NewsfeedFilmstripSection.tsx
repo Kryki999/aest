@@ -104,7 +104,7 @@ function NewsletterPanel() {
   return (
     <div
       id="studio-newsletter"
-      className="mx-auto w-full max-w-2xl scroll-mt-28 px-[6vw] pt-14 md:scroll-mt-32 md:pt-20"
+      className="mx-auto w-full max-w-4xl scroll-mt-28 px-[6vw] pt-16 md:scroll-mt-32 md:pt-24"
     >
       <form
         onSubmit={handleSubmit}
@@ -114,7 +114,7 @@ function NewsletterPanel() {
       >
         <div
           className={cn(
-            "group mx-auto flex w-full items-center gap-2 rounded-full border bg-[var(--cinematic-surface)]/70 p-1.5 pl-5 transition-colors backdrop-blur-[2px] md:pl-6",
+            "group mx-auto flex w-full items-center gap-3 rounded-[2rem] border bg-[var(--cinematic-surface)]/75 p-2.5 pl-6 transition-colors backdrop-blur-[2px] md:gap-4 md:rounded-[2.6rem] md:p-3 md:pl-8",
             status === "error"
               ? "border-[var(--cinematic-accent)]/80"
               : "border-white/12 focus-within:border-white/25",
@@ -137,16 +137,16 @@ function NewsletterPanel() {
             required
             aria-invalid={status === "error"}
             className={cn(
-              "min-w-0 flex-1 bg-transparent py-3 text-sm tracking-tight text-foreground placeholder:text-muted-foreground/70",
-              "outline-none focus:outline-none md:py-3.5 md:text-base",
+              "min-w-0 flex-1 bg-transparent py-4 text-base tracking-tight text-foreground placeholder:text-muted-foreground/70",
+              "outline-none focus:outline-none md:py-5 md:text-lg",
             )}
           />
           <button
             type="submit"
             className={cn(
-              "shrink-0 rounded-full bg-[var(--cinematic-accent)] px-5 py-3 text-xs font-medium tracking-wide text-white shadow-[0_8px_24px_-8px_rgba(225,29,72,0.55)]",
+              "shrink-0 rounded-full bg-[var(--cinematic-accent)] px-6 py-3.5 text-xs font-medium tracking-wide text-white shadow-[0_8px_24px_-8px_rgba(225,29,72,0.55)]",
               "transition-[background-color,transform,box-shadow] duration-300 hover:bg-[var(--cinematic-accent-neon)] hover:shadow-[0_10px_28px_-8px_rgba(255,0,60,0.65)] active:translate-y-[1px]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--cinematic-base)] md:px-6 md:py-3.5 md:text-sm",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--cinematic-base)] md:px-8 md:py-4 md:text-sm",
             )}
           >
             Bądź na bieżąco

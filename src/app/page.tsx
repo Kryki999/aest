@@ -31,37 +31,37 @@ const SERVICES_DATA = [
     icon: "/3dicons-play-front-color.png",
     title: "Produkcja Wideo",
     description:
-      "Tworzymy filmy reklamowe i branded content, ktore buduja emocje i realnie wzmacniaja rozpoznawalnosc marki.",
+      "Tworzymy filmy, które definiują markę na nowo. Od pierwszego ujęcia po kinowy finał – budujemy historie, obok których nie da się przejść obojętnie.",
   },
   {
     icon: "/3dicons-camera-front-color.png",
-    title: "Produkcja Foto",
+    title: "Sesje Zdjęciowe",
     description:
-      "Realizujemy sesje produktowe, wizerunkowe i kampanijne, laczac estetyke premium z mocnym efektem sprzedazowym.",
+      "Zatrzymujemy to, co najważniejsze w perfekcyjnych kadrach. Projektujemy sesje, które emanują prestiżem i przyciągają wzrok od pierwszej sekundy.",
   },
   {
     icon: "/3dicons-music-front-color.png",
-    title: "Teledyski",
+    title: "Teledyski / Klipy Muzyczne",
     description:
-      "Projektujemy pomysly i narracje od zera, zeby kazda kampania miala wyrazny kierunek i charakter marki.",
-  },
-  {
-    icon: "/3dicons-setting-front-color.png",
-    title: "Edycja",
-    description:
-      "Montaz, color grading i dopracowany dzwiek, dzieki ktorym finalny material wyglada i brzmi na poziomie top studio.",
+      "Przekładamy energię dźwięku na potężny obraz. Tworzymy klipy, które rezonują z publicznością i budują wizerunek artysty.",
   },
   {
     icon: "/3dicons-money-front-color.png",
-    title: "Reklamy",
+    title: "MATERIAŁY PROMOCYJNE",
     description:
-      "Przygotowujemy szybkie formaty pod social media, ktore utrzymuja spojna jakosc i skutecznie przyciagaja uwage.",
+      "Krótkie formy o potężnym uderzeniu. Dostarczamy nowoczesny, dynamiczny content, który błyskawicznie chwyta uwagę.",
+  },
+  {
+    icon: "/3dicons-setting-front-color.png",
+    title: "Postprodukcja / Montaż",
+    description:
+      "Nadajemy surowym nagraniom ostateczny, bezbłędny szlif. Perfekcyjny color grading i dynamika cięć.",
   },
   {
     icon: "/3dicons-rocket-dynamic-color.png",
-    title: "Strategia Kampanii",
+    title: "Kampanie Wizualne",
     description:
-      "Laczymy kreacje z celami biznesowymi, by przekuc materialy kreatywne w mierzalny wzrost zasiegu i konwersji.",
+      "Dostarczamy pełne, spójne pakiety wizualne – wideo, zdjęcia i formaty pionowe – które natychmiast podnoszą status Twojej marki.",
   },
 ];
 
@@ -80,13 +80,13 @@ export default function Home() {
           <section className="mx-auto mt-16 w-full max-w-[1080px] px-3 pb-10 md:mt-20">
             <div className="mx-auto mb-9 flex max-w-[820px] flex-col items-center text-center md:mb-12">
               <h2
-                className="text-balance text-3xl font-semibold leading-[1.02] tracking-[-0.02em] text-foreground sm:text-4xl md:text-6xl"
+                className="text-balance text-[2.2rem] font-semibold leading-[0.98] tracking-[-0.03em] text-foreground sm:text-5xl md:text-7xl"
                 style={{ fontFamily: "var(--font-serif)" }}
               >
                 Kreatywne studio{" "}
                 <span className="text-[var(--cinematic-accent)]">produkcyjne</span> z wizją.
               </h2>
-              <p className="mx-auto mt-5 max-w-[720px] text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base md:mt-6 md:text-lg md:leading-relaxed">
+              <p className="mx-auto mt-5 max-w-[720px] text-pretty text-sm leading-relaxed text-white sm:text-base md:mt-6 md:text-lg md:leading-relaxed">
                 Pomagamy ambitnym markom, agencjom i topowym artystom uderzać
                 mocniej. Przekuwamy surową energię w najwyższej klasy produkcje
                 wideo i foto.
@@ -94,17 +94,10 @@ export default function Home() {
               <div className="mt-7 flex flex-wrap items-center justify-center gap-4 md:mt-8">
                 <button
                   type="button"
-                  className="rounded-full border border-primary/35 bg-primary px-8 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground shadow-[0_0_24px_-4px_var(--cinematic-accent-neon)] transition duration-300 hover:-translate-y-0.5 hover:border-[var(--cinematic-accent-neon)] hover:bg-[var(--cinematic-accent-neon)]"
+                  className="rounded-full border border-primary/35 bg-primary px-10 py-3.5 text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground shadow-[0_0_24px_-4px_var(--cinematic-accent-neon)] transition duration-300 hover:-translate-y-0.5 hover:border-[var(--cinematic-accent-neon)] hover:bg-[var(--cinematic-accent-neon)]"
                   onClick={openConfigurator}
                 >
                   Skontaktuj się
-                </button>
-                <button
-                  type="button"
-                  className="rounded-full border border-border/80 bg-transparent px-8 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-foreground transition duration-300 hover:-translate-y-0.5 hover:border-primary/50 hover:text-primary"
-                  onClick={openConfigurator}
-                >
-                  Wyceń projekt
                 </button>
               </div>
             </div>
@@ -145,7 +138,7 @@ export default function Home() {
                   <h4 className="text-[1.05rem] font-semibold uppercase leading-tight tracking-[0.08em] text-foreground sm:text-[1.12rem]">
                     {service.title}
                   </h4>
-                  <p className="mt-3 max-w-[30ch] text-[0.95rem] leading-relaxed text-muted-foreground">
+                  <p className="mt-3 max-w-[30ch] text-[0.9rem] leading-relaxed text-white/82">
                     {service.description}
                   </p>
                 </article>

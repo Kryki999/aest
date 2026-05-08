@@ -299,7 +299,7 @@ export default function CinematicDrawerConfigurator({
             className="space-y-6"
           >
             <header className="space-y-2">
-              {step === 1 && mode === "drawer" ? (
+              {step === 1 ? (
                 <p className="mb-4 text-pretty text-[0.95rem] leading-relaxed text-foreground/95 md:text-base">
                   Wolisz działać od razu? Zadzwoń na{" "}
                   <a
@@ -331,7 +331,7 @@ export default function CinematicDrawerConfigurator({
                       className="pointer-events-none absolute -bottom-1 left-1/2 h-3 w-14 -translate-x-1/2 rounded-full bg-[var(--cinematic-accent)]/35 opacity-0 blur-md transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
                     />
                   </a>
-                  . Albo nakreśl swoją wizję poniżej a my się z tobą skontaktujemy.
+                  . Albo nakreśl swoją wizję poniżej.
                 </p>
               ) : null}
               <h3

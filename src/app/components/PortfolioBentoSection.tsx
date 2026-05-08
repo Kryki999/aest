@@ -41,15 +41,15 @@ function CinematicHeader({
         )}
       </div>
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/85 via-black/25 to-transparent pb-5 pl-5 pr-5 pt-20">
-        <div className="translate-y-10 opacity-0 transition-[transform,opacity] duration-[520ms] ease-[cubic-bezier(0.33,1,0.68,1)] group-hover/tile:translate-y-0 group-hover/tile:opacity-100">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/85 via-black/30 to-transparent pb-5 pl-5 pr-5 pt-20">
+        <div>
           <h3
             className="text-balance text-lg font-semibold tracking-tight text-white md:text-xl"
             style={{ fontFamily: "var(--font-serif)" }}
           >
             {title}
           </h3>
-          <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/75">
+          <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/85">
             {tags}
           </p>
         </div>
