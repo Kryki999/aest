@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { Icon } from "@iconify/react";
 import { AnimatePresence, motion } from "motion/react";
 import { X } from "lucide-react";
 import type { RefObject } from "react";
@@ -11,7 +12,7 @@ import { SOCIAL_LINKS } from "../social-links";
 import { drawerSlideTransition } from "./nav-motion";
 
 const railIconCls =
-  "size-[1.05rem] text-muted-foreground transition-colors duration-200 hover:text-foreground";
+  "size-[1.05rem] text-white/88 transition-colors duration-200 hover:text-white";
 
 const containerVariants = {
   hidden: {},
@@ -89,14 +90,14 @@ export default function NewsfeedDrawer({
                 aria-label="Social links"
                 className="relative z-[2] flex flex-col items-center gap-5 pb-2"
               >
-                {SOCIAL_LINKS.map(({ href, label, Icon }) => (
+                {SOCIAL_LINKS.map(({ href, label, icon }) => (
                   <Link
                     key={label}
                     href={href}
                     aria-label={label}
                     className="rounded-md outline-none focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--cinematic-surface)]"
                   >
-                    <Icon className={railIconCls} stroke={1.5} aria-hidden />
+                    <Icon icon={icon} className={railIconCls} aria-hidden />
                   </Link>
                 ))}
               </nav>
