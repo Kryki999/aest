@@ -58,7 +58,7 @@ export default function SiteFooter() {
           <div className="w-full max-w-4xl">
             <form onSubmit={handleSubmit} noValidate aria-describedby={`${id}-status`}>
               <div
-                className={`group mx-auto flex w-full items-center gap-3 rounded-[2rem] border bg-[var(--cinematic-surface)]/75 p-2.5 pl-6 transition-colors backdrop-blur-[2px] md:gap-4 md:rounded-[2.6rem] md:p-3 md:pl-8 ${
+                className={`group mx-auto flex w-full flex-col gap-2 rounded-[2rem] border bg-[var(--cinematic-surface)]/75 p-2.5 transition-colors backdrop-blur-[2px] sm:flex-row sm:items-center sm:gap-3 sm:pl-6 md:gap-4 md:rounded-[2.6rem] md:p-3 md:pl-8 ${
                   status === "error"
                     ? "border-[var(--cinematic-accent)]/80"
                     : "border-white/12 focus-within:border-white/25"
@@ -80,11 +80,11 @@ export default function SiteFooter() {
                   }}
                   required
                   aria-invalid={status === "error"}
-                  className="min-w-0 flex-1 bg-transparent py-4 text-base tracking-tight text-foreground placeholder:text-muted-foreground/70 outline-none focus:outline-none md:py-5 md:text-lg"
+                  className="w-full min-w-0 flex-1 bg-transparent px-2 py-3.5 text-center text-base tracking-tight text-foreground placeholder:text-muted-foreground/70 outline-none focus:outline-none sm:px-0 sm:py-4 sm:text-left md:py-5 md:text-lg"
                 />
                 <button
                   type="submit"
-                  className="shrink-0 rounded-full bg-[var(--cinematic-accent)] px-6 py-3.5 text-xs font-medium tracking-wide text-white shadow-[0_8px_24px_-8px_rgba(225,29,72,0.55)] transition-[background-color,transform,box-shadow] duration-300 hover:bg-[var(--cinematic-accent-neon)] hover:shadow-[0_10px_28px_-8px_rgba(255,0,60,0.65)] active:translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--cinematic-base)] md:px-8 md:py-4 md:text-sm"
+                  className="w-full shrink-0 rounded-full bg-[var(--cinematic-accent)] px-6 py-3.5 text-xs font-medium tracking-wide text-white shadow-[0_8px_24px_-8px_rgba(225,29,72,0.55)] transition-[background-color,transform,box-shadow] duration-300 hover:bg-[var(--cinematic-accent-neon)] hover:shadow-[0_10px_28px_-8px_rgba(255,0,60,0.65)] active:translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--cinematic-base)] sm:w-auto md:px-8 md:py-4 md:text-sm"
                 >
                   Bądź na bieżąco
                 </button>
