@@ -182,7 +182,10 @@ function VideoKeysContent() {
   }, [breakoutIdx]);
 
   return (
-    <section className="relative mx-auto w-full max-w-[1600px]">
+    <section
+      id="start"
+      className="relative mx-auto w-full max-w-[1600px] scroll-mt-24 md:scroll-mt-28"
+    >
       <LayoutGroup id="video-keys">
         {mode === "multiTrack" ? (
           <>

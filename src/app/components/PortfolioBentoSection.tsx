@@ -141,7 +141,10 @@ export function PortfolioBentoGrid({ className }: { className?: string }) {
 
 export default function PortfolioBentoSection() {
   return (
-    <section className="relative mt-14 w-full bg-background py-14 pb-24 text-foreground md:mt-24 md:py-20 md:pb-28">
+    <section
+      id="realizacje"
+      className="relative mt-14 w-full scroll-mt-24 bg-background py-14 pb-24 text-foreground md:mt-24 md:scroll-mt-28 md:py-20 md:pb-28"
+    >
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-10">
         <PortfolioBentoGrid />
       </div>

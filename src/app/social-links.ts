@@ -1,27 +1,15 @@
-import type { IconProps } from "@tabler/icons-react";
-import {
-  IconBrandFacebook,
-  IconBrandGithub,
-  IconBrandInstagram,
-  IconBrandLinkedin,
-  IconBrandX,
-} from "@tabler/icons-react";
-import type { ForwardRefExoticComponent, RefAttributes } from "react";
-
-export type SocialIcon = ForwardRefExoticComponent<
-  IconProps & RefAttributes<SVGSVGElement>
->;
-
 export type SocialLink = {
   href: string;
   label: string;
-  Icon: SocialIcon;
+  icon: string;
+  hoverColor?: string;
+  hoverGradient?: string;
 };
 
 export const SOCIAL_LINKS: SocialLink[] = [
-  { href: "#", label: "X / Twitter", Icon: IconBrandX },
-  { href: "#", label: "LinkedIn", Icon: IconBrandLinkedin },
-  { href: "#", label: "GitHub", Icon: IconBrandGithub },
-  { href: "#", label: "Facebook", Icon: IconBrandFacebook },
-  { href: "#", label: "Instagram", Icon: IconBrandInstagram },
+  { href: "#", label: "Instagram", icon: "simple-icons:instagram", hoverGradient: "linear-gradient(135deg,#f9ce34 0%,#ee2a7b 50%,#6228d7 100%)" },
+  { href: "#", label: "YouTube", icon: "simple-icons:youtube", hoverColor: "#ff0033" },
+  { href: "#", label: "LinkedIn", icon: "simple-icons:linkedin", hoverColor: "#0a66c2" },
+  { href: "#", label: "X / Twitter", icon: "simple-icons:x", hoverColor: "#1d9bf0" },
+  { href: "#", label: "Facebook", icon: "simple-icons:facebook", hoverColor: "#1877f2" },
 ];

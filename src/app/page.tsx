@@ -119,7 +119,10 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="mx-auto mt-14 w-full max-w-[980px] px-3 pb-14 md:mt-20 md:pb-20">
+          <section
+            id="uslugi"
+            className="mx-auto mt-14 w-full max-w-[980px] scroll-mt-24 px-3 pb-14 md:mt-20 md:pb-20 md:scroll-mt-28"
+          >
             <div className="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 md:gap-y-14 lg:grid-cols-3 lg:gap-x-8">
               {SERVICES_DATA.map((service) => (
                 <article

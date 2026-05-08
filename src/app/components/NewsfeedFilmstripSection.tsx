@@ -212,8 +212,9 @@ export default function NewsfeedFilmstripSection() {
 
   return (
     <section
+      id="aktualnosci"
       aria-labelledby="newsfeed-filmstrip-heading"
-      className="relative w-screen max-w-none overflow-hidden border-t border-border bg-background pb-20 pt-8 text-foreground md:pb-28 md:pt-16"
+      className="relative w-screen max-w-none scroll-mt-24 overflow-hidden border-t border-border bg-background pb-20 pt-8 text-foreground md:scroll-mt-28 md:pb-28 md:pt-16"
       style={{ marginInline: "calc(50% - 50vw)" }}
     >
       <header className="mx-auto mb-12 flex w-full items-center gap-4 px-[6vw] md:mb-16 md:gap-6">

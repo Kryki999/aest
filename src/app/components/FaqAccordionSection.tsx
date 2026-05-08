@@ -53,8 +53,9 @@ const FAQ_ITEMS: FaqEntry[] = [
 export default function FaqAccordionSection() {
   return (
     <section
+      id="faq"
       aria-labelledby="faq-heading"
-      className="relative w-screen max-w-none border-t border-border bg-background pb-6 pt-20 text-foreground md:pb-24 md:pt-28 lg:pb-36 lg:pt-32"
+      className="relative w-screen max-w-none scroll-mt-24 border-t border-border bg-background pb-6 pt-20 text-foreground md:scroll-mt-28 md:pb-24 md:pt-28 lg:pb-36 lg:pt-32"
       style={{ marginInline: "calc(50% - 50vw)" }}
     >
       <div className="relative mx-auto w-full max-w-7xl px-6 md:px-10 lg:px-14 xl:px-16">

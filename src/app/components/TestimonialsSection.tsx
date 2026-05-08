@@ -80,7 +80,10 @@ export default function TestimonialsSection() {
   };
 
   return (
-    <section className="w-full overflow-x-clip bg-background pb-20 pt-6 md:pb-28">
+    <section
+      id="opinie"
+      className="w-full scroll-mt-24 overflow-x-clip bg-background pb-20 pt-6 md:scroll-mt-28 md:pb-28"
+    >
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="px-2 pb-6 pt-6 md:px-0 md:pt-8">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-10">
