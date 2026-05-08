@@ -38,7 +38,7 @@ export const PANELS: Panel[] = [
   {
     title: "HELLFIELD, DIVIX - Ale Ale",
     subtitle: "Klip Muzyczny",
-    image: "https://image.mux.com/hYMbdGGUQP8XU31Hr63Aha5lBjrAfSswz9txpfGmlRI/thumbnail.jpg",
+    image: "/alealehd.webp",
     video: "https://stream.mux.com/hYMbdGGUQP8XU31Hr63Aha5lBjrAfSswz9txpfGmlRI.m3u8",
     shiftClass: "-translate-y-5",
   },
