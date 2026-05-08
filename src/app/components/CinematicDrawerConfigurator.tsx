@@ -106,11 +106,15 @@ export default function CinematicDrawerConfigurator({
   }, [step]);
 
   useEffect(() => {
+    // In embedded mode this section sits lower on the page; autofocus on mount
+    // would immediately scroll the viewport there.
+    if (mode !== "drawer") return;
+
     if (step === 1) focusField(firstTileRef.current);
     if (step === 2) focusField(linkRef.current);
     if (step === 3) focusField(nameRef.current);
     if (step === "success") focusField(closeSuccessRef.current);
-  }, [step, focusField]);
+  }, [step, focusField, mode]);
 
   const goNextFromTile = (id: KindId) => {
     setDirection(1);
