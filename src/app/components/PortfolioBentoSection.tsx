@@ -4,7 +4,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { X } from "lucide-react";
 
-/* Zewnętrzne URL-e obrazów — bez rozszerzania next/image o domeny demo. */
+/* Obrazy portfolio z `/public` lub zewnętrzne URL-e. */
 /* eslint-disable @next/next/no-img-element */
 
 import { BentoGrid } from "@/components/ui/bento-grid";
@@ -89,10 +89,7 @@ const TILES: TileConfig[] = [
     tags: "Social · Crop 9:16",
     article:
       "Projekt powstał jako seria dynamicznych pionowych cutów zoptymalizowanych pod szybki odbiór mobilny. Zespół skupił się na rytmie montażu, wyraźnej ekspozycji produktu i mikro-narracji, która domyka historię w pierwszych sekundach. Dzięki precyzyjnemu color gradingowi i wersjonowaniu formatów kampania utrzymała spójny charakter w reelsach, stories i shortach.",
-    imageSrc:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAUlPYYgQSvj5HJ_zoAeNzJASe83QJkefLnwWHiWIrftnBOyJOMUO1VPCNa7c4uzlNbDxMep2DMxUTZjo638xq9pKlXJ0eXQqTFpumovvhKa6Ub5un7t4qxbfBFL5OO_o9g5peLC3n0hMqNKf_08bunE7n64lAdtEonNjMFaUDDBeTxTTh3z1aMbeBGiVi1kxRmk0wldsCsOMr-0xU2liM2apYzC5kY42B3W1V8ePOZzPE5X4hoKhXlcO_XPZwjS8WVCKiYTBveRuew",
-    videoSrc:
-      "https://cdn.pixabay.com/video/2019/12/12/30121-380473626_large.mp4",
+    imageSrc: "/doranahd.webp",
     gridClass: "md:col-span-1 md:row-span-2",
   },
   {
@@ -101,8 +98,7 @@ const TILES: TileConfig[] = [
     tags: "Wideo · Brand story",
     article:
       "Głównym celem było zbudowanie premiumowego tonu komunikacji i wyraźnego hero produktu w każdej scenie. Pracowaliśmy na języku wizualnym łączącym cinematic movement z kontrolowanym światłem i detalem set designu. Finalny materiał został przygotowany jako rdzeń kampanii 360, który zasilił landing, social media oraz formaty paid.",
-    imageSrc:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAeviKa0ntc82s3ZuLK0du89vuAMffA0Tjm8scZ0nSEePVA16HlOFAPCMLXxExR0Xs0hggO9D4RLbGZdqHMbVoDGK6u5uOZJxq9eD4eCsTnd5QC7D7_xmXDdu9U3qgE2d8o7M4g_vbJylUiDqHDO3fFBLmx2KfYRVeF-9I4xC0RI71WMXnTYTusWenwrO53kULnCGU2ipo7lhvYdlJePo1reDujyvzKTNq0NyuGQCu4I6yCpYjIoBl3Qm6AfsjnZ5wX8gOL0IpJyxOR",
+    imageSrc: "/fendihd.webp",
     gridClass: "md:col-span-2 md:row-span-1",
   },
   {
@@ -111,8 +107,7 @@ const TILES: TileConfig[] = [
     tags: "Studio · Produkt",
     article:
       "Sesja lookbookowa została zaprojektowana pod równowagę między elegancją a czytelnością materiału produktowego. Ujęcia i kadrowanie wspierały modularne wykorzystanie w e-commerce i social feedzie bez utraty jakości art directionu. Efektem była biblioteka spójnych kadrów, którą marka mogła wdrażać etapami w wielu kanałach.",
-    imageSrc:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAMQejSKlmRYRRuh8jY47yjDAaryeIoT8Pwhr7waIkN_nxZjStqzckvdmkqavbN_mzHQn6UEFVx3Qca-hM3zvhsWZePyEyHe0lYOWgWCfT6urwGE7BG-Y-26WT9Yn0bWEvvYMXeCj9KBbsXXzeq0kwgF1551WuZn84CNlB9tI70r5RZgu-vruwASnsFqAP7YuQLkeG84zTwJZAkU9jZFGNhGnDSu-_XMml_cODPpu4zjmCeKv29N7MHI2Ak_NYJGjUsnIonx1KDUfiX",
+    imageSrc: "/domhd.webp",
     gridClass: "md:col-span-1 md:row-span-1",
   },
   {
@@ -121,8 +116,7 @@ const TILES: TileConfig[] = [
     tags: "Artysta · Teaser",
     article:
       "Krótka forma teaserowa była budowana na kontrastach: surowe faktury obrazu kontra precyzyjne prowadzenie dynamiki dźwięku. Zaprojektowaliśmy narrację pod wysoki retention i silny moment kulminacyjny na końcu. Całość wzmocniła pre-launch utworu i podniosła wolumen interakcji w pierwszych dniach publikacji.",
-    imageSrc:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuA-LxSKjND7km-qB1ikO76rNhGs9ZyYs4mb_fBkNtR5rPCCKJiBObSkezf5Te3ohcu0cyQLLYMOqcVyNpNjKrYmiOAynmLintK_XRHMH-6gqLchw1JCwElyD_4CX3M8cptt2yP5BEbYPQm4TOKqZmE180SLZumJuvaDz-oRRGPVixf_4oaZ5IRH0wSt-Uu_bQXc8bOl8r2tFhd6jKBF6TW7tkt-hklBkkg4T_qzMB4jWMWMTY9t8eeWB2IRmjEe3-XdW1WjpZllxa7q",
+    imageSrc: "/alealehd.webp",
     gridClass: "md:col-span-1 md:row-span-1",
   },
   {
@@ -131,8 +125,7 @@ const TILES: TileConfig[] = [
     tags: "Key visual · rollout",
     article:
       "Wdrożenie 360 objęło pełny zestaw materiałów: hero video, pakiet foto, cuty performance i adaptacje nośnikowe. Priorytetem była pełna spójność estetyczna na styku kanałów i etapów lejka. Dzięki temu marka zyskała jednolity język wizualny, który zwiększył rozpoznawalność i skrócił czas produkcji kolejnych odsłon kampanii.",
-    imageSrc:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAeviKa0ntc82s3ZuLK0du89vuAMffA0Tjm8scZ0nSEePVA16HlOFAPCMLXxExR0Xs0hggO9D4RLbGZdqHMbVoDGK6u5uOZJxq9eD4eCsTnd5QC7D7_xmXDdu9U3qgE2d8o7M4g_vbJylUiDqHDO3fFBLmx2KfYRVeF-9I4xC0RI71WMXnTYTusWenwrO53kULnCGU2ipo7lhvYdlJePo1reDujyvzKTNq0NyuGQCu4I6yCpYjIoBl3Qm6AfsjnZ5wX8gOL0IpJyxOR",
+    imageSrc: "/mordorhd.webp",
     gridClass: "md:col-span-3 md:row-span-1",
   },
 ];

@@ -2,11 +2,6 @@
 
 import CinematicDrawerConfigurator from "./CinematicDrawerConfigurator";
 
-const PREFOOTER_VISUAL_POSTER =
-  "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&q=85&auto=format&fit=crop";
-const PREFOOTER_VISUAL_VIDEO =
-  "https://cdn.pixabay.com/video/2023/09/20/181608-866834614_large.mp4";
-
 export default function PreFooterConfigurator() {
   return (
     <section
@@ -34,17 +29,12 @@ export default function PreFooterConfigurator() {
           <div className="flex min-h-0 flex-col md:min-h-[76vh] md:flex-row lg:min-h-[80vh]">
             <div className="relative hidden min-h-0 w-full flex-none md:flex md:w-1/2 md:flex-col">
               <div className="relative min-h-[42vh] flex-1 bg-muted md:min-h-0">
-                <video
+                <img
+                  src="/mordorhd.webp"
+                  alt=""
                   className="absolute inset-0 size-full object-cover"
-                  autoPlay
-                  muted
-                  playsInline
-                  loop
-                  poster={PREFOOTER_VISUAL_POSTER}
                   aria-hidden
-                >
-                  <source src={PREFOOTER_VISUAL_VIDEO} type="video/mp4" />
-                </video>
+                />
                 <div
                   aria-hidden
                   className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[var(--cinematic-surface)]/70 via-transparent to-transparent"

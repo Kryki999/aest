@@ -12,42 +12,42 @@ type Testimonial = {
 
 const TESTIMONIALS: Testimonial[] = [
   {
-    name: "Piotr Dowgalski",
-    company: "AquaBox Polska",
+    name: "Nina Ostrowska",
+    company: "Nova Stage · wokalistka",
     quote:
-      "The skills, combined with extensive practical expertise and knowledge in 3D modeling, integrating models with video footage, CGI and VFX effects, working with lighting, visual aesthetics, and scene composition, ensures highly professional audiovisual results.",
-    avatar:
-      "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&fit=crop&w=160&q=80",
-  },
-  {
-    name: "Anna Skorupska",
-    company: "NAUTRA",
-    quote:
-      "I am extremely impressed with the project's turnaround time. From the first phone call to the completed project, it took less than a week.",
+      "Z Aest Media zrealizowaliśmy teledysk od pierwszego pomysłu po deliver na platformy. Ekipa pilnuje każdego detalu — światła, kadru i montażu — więc klip brzmi i wygląda dokładnie tak, jak sobie to wyobrażałam.",
     avatar:
       "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=160&q=80",
   },
   {
-    name: "Lukasz Kaszynski",
-    company: "GBS",
+    name: "Tomasz Grabowski",
+    company: "Graviz · dyrektor kreatywny",
     quote:
-      "Working with Palm Vision Studio has been an absolute pleasure. Team's creativity and professionalism ensured that each video clip was unique and met my expectations perfectly.",
+      "Jako agencja szukaliśmy partnera produkcyjnego, który rozumie tempo kampanii. Aest Media dowozi spójny pakiet wideo i foto, dopina harmonogram i nie trzeba ich pilnować przy postprodukcji — po prostu wiemy, że materiał będzie gotowy na czas.",
     avatar:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=80",
+      "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&fit=crop&w=160&q=80",
   },
   {
-    name: "Marta Lewandowska",
-    company: "Bloom Atelier",
+    name: "Karolina Maj",
+    company: "Bloom Atelier · założycielka",
     quote:
-      "Od pierwszego dnia czuliśmy, że projekt jest prowadzony strategicznie. Komunikacja, tempo i finalna jakość materiałów były na najwyższym poziomie.",
+      "Sesja lookbook i krótkie formaty pod social zrobiły różnicę przy premierze kolekcji. Zespół Aest Media ma bardzo dobry gust wizualny i czuło się, że znają się na premium aesthetics od pierwszego dnia na planie.",
     avatar:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=160&q=80",
   },
   {
-    name: "Michal Kaczmarek",
-    company: "Atlas Group",
+    name: "Jakub Pawlak",
+    company: "Atlas Motorsport · marketing",
     quote:
-      "Dostaliśmy content, który realnie podniósł jakość naszego wizerunku. Materiały działały świetnie zarówno w kampanii, jak i organicznie w social mediach.",
+      "Potrzebowaliśmy dynamicznych ujęć z toru i montażu, który trzyma tempo jak dobry trailer. Aest Media ogarnęło całość — od logistyki po color — i dostarczyło nam zestaw klipów, który realnie podniósł zasięgi sponsorów.",
+    avatar:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=80",
+  },
+  {
+    name: "Ewa Lisiecka",
+    company: "XOX Entertainment · producentka",
+    quote:
+      "Przy klipach dla artystów liczy się zaufanie i kultura planu. Współpraca z Aest Media jest jak z własnym studiem — rozumieją branding wykonawcy, pilnują legalów i dostarczają master, który jest gotowy od razu pod dystrybucję.",
     avatar:
       "https://images.unsplash.com/photo-1542206395-9feb3edaa68d?auto=format&fit=crop&w=160&q=80",
   },

@@ -26,9 +26,8 @@ export const DISPATCH_ITEMS: DispatchItem[] = [
     excerpt:
       "Lighting shortcuts that keep products heroic while staying gentle on art department time.",
     href: "#",
-    image:
-      "https://images.unsplash.com/photo-1542038784786-6ea353972eae?auto=format&fit=crop&w=1200&q=80",
-    imageAlt: "Macro tabletop photography setup with soft reflections",
+    image: "/doranahd.webp",
+    imageAlt: "Kadr z produkcji — materiał promocyjny studia",
   },
   {
     date: "2026-03-30",

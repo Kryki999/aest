@@ -10,11 +10,6 @@ import CinematicDrawerConfigurator, {
 import { useConfigurator } from "./configurator-shared";
 import { drawerSlideTransition } from "./nav-motion";
 
-const VISUAL_POSTER =
-  "https://images.unsplash.com/photo-1492691527719-9d1e07b89eff?w=1400&q=85&auto=format&fit=crop";
-const VISUAL_VIDEO =
-  "https://cdn.pixabay.com/video/2020/11/07/55718-503971825_large.mp4";
-
 export default function SlideInConfigurator() {
   const { isOpen, close } = useConfigurator();
   const panelRef = useRef<HTMLElement>(null);
@@ -148,17 +143,12 @@ export default function SlideInConfigurator() {
           >
             <div className="relative hidden min-h-0 w-full flex-none md:flex md:w-1/2 md:flex-col">
               <div className="relative min-h-[38vh] flex-1 bg-muted md:min-h-0">
-                <video
+                <img
+                  src="/mordorhd.webp"
+                  alt=""
                   className="absolute inset-0 size-full object-cover"
-                  autoPlay
-                  muted
-                  playsInline
-                  loop
-                  poster={VISUAL_POSTER}
                   aria-hidden
-                >
-                  <source src={VISUAL_VIDEO} type="video/mp4" />
-                </video>
+                />
                 <div
                   aria-hidden
                   className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[var(--cinematic-surface)]/25 via-transparent to-[var(--cinematic-surface)]/65 md:bg-gradient-to-t md:from-[var(--cinematic-surface)]/75 md:via-transparent md:to-transparent"
