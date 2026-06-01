@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { LayoutGroup } from "motion/react";
 import { AudioLines, ChevronLeft, ChevronRight, Clapperboard } from "lucide-react";
 
@@ -10,6 +10,7 @@ import { ImmersiveBreakout } from "./video-keys/ImmersiveBreakout";
 import { MultiTrackDesktop } from "./video-keys/MultiTrackDesktop";
 import { MultiTrackMobile } from "./video-keys/MultiTrackMobile";
 import { ViewportGate } from "./video-keys/ViewportGate";
+import { useViewport } from "./video-keys/useViewport";
 import { VideoBufferProvider, useVideoBuffer } from "./video-keys/VideoBufferProvider";
 import { MULTI_TRACK_COUNT, PANELS, mod } from "./video-keys/panels";
 
@@ -25,14 +26,12 @@ function ModeIcon({ type }: { type: ViewMode }) {
 function ModeToggleButtons({
   mode,
   setMode,
-  className = "",
 }: {
   mode: ViewMode;
   setMode: (m: ViewMode) => void;
-  className?: string;
 }) {
   return (
-    <div className={`flex items-center justify-center gap-3 ${className}`}>
+    <div className="flex items-center justify-center gap-3">
       <button
         type="button"
         aria-label="Tryb Multi-Track"
@@ -63,68 +62,53 @@ function ModeToggleButtons({
   );
 }
 
-function MultiTrackSubtitle({ idx }: { idx: number }) {
-  const item = PANELS[mod(idx, MULTI_TRACK_COUNT)];
-  return (
-    <div className="mx-auto mt-8 max-w-[860px] text-center">
-      <p
-        className="font-heading text-balance text-[clamp(2rem,3.6vw,3.2rem)] font-semibold leading-[0.94] tracking-[-0.04em] text-foreground"
-      >
-        {item.title}
-      </p>
-      <p className="mt-3 text-sm uppercase tracking-[0.2em] text-muted-foreground md:text-[0.78rem]">
-        {item.subtitle}
-      </p>
-    </div>
-  );
-}
-
-function HeroSubtitle({ idx }: { idx: number }) {
+function Caption({ idx }: { idx: number }) {
   const item = PANELS[mod(idx, PANELS.length)];
   return (
-    <div className="mt-5 text-center md:hidden">
-      <p
-        className="font-heading text-balance text-[clamp(1.8rem,8vw,2.7rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-foreground"
-      >
+    <div className="mx-auto mt-6 flex min-h-[6.5rem] max-w-[860px] flex-col items-center text-center md:mt-8 md:min-h-[8rem]">
+      <p className="font-heading text-balance text-[clamp(1.8rem,5vw,3.2rem)] font-semibold leading-[0.96] tracking-[-0.04em] text-foreground">
         {item.title}
       </p>
-      <p className="mt-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+      <p className="mt-3 text-xs uppercase tracking-[0.2em] text-muted-foreground md:text-[0.78rem]">
         {item.subtitle}
       </p>
     </div>
   );
 }
 
-function ArrowControls({
+function ControlsRow({
   onPrev,
   onNext,
   ariaLabelPrev,
   ariaLabelNext,
-  className = "",
+  mode,
+  setMode,
 }: {
   onPrev: () => void;
   onNext: () => void;
   ariaLabelPrev: string;
   ariaLabelNext: string;
-  className?: string;
+  mode: ViewMode;
+  setMode: (m: ViewMode) => void;
 }) {
   return (
-    <div className={`flex items-center justify-between ${className}`}>
+    <div className="mx-auto mt-2 grid w-full max-w-[600px] grid-cols-[auto_1fr_auto] items-center gap-4 md:mt-4">
       <button
         type="button"
         aria-label={ariaLabelPrev}
-        className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-white/18 bg-black/35 text-foreground transition-all hover:-translate-y-0.5 hover:border-[var(--cinematic-accent)]/75 hover:text-white md:h-16 md:w-16"
         onClick={onPrev}
+        className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/18 bg-black/35 text-foreground transition-all hover:-translate-y-0.5 hover:border-[var(--cinematic-accent)]/75 hover:text-white md:h-14 md:w-14"
       >
-        <ChevronLeft className="h-8 w-8 md:h-9 md:w-9" strokeWidth={2.8} />
+        <ChevronLeft className="h-7 w-7 md:h-8 md:w-8" strokeWidth={2.8} />
       </button>
+      <ModeToggleButtons mode={mode} setMode={setMode} />
       <button
         type="button"
         aria-label={ariaLabelNext}
-        className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-white/18 bg-black/35 text-foreground transition-all hover:-translate-y-0.5 hover:border-[var(--cinematic-accent)]/75 hover:text-white md:h-16 md:w-16"
         onClick={onNext}
+        className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/18 bg-black/35 text-foreground transition-all hover:-translate-y-0.5 hover:border-[var(--cinematic-accent)]/75 hover:text-white md:h-14 md:w-14"
       >
-        <ChevronRight className="h-8 w-8 md:h-9 md:w-9" strokeWidth={2.8} />
+        <ChevronRight className="h-7 w-7 md:h-8 md:w-8" strokeWidth={2.8} />
       </button>
     </div>
   );
@@ -138,6 +122,14 @@ function VideoKeysContent() {
 
   const multiTrackItems = useMemo(() => PANELS.slice(0, MULTI_TRACK_COUNT), []);
   const { prefetch } = useVideoBuffer();
+
+  const viewport = useViewport();
+  const initedRef = useRef(false);
+  useEffect(() => {
+    if (!viewport || initedRef.current) return;
+    initedRef.current = true;
+    setMode(viewport === "mobile" ? "heroStory" : "multiTrack");
+  }, [viewport]);
 
   useEffect(() => {
     if (mode !== "multiTrack") return;
@@ -179,14 +171,24 @@ function VideoKeysContent() {
     return { panel: PANELS[mod(breakoutIdx, PANELS.length)], idx: breakoutIdx };
   }, [breakoutIdx]);
 
+  const isMulti = mode === "multiTrack";
+  const captionIdx = isMulti ? activeIndex : heroStartIndex;
+  const move = isMulti ? moveMultiTrack : moveHero;
+  const ariaPrev = isMulti
+    ? "Poprzedni materiał Multi-Track"
+    : "Poprzedni materiał Hero Story";
+  const ariaNext = isMulti
+    ? "Następny materiał Multi-Track"
+    : "Następny materiał Hero Story";
+
   return (
     <section
       id="start"
       className="relative mx-auto w-full max-w-[1600px] scroll-mt-24 md:scroll-mt-28"
     >
       <LayoutGroup id="video-keys">
-        {mode === "multiTrack" ? (
-          <>
+        <div className="relative h-[48vh] md:h-[64vh]">
+          {isMulti ? (
             <ViewportGate
               desktop={
                 <MultiTrackDesktop
@@ -205,43 +207,7 @@ function VideoKeysContent() {
                 />
               }
             />
-
-            <MultiTrackSubtitle idx={activeIndex} />
-
-            <div className="md:hidden">
-              <div className="mx-auto mt-5 grid w-full max-w-[460px] grid-cols-[auto_1fr_auto] items-center gap-4">
-                <button
-                  type="button"
-                  aria-label="Poprzedni materiał Multi-Track"
-                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/18 bg-black/35 text-foreground transition-all hover:border-[var(--cinematic-accent)]/75 hover:text-white"
-                  onClick={() => moveMultiTrack(-1)}
-                >
-                  <ChevronLeft className="h-7 w-7" strokeWidth={2.8} />
-                </button>
-                <ModeToggleButtons mode={mode} setMode={setMode} />
-                <button
-                  type="button"
-                  aria-label="Następny materiał Multi-Track"
-                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/18 bg-black/35 text-foreground transition-all hover:border-[var(--cinematic-accent)]/75 hover:text-white"
-                  onClick={() => moveMultiTrack(1)}
-                >
-                  <ChevronRight className="h-7 w-7" strokeWidth={2.8} />
-                </button>
-              </div>
-            </div>
-
-            <ArrowControls
-              onPrev={() => moveMultiTrack(-1)}
-              onNext={() => moveMultiTrack(1)}
-              ariaLabelPrev="Poprzedni materiał Multi-Track"
-              ariaLabelNext="Następny materiał Multi-Track"
-              className="mx-auto mt-9 hidden w-full max-w-[1600px] md:flex"
-            />
-
-            <ModeToggleButtons mode={mode} setMode={setMode} className="mt-6 hidden md:flex" />
-          </>
-        ) : (
-          <>
+          ) : (
             <ViewportGate
               desktop={
                 <HeroDesktop
@@ -259,42 +225,19 @@ function VideoKeysContent() {
                 />
               }
             />
+          )}
+        </div>
 
-            <HeroSubtitle idx={heroStartIndex} />
+        <Caption idx={captionIdx} />
 
-            <div className="md:hidden">
-              <div className="mx-auto mt-5 grid w-full max-w-[460px] grid-cols-[auto_1fr_auto] items-center gap-4">
-                <button
-                  type="button"
-                  aria-label="Poprzedni materiał Hero Story"
-                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/18 bg-black/35 text-foreground transition-all hover:border-[var(--cinematic-accent)]/75 hover:text-white"
-                  onClick={() => moveHero(-1)}
-                >
-                  <ChevronLeft className="h-7 w-7" strokeWidth={2.8} />
-                </button>
-                <ModeToggleButtons mode={mode} setMode={setMode} />
-                <button
-                  type="button"
-                  aria-label="Następny materiał Hero Story"
-                  className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/18 bg-black/35 text-foreground transition-all hover:border-[var(--cinematic-accent)]/75 hover:text-white"
-                  onClick={() => moveHero(1)}
-                >
-                  <ChevronRight className="h-7 w-7" strokeWidth={2.8} />
-                </button>
-              </div>
-            </div>
-
-            <ArrowControls
-              onPrev={() => moveHero(-1)}
-              onNext={() => moveHero(1)}
-              ariaLabelPrev="Poprzedni materiał Hero Story"
-              ariaLabelNext="Następny materiał Hero Story"
-              className="mx-auto mt-9 hidden w-full max-w-[1600px] md:flex"
-            />
-
-            <ModeToggleButtons mode={mode} setMode={setMode} className="mt-6 hidden md:flex" />
-          </>
-        )}
+        <ControlsRow
+          onPrev={() => move(-1)}
+          onNext={() => move(1)}
+          ariaLabelPrev={ariaPrev}
+          ariaLabelNext={ariaNext}
+          mode={mode}
+          setMode={setMode}
+        />
 
         <ImmersiveBreakout target={breakoutTarget} onClose={handleBreakoutClose} />
       </LayoutGroup>

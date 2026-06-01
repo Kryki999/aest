@@ -39,10 +39,10 @@ export function MultiTrackDesktop({
 
   return (
     <div
-      className="relative hidden w-full overflow-hidden md:block"
+      className="relative hidden h-full w-full overflow-hidden md:block"
       style={{ contain: "layout" }}
     >
-      <div className="flex items-center justify-center gap-3 py-4 lg:gap-5">
+      <div className="flex h-full items-center justify-center gap-3 lg:gap-5">
         <AnimatePresence initial={false} mode="popLayout">
           {slots.map(({ idx, role }) => {
             const panel = panels[idx];

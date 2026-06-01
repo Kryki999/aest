@@ -100,7 +100,7 @@ export function HeroDesktop({
 
   return (
     <div
-      className="relative hidden md:block"
+      className="relative hidden h-full md:block"
       style={{
         overflow: "hidden",
         paddingTop: SHIFT_SAFE_PADDING_PX,
@@ -108,7 +108,7 @@ export function HeroDesktop({
         backgroundColor: CURTAIN_BG,
       }}
     >
-      <div className="relative h-[68vh]" style={{ contain: "layout" }}>
+      <div className="relative h-full" style={{ contain: "layout" }}>
         <CanvasMirror
           src={activeHero.video}
           objectPosition="50% center"

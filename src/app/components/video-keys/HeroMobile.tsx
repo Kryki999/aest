@@ -133,7 +133,7 @@ export function HeroMobile({
           ? { duration: 0 }
           : { type: "spring", stiffness: 240, damping: 32 }
       }
-      className="relative mx-auto h-[50vh] w-full max-w-[460px] cursor-pointer overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-primary md:hidden"
+      className="relative mx-auto h-full w-full max-w-[460px] cursor-pointer overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-primary md:hidden"
       style={{
         contain: "layout paint",
         willChange: "transform",

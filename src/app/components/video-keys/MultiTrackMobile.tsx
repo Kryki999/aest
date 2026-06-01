@@ -64,7 +64,7 @@ export function MultiTrackMobile({
 
   return (
     <div
-      className="relative mx-auto w-full max-w-[480px] overflow-hidden md:hidden"
+      className="relative mx-auto flex h-full w-full max-w-[480px] items-center justify-center overflow-hidden md:hidden"
       style={{ contain: "layout" }}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
