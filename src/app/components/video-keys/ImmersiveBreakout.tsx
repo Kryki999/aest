@@ -17,15 +17,27 @@ type BreakoutTarget = {
 type ImmersiveBreakoutProps = {
   target: BreakoutTarget | null;
   onClose: () => void;
+  /**
+   * Use the shared-element (`layoutId`) zoom transition. Disable it where the
+   * inline tile can't be projected cleanly (absolutely-positioned, clipped),
+   * e.g. the mobile multiTrack carousel — there we use a snappy scale+fade so
+   * closing is instant instead of a half-second dead spring.
+   */
+  sharedLayout?: boolean;
 };
 
 const HISTORY_MARKER = "video-keys-breakout";
 const SWIPE_DISMISS_PX = 120;
 const SWIPE_DISMISS_VELOCITY = 700;
 
-export function ImmersiveBreakout({ target, onClose }: ImmersiveBreakoutProps) {
+export function ImmersiveBreakout({
+  target,
+  onClose,
+  sharedLayout = true,
+}: ImmersiveBreakoutProps) {
   const prefersReducedMotion = useReducedMotion();
   const isOpen = target !== null;
+  const useShared = sharedLayout && !prefersReducedMotion;
 
   const {
     enterFullscreenAudio,
@@ -117,14 +129,34 @@ export function ImmersiveBreakout({ target, onClose }: ImmersiveBreakoutProps) {
 
           <motion.div
             key="video-keys-breakout-stage"
-            layoutId={prefersReducedMotion ? undefined : tileLayoutId(target.idx)}
-            initial={prefersReducedMotion ? { opacity: 0 } : false}
-            animate={prefersReducedMotion ? { opacity: 1 } : undefined}
-            exit={prefersReducedMotion ? { opacity: 0 } : undefined}
+            layoutId={useShared ? tileLayoutId(target.idx) : undefined}
+            initial={
+              prefersReducedMotion
+                ? { opacity: 0 }
+                : useShared
+                  ? false
+                  : { opacity: 0, scale: 0.94 }
+            }
+            animate={
+              prefersReducedMotion
+                ? { opacity: 1 }
+                : useShared
+                  ? undefined
+                  : { opacity: 1, scale: 1 }
+            }
+            exit={
+              prefersReducedMotion
+                ? { opacity: 0 }
+                : useShared
+                  ? undefined
+                  : { opacity: 0, scale: 0.96 }
+            }
             transition={
               prefersReducedMotion
                 ? { duration: 0.25 }
-                : { type: "spring", stiffness: 220, damping: 32, mass: 0.9 }
+                : useShared
+                  ? { type: "spring", stiffness: 220, damping: 32, mass: 0.9 }
+                  : { duration: 0.32, ease: [0.22, 1, 0.36, 1] }
             }
             drag={prefersReducedMotion ? false : "y"}
             dragConstraints={{ top: 0, bottom: 0 }}

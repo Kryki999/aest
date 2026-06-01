@@ -207,6 +207,21 @@ function VideoKeysContent() {
     setBreakoutIdx(null);
   }, []);
 
+  // Switching modes keeps the SAME clip active, so the shared pooled video
+  // keeps playing instead of jumping to whatever the other mode had selected.
+  const handleModeChange = useCallback(
+    (next: ViewMode) => {
+      if (next === mode) return;
+      if (next === "heroStory") {
+        setHeroStartIndex(mod(activeIndex, PANELS.length));
+      } else {
+        setActiveIndex(mod(heroStartIndex, multiTrackItems.length));
+      }
+      setMode(next);
+    },
+    [mode, activeIndex, heroStartIndex, multiTrackItems.length],
+  );
+
   const breakoutTarget = useMemo(() => {
     if (breakoutIdx === null) return null;
     return { panel: PANELS[mod(breakoutIdx, PANELS.length)], idx: breakoutIdx };
@@ -285,12 +300,16 @@ function VideoKeysContent() {
           ariaLabelPrev={ariaPrev}
           ariaLabelNext={ariaNext}
           mode={mode}
-          setMode={setMode}
+          setMode={handleModeChange}
           soundOn={soundOn}
           onToggleSound={() => setSoundOn(!soundOn)}
         />
 
-        <ImmersiveBreakout target={breakoutTarget} onClose={handleBreakoutClose} />
+        <ImmersiveBreakout
+          target={breakoutTarget}
+          onClose={handleBreakoutClose}
+          sharedLayout={!(isMulti && viewport === "mobile")}
+        />
       </LayoutGroup>
     </section>
   );
