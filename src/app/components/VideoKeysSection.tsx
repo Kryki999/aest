@@ -21,7 +21,6 @@ import { useViewport } from "./video-keys/useViewport";
 import { VideoBufferProvider, useVideoBuffer } from "./video-keys/VideoBufferProvider";
 import {
   DEFAULT_ACTIVE_INDEX,
-  HERO_SURFACE_LAYOUT_ID,
   MULTI_TRACK_COUNT,
   PANELS,
   mod,
@@ -314,8 +313,7 @@ function VideoKeysContent() {
         <ImmersiveBreakout
           target={breakoutTarget}
           onClose={handleBreakoutClose}
-          sharedLayout={!(isMulti && viewport === "mobile")}
-          layoutId={isMulti ? undefined : HERO_SURFACE_LAYOUT_ID}
+          sharedLayout={viewport === "desktop"}
         />
       </LayoutGroup>
     </section>

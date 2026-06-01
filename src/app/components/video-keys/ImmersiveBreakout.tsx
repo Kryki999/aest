@@ -24,8 +24,6 @@ type ImmersiveBreakoutProps = {
    * closing is instant instead of a half-second dead spring.
    */
   sharedLayout?: boolean;
-  /** Shared-element id to pair with the inline surface (defaults to the tile). */
-  layoutId?: string;
 };
 
 const HISTORY_MARKER = "video-keys-breakout";
@@ -36,7 +34,6 @@ export function ImmersiveBreakout({
   target,
   onClose,
   sharedLayout = true,
-  layoutId,
 }: ImmersiveBreakoutProps) {
   const prefersReducedMotion = useReducedMotion();
   const isOpen = target !== null;
@@ -132,7 +129,7 @@ export function ImmersiveBreakout({
 
           <motion.div
             key="video-keys-breakout-stage"
-            layoutId={useShared ? (layoutId ?? tileLayoutId(target.idx)) : undefined}
+            layoutId={useShared ? tileLayoutId(target.idx) : undefined}
             initial={
               prefersReducedMotion
                 ? { opacity: 0 }
