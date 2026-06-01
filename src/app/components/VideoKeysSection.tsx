@@ -153,6 +153,17 @@ function VideoKeysContent() {
   const multiTrackItems = useMemo(() => PANELS.slice(0, MULTI_TRACK_COUNT), []);
   const { prefetch, soundOn, setSoundOn, setAudioFocus } = useVideoBuffer();
 
+  // Warm the browser cache with every poster thumbnail up front so switching
+  // clips reveals the new clip's still image instantly (no blank flash while
+  // the next video buffers).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    PANELS.forEach((panel) => {
+      const img = new window.Image();
+      img.src = panel.image;
+    });
+  }, []);
+
   const viewport = useViewport();
   const initedRef = useRef(false);
   useEffect(() => {
