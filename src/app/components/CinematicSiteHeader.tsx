@@ -283,11 +283,10 @@ export default function CinematicSiteHeader() {
             href="/"
             scroll
             aria-label="Go to homepage"
-            className="whitespace-nowrap text-center text-3xl italic lowercase leading-none tracking-tight text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent sm:text-4xl md:text-5xl"
-            style={{ fontFamily: "var(--font-serif)" }}
+            className="font-heading whitespace-nowrap text-center text-3xl italic lowercase leading-none tracking-tight text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent sm:text-4xl md:text-5xl"
             onClick={handleBrandClick}
           >
-            aest <span className="text-[var(--cinematic-accent)]">media</span>
+            æst<span className="text-[var(--cinematic-accent)]">media</span>
           </Link>
 
           <div className="flex shrink-0 items-center gap-0 md:gap-1">

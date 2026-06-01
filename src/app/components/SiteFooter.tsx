@@ -3,10 +3,14 @@
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { useId, useState } from "react";
-import type { CSSProperties, FormEvent } from "react";
+import type { FormEvent } from "react";
 
 import { NAV_LINKS } from "../nav-links";
 import { SOCIAL_LINKS } from "../social-links";
+
+function iconifyMaskUrl(icon: string) {
+  return `url("https://api.iconify.design/${icon.replace(":", "/")}.svg")`;
+}
 
 export default function SiteFooter() {
   const year = new Date().getFullYear();
@@ -34,10 +38,9 @@ export default function SiteFooter() {
           <Link
             href="/"
             aria-label="Go to homepage"
-            className="whitespace-nowrap text-center text-5xl italic lowercase leading-none tracking-tight text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent md:text-6xl lg:text-7xl"
-            style={{ fontFamily: "var(--font-serif)" }}
+            className="font-heading whitespace-nowrap text-center text-5xl italic lowercase leading-none tracking-tight text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent md:text-6xl lg:text-7xl"
           >
-            aest <span className="text-[var(--cinematic-accent)]">media</span>
+            æst<span className="text-[var(--cinematic-accent)]">media</span>
           </Link>
 
           <nav aria-label="Stopka">
@@ -128,36 +131,36 @@ export default function SiteFooter() {
                 aria-label={label}
                 className="group outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
-                <span
-                  className="relative block size-8 md:size-10"
-                  style={
-                    {
-                      ...(hoverColor ? { "--hover-color": hoverColor } : {}),
-                      ...(hoverGradient ? { "--hover-gradient": hoverGradient } : {}),
-                    } as CSSProperties
-                  }
-                >
+                <span className="relative block size-8 md:size-10">
                   <Icon
                     icon={icon}
                     className="absolute inset-0 size-full text-white transition-opacity duration-300 group-hover:opacity-0"
                     aria-hidden
                   />
-                  <Icon
-                    icon={icon}
-                    className="absolute inset-0 size-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                    style={{
-                      color: hoverColor ?? undefined,
-                      ...(hoverGradient
-                        ? {
-                            color: "transparent",
-                            backgroundImage: hoverGradient,
-                            backgroundClip: "text",
-                            WebkitBackgroundClip: "text",
-                          }
-                        : {}),
-                    }}
-                    aria-hidden
-                  />
+                  {hoverGradient ? (
+                    <span
+                      aria-hidden
+                      className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                      style={{
+                        background: hoverGradient,
+                        WebkitMaskImage: iconifyMaskUrl(icon),
+                        maskImage: iconifyMaskUrl(icon),
+                        WebkitMaskSize: "contain",
+                        maskSize: "contain",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskRepeat: "no-repeat",
+                        WebkitMaskPosition: "center",
+                        maskPosition: "center",
+                      }}
+                    />
+                  ) : (
+                    <Icon
+                      icon={icon}
+                      className="absolute inset-0 size-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                      style={{ color: hoverColor }}
+                      aria-hidden
+                    />
+                  )}
                 </span>
               </Link>
             ))}

@@ -98,7 +98,8 @@ export async function POST(request: NextRequest) {
     const adminEmail =
       process.env.PROJECT_BRIEF_EMAIL_TO ||
       process.env.QUOTE_EMAIL_TO ||
-      process.env.CONTACT_EMAIL_TO;
+      process.env.CONTACT_EMAIL_TO ||
+      "kontakt@vibeco.pl";
 
     if (!adminEmail) {
       console.error("No recipient email env (PROJECT_BRIEF_EMAIL_TO / …)");

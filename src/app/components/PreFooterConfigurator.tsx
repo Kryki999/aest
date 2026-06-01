@@ -14,14 +14,14 @@ export default function PreFooterConfigurator() {
         <header className="mb-12 max-w-4xl px-6 md:mb-14 md:px-0">
           <h2
             id="prefooter-configurator-heading"
-            className="text-balance text-3xl font-semibold leading-[1.08] tracking-tight text-foreground md:text-4xl lg:text-5xl"
-            style={{ fontFamily: "var(--font-serif)" }}
+            className="font-heading text-balance text-3xl font-semibold uppercase leading-[1.08] tracking-[0.06em] text-foreground md:text-4xl lg:text-5xl"
           >
-            Scena jest
-            <span className="text-[var(--cinematic-accent)]"> Twoja.</span>
+            Wyceń swój{" "}
+            <span className="text-[var(--cinematic-accent)]">projekt</span>
           </h2>
           <p className="mt-4 max-w-[66ch] text-pretty text-sm leading-relaxed text-foreground md:mt-5 md:text-base md:leading-relaxed">
-            Znasz już nasz klimat i wiesz, do czego jesteśmy zdolni. Teraz czas przełożyć Twoją ambicję na kinowy obraz. Zróbmy ten pierwszy krok.
+            Opisz pokrótce czego potrzebujesz i zostaw numer telefonu —
+            skontaktujemy się z Tobą tak szybko, jak to możliwe.
           </p>
         </header>
 
@@ -41,10 +41,9 @@ export default function PreFooterConfigurator() {
                 />
                 <div className="pointer-events-none absolute bottom-8 left-8 right-8 z-[1]">
                   <p
-                    className="max-w-[24ch] text-2xl font-semibold leading-tight tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)]"
-                    style={{ fontFamily: "var(--font-serif)" }}
+                    className="font-heading max-w-[24ch] text-2xl font-semibold leading-tight tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)]"
                   >
-                    Inny rytm. Ten sam cel kontaktu.
+                    Krótki opis. Szybka odpowiedź.
                   </p>
                 </div>
               </div>
@@ -52,7 +51,10 @@ export default function PreFooterConfigurator() {
 
             <div className="w-full bg-[var(--cinematic-base)] p-5 sm:p-6 md:w-1/2 md:p-10 lg:p-12">
               <div className="mx-auto max-w-2xl">
-                <CinematicDrawerConfigurator mode="embedded" />
+                <CinematicDrawerConfigurator
+                  mode="embedded"
+                  quickContactEmail="kontakt@vibeco.pl"
+                />
               </div>
             </div>
           </div>

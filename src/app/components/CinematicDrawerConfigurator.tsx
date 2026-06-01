@@ -27,7 +27,6 @@ type CinematicDrawerConfiguratorProps = {
   mode?: "drawer" | "embedded";
   titleId?: string;
   onSuccessClose?: () => void;
-  quickContactPhone?: string;
   quickContactEmail?: string;
 };
 
@@ -51,8 +50,7 @@ export default function CinematicDrawerConfigurator({
   mode = "drawer",
   titleId,
   onSuccessClose,
-  quickContactPhone = "+48 570 220 680",
-  quickContactEmail = "kontakt@aestmedia.pl",
+  quickContactEmail = "kontakt@vibeco.pl",
 }: CinematicDrawerConfiguratorProps) {
   const uid = useId();
   const resolvedTitleId = titleId ?? `${uid}-title`;
@@ -257,8 +255,7 @@ export default function CinematicDrawerConfigurator({
           >
             <div
               id={resolvedTitleId}
-              className="max-w-sm text-balance text-2xl font-semibold leading-tight text-foreground md:text-3xl"
-              style={{ fontFamily: "var(--font-serif)" }}
+              className="font-heading max-w-sm text-balance text-2xl font-semibold leading-tight text-foreground md:text-3xl"
             >
               Dziękujemy — ekran już pracuje na Twoim froncie.
             </div>
@@ -301,22 +298,7 @@ export default function CinematicDrawerConfigurator({
             <header className="space-y-2">
               {step === 1 ? (
                 <p className="mb-4 text-pretty text-[0.95rem] leading-relaxed text-foreground/95 md:text-base">
-                  Wolisz działać od razu? Zadzwoń na{" "}
-                  <a
-                    href={`tel:${quickContactPhone.replace(/\s+/g, "")}`}
-                    className="group relative inline-flex items-center text-[var(--cinematic-accent)] transition-colors duration-300 hover:text-[var(--cinematic-accent-neon)] focus-visible:text-[var(--cinematic-accent-neon)] focus-visible:outline-none"
-                  >
-                    <span className="relative z-[1]">{quickContactPhone}</span>
-                    <span
-                      aria-hidden
-                      className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[var(--cinematic-accent)]/65 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
-                    />
-                    <span
-                      aria-hidden
-                      className="pointer-events-none absolute -bottom-1 left-1/2 h-3 w-14 -translate-x-1/2 rounded-full bg-[var(--cinematic-accent)]/35 opacity-0 blur-md transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
-                    />
-                  </a>{" "}
-                  lub wyslij{" "}
+                  Wolisz działać od razu? Wyślij maila{" "}
                   <a
                     href={`mailto:${quickContactEmail}`}
                     className="group relative inline-flex items-center text-[var(--cinematic-accent)] transition-colors duration-300 hover:text-[var(--cinematic-accent-neon)] focus-visible:text-[var(--cinematic-accent-neon)] focus-visible:outline-none"
@@ -336,8 +318,7 @@ export default function CinematicDrawerConfigurator({
               ) : null}
               <h3
                 id={resolvedTitleId}
-                className="text-balance text-xl font-semibold leading-snug tracking-tight text-foreground md:text-2xl"
-                style={{ fontFamily: "var(--font-serif)" }}
+                className="font-heading text-balance text-xl font-semibold leading-snug tracking-tight text-foreground md:text-2xl"
               >
                 {step === 1 && "Co dokładnie mamy dla Ciebie stworzyć?"}
                 {step === 2 &&

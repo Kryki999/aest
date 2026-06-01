@@ -164,8 +164,7 @@ export function ImmersiveBreakout({ target, onClose }: ImmersiveBreakoutProps) {
                 Hero Story
               </p>
               <h2
-                className="text-balance text-[clamp(2.6rem,6vw,5.4rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-white"
-                style={{ fontFamily: "var(--font-serif)" }}
+                className="font-heading text-balance text-[clamp(2.6rem,6vw,5.4rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-white"
               >
                 {target.panel.title}
               </h2>

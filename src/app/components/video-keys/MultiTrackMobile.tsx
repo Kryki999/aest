@@ -64,59 +64,64 @@ export function MultiTrackMobile({
 
   return (
     <div
-      className="relative mx-auto h-[55vh] w-full max-w-[460px] md:hidden"
+      className="relative mx-auto w-full max-w-[480px] overflow-hidden md:hidden"
       style={{ contain: "layout" }}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
-      {slots.map(({ idx, slot }) => {
-        const panel = panels[idx];
-        const isCenter = slot === 1;
-        const positionClasses = isCenter
-          ? "left-[18%] z-20 w-[64%] opacity-100"
-          : slot === 0
-            ? "left-[-24%] z-10 w-[38%] opacity-45"
-            : "left-[86%] z-10 w-[38%] opacity-45";
+      <div
+        className="relative mx-auto"
+        style={{ width: "min(72vw, 360px)", height: "calc(min(72vw, 360px) * 9 / 16)" }}
+      >
+        {slots.map(({ idx, slot }) => {
+          const panel = panels[idx];
+          const isCenter = slot === 1;
+          const positionClasses = isCenter
+            ? "inset-0 z-20 rounded-[10px]"
+            : slot === 0
+              ? "right-full top-[11%] z-10 h-[78%] w-[30%] rounded-md"
+              : "left-full top-[11%] z-10 h-[78%] w-[30%] rounded-md";
 
-        return (
-          <motion.article
-            key={`mt-mobile-${slot}-${panel.title}`}
-            layoutId={isCenter ? tileLayoutId(idx) : undefined}
-            transition={
-              prefersReducedMotion
-                ? { duration: 0 }
-                : { type: "spring", stiffness: 240, damping: 32 }
-            }
-            onClick={() => {
-              if (isCenter) onBreakout(idx);
-              else onActivate(idx);
-            }}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
+          return (
+            <motion.article
+              key={`mt-mobile-${slot}-${panel.title}`}
+              layoutId={isCenter ? tileLayoutId(idx) : undefined}
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0 }
+                  : { type: "spring", stiffness: 240, damping: 32 }
+              }
+              onClick={() => {
                 if (isCenter) onBreakout(idx);
                 else onActivate(idx);
-              }
-            }}
-            role="button"
-            tabIndex={0}
-            aria-label={`${panel.title} – ${panel.subtitle}`}
-            className={`absolute top-0 h-full overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-primary ${panel.shiftClass} ${positionClasses}`}
-            style={{ willChange: "transform", transform: "translateZ(0)" }}
-          >
-            <PosterTile
-              src={panel.image}
-              alt={panel.title}
-              dimmed={!isCenter}
-              priority={isCenter}
-              sizes="(min-width: 768px) 40vw, 80vw"
-            />
-            {isCenter ? (
-              <SharedVideoSurface src={panel.video} style={{ zIndex: 1 }} />
-            ) : null}
-          </motion.article>
-        );
-      })}
+              }}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  if (isCenter) onBreakout(idx);
+                  else onActivate(idx);
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label={`${panel.title} – ${panel.subtitle}`}
+              className={`absolute overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-primary ${positionClasses}`}
+              style={{ willChange: "transform", transform: "translateZ(0)" }}
+            >
+              <PosterTile
+                src={panel.image}
+                alt={panel.title}
+                dimmed={!isCenter}
+                priority={isCenter}
+                sizes="(min-width: 768px) 40vw, 85vw"
+              />
+              {isCenter ? (
+                <SharedVideoSurface src={panel.video} style={{ zIndex: 1 }} />
+              ) : null}
+            </motion.article>
+          );
+        })}
+      </div>
     </div>
   );
 }

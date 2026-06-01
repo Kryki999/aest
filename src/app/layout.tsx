@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Noto_Serif, Geist } from "next/font/google";
+import { Inter, Noto_Serif, Geist, Poppins } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ConfiguratorProvider } from "./components/ConfiguratorProvider";
@@ -14,6 +14,12 @@ const inter = Inter({
 const notoSerif = Noto_Serif({
   variable: "--font-noto-serif",
   subsets: ["latin"],
+});
+
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -35,6 +41,7 @@ export default function RootLayout({
         "antialiased",
         inter.variable,
         notoSerif.variable,
+        poppins.variable,
         "font-sans",
         geist.variable,
       )}

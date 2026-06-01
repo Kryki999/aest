@@ -153,8 +153,7 @@ export function HeroDesktop({
             }}
           >
             <p
-              className="vertical-title text-[44px] leading-none text-foreground md:text-[52px]"
-              style={{ fontFamily: "var(--font-serif)" }}
+              className="font-heading vertical-title text-[44px] leading-none text-foreground md:text-[52px]"
             >
               {activeHero.title}
             </p>

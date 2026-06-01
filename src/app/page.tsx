@@ -3,27 +3,34 @@
 import Image from "next/image";
 
 import PortfolioBentoSection from "./components/PortfolioBentoSection";
-import FaqAccordionSection from "./components/FaqAccordionSection";
 import NewsfeedFilmstripSection from "./components/NewsfeedFilmstripSection";
 import PreFooterConfigurator from "./components/PreFooterConfigurator";
 import SiteFooter from "./components/SiteFooter";
 import ScrollBoundHandsBridge from "./components/ScrollBoundHandsBridge";
 import CinematicSiteHeader from "./components/CinematicSiteHeader";
 import VideoKeysSection from "./components/VideoKeysSection";
-import TestimonialsSection from "./components/TestimonialsSection";
+import VersatilityShowcase from "./components/VersatilityShowcase";
 import { useConfigurator } from "./components/configurator-shared";
 
 const LOGO_ITEMS = [
-  "Nova",
-  "Graviz",
-  "CBS",
-  "WKDZIK",
-  "Pro8lem",
-  "XOX",
-  "Atlas",
-  "Bloom",
-  "Vanta",
-  "Aether",
+  "CRACKHOUSE",
+  "MR. POLSKA",
+  "UNIVERSAL MUSIC",
+  "SKOLIM",
+  "WARNER MUSIC",
+  "FABIJAŃSKI",
+  "STEP RECORDS",
+  "MARTIRENTI / MARGARITA",
+  "CLEO",
+  "SCADIHOUSE",
+  "SENTINO",
+  "QUEQUALITY",
+  "BMW",
+  "JUSTYNA STECZKOWSKA",
+  "LEXUS",
+  "PAULLA",
+  "FESTIWAL POLSKIEJ PIOSENKI",
+  "HEIDELBERG MATERIALS POLSKA",
 ];
 
 const SERVICES_DATA = [
@@ -74,22 +81,20 @@ export default function Home() {
       <main className="relative min-h-screen max-w-full overflow-x-clip text-foreground">
         <CinematicSiteHeader />
 
-        <div className="px-[6vw] pb-8 pt-20 md:pt-24">
+        <div className="px-[6vw] pb-0 pt-20 md:pt-24">
           <VideoKeysSection />
 
           <section className="mx-auto mt-16 w-full max-w-[1080px] px-3 pb-10 md:mt-20">
             <div className="mx-auto mb-9 flex max-w-[820px] flex-col items-center text-center md:mb-12">
               <h2
-                className="text-balance text-[2.2rem] font-semibold leading-[0.98] tracking-[-0.03em] text-foreground sm:text-5xl md:text-7xl"
-                style={{ fontFamily: "var(--font-serif)" }}
+                className="font-heading text-balance text-[2.2rem] font-semibold leading-[0.98] tracking-[-0.03em] text-foreground sm:text-5xl md:text-7xl"
               >
                 Kreatywne studio{" "}
                 <span className="text-[var(--cinematic-accent)]">produkcyjne</span> z wizją.
               </h2>
               <p className="mx-auto mt-5 max-w-[720px] text-pretty text-sm leading-relaxed text-white sm:text-base md:mt-6 md:text-lg md:leading-relaxed">
-                Pomagamy ambitnym markom, agencjom i topowym artystom uderzać
-                mocniej. Przekuwamy surową energię w najwyższej klasy produkcje
-                wideo i foto.
+                Tworzymy klipy video dla topowych artystów oraz pomagamy stworzyć
+                materiały foto-video dla marek i agencji.
               </p>
               <div className="mt-7 flex flex-wrap items-center justify-center gap-4 md:mt-8">
                 <button
@@ -121,7 +126,7 @@ export default function Home() {
 
           <section
             id="uslugi"
-            className="mx-auto mt-14 w-full max-w-[980px] scroll-mt-24 px-3 pb-14 md:mt-20 md:pb-20 md:scroll-mt-28"
+            className="mx-auto mt-14 w-full max-w-[980px] scroll-mt-24 px-3 pb-6 md:mt-20 md:pb-8 md:scroll-mt-28"
           >
             <div className="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 md:gap-y-14 lg:grid-cols-3 lg:gap-x-8">
               {SERVICES_DATA.map((service) => (
@@ -150,14 +155,11 @@ export default function Home() {
           </section>
         </div>
 
+        <VersatilityShowcase />
+
         <ScrollBoundHandsBridge />
 
         <PortfolioBentoSection />
-        <TestimonialsSection />
-
-        <div className="px-[6vw] pb-8">
-          <FaqAccordionSection />
-        </div>
 
         <NewsfeedFilmstripSection />
 
@@ -172,7 +174,7 @@ export default function Home() {
         }
 
         .logo-marquee-track {
-          animation: logoMarquee 18s linear infinite;
+          animation: logoMarquee 48s linear infinite;
         }
       `}</style>
       </main>

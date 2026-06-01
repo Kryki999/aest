@@ -112,8 +112,7 @@ export default function NewsfeedDrawer({
               >
                 <motion.div variants={itemVariants}>
                   <h2
-                    className="text-xl font-semibold tracking-tight text-foreground md:text-2xl"
-                    style={{ fontFamily: "var(--font-serif)" }}
+                    className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl"
                   >
                     Latest Dispatches
                   </h2>
@@ -155,8 +154,7 @@ export default function NewsfeedDrawer({
 
                         <div className="space-y-3 px-5 pb-6 pt-5 md:px-6 md:pb-7 md:pt-6">
                           <h3
-                            className="text-[1.35rem] font-semibold leading-[1.15] tracking-tight text-foreground transition-colors group-hover:text-primary md:text-2xl md:leading-snug"
-                            style={{ fontFamily: "var(--font-serif)" }}
+                            className="font-heading text-[1.35rem] font-semibold leading-[1.15] tracking-tight text-foreground transition-colors group-hover:text-primary md:text-2xl md:leading-snug"
                           >
                             {item.title}
                           </h3>

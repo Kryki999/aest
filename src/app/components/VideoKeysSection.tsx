@@ -68,8 +68,7 @@ function MultiTrackSubtitle({ idx }: { idx: number }) {
   return (
     <div className="mx-auto mt-8 max-w-[860px] text-center">
       <p
-        className="text-balance text-[clamp(2rem,3.6vw,3.2rem)] font-semibold leading-[0.94] tracking-[-0.04em] text-foreground"
-        style={{ fontFamily: "var(--font-serif)" }}
+        className="font-heading text-balance text-[clamp(2rem,3.6vw,3.2rem)] font-semibold leading-[0.94] tracking-[-0.04em] text-foreground"
       >
         {item.title}
       </p>
@@ -85,8 +84,7 @@ function HeroSubtitle({ idx }: { idx: number }) {
   return (
     <div className="mt-5 text-center md:hidden">
       <p
-        className="text-balance text-[clamp(1.8rem,8vw,2.7rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-foreground"
-        style={{ fontFamily: "var(--font-serif)" }}
+        className="font-heading text-balance text-[clamp(1.8rem,8vw,2.7rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-foreground"
       >
         {item.title}
       </p>
@@ -231,6 +229,14 @@ function VideoKeysContent() {
                 </button>
               </div>
             </div>
+
+            <ArrowControls
+              onPrev={() => moveMultiTrack(-1)}
+              onNext={() => moveMultiTrack(1)}
+              ariaLabelPrev="Poprzedni materiał Multi-Track"
+              ariaLabelNext="Następny materiał Multi-Track"
+              className="mx-auto mt-9 hidden w-full max-w-[1600px] md:flex"
+            />
 
             <ModeToggleButtons mode={mode} setMode={setMode} className="mt-6 hidden md:flex" />
           </>

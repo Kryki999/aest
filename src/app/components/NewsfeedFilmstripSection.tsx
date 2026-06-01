@@ -44,8 +44,7 @@ function ArticleCard({ item }: { item: DispatchItem }) {
       </time>
       <div className="absolute inset-x-0 bottom-0 z-[1] space-y-2 p-4 pb-5 md:p-5 md:pb-6">
         <h3
-          className="text-pretty text-[1.05rem] font-semibold leading-[1.18] tracking-tight text-white transition-colors group-hover:text-[var(--cinematic-accent)] md:text-[1.15rem]"
-          style={{ fontFamily: "var(--font-serif)" }}
+          className="font-heading text-pretty text-[1.05rem] font-semibold leading-[1.18] tracking-tight text-white transition-colors group-hover:text-[var(--cinematic-accent)] md:text-[1.15rem]"
         >
           {item.title}
         </h3>
@@ -77,8 +76,7 @@ function PortalCard() {
         />
       </span>
       <h3
-        className="max-w-[12ch] text-balance text-[1.35rem] font-semibold leading-[1.08] tracking-tight text-foreground md:text-[1.5rem]"
-        style={{ fontFamily: "var(--font-serif)" }}
+        className="font-heading max-w-[12ch] text-balance text-[1.35rem] font-semibold leading-[1.08] tracking-tight text-foreground md:text-[1.5rem]"
       >
         Odkryj wszystkie historie
       </h3>
@@ -225,8 +223,7 @@ export default function NewsfeedFilmstripSection() {
         />
         <h2
           id="newsfeed-filmstrip-heading"
-          className="text-balance text-3xl font-semibold leading-[1.02] tracking-tight md:text-5xl xl:text-[3.25rem]"
-          style={{ fontFamily: "var(--font-serif)" }}
+          className="font-heading text-balance text-3xl font-semibold leading-[1.02] tracking-tight md:text-5xl xl:text-[3.25rem]"
         >
           <span className="text-foreground">Najnowsze</span>{" "}
           <span className="text-[var(--cinematic-accent)]">wpisy</span>

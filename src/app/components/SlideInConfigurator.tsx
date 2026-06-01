@@ -155,8 +155,7 @@ export default function SlideInConfigurator() {
                 />
                 <div className="pointer-events-none absolute bottom-8 left-8 right-8 z-[1] hidden md:block">
                   <p
-                    className="max-w-[24ch] text-2xl font-semibold leading-tight tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)]"
-                    style={{ fontFamily: "var(--font-serif)" }}
+                    className="font-heading max-w-[24ch] text-2xl font-semibold leading-tight tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)]"
                   >
                     Nowy pokój dla Twojego briefu.
                   </p>

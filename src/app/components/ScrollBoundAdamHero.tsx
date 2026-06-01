@@ -67,7 +67,7 @@ export default function ScrollBoundHandsBridge() {
     <section
       ref={trackRef}
       aria-label="Aest Media cinematic hero"
-      className="relative w-full max-w-full overflow-x-clip bg-[#09090B] md:h-[440vh]"
+      className="relative w-full max-w-full overflow-x-clip bg-[#09090B] md:h-[270vh]"
     >
       <div className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-0 py-8 md:hidden">
         <div className="relative z-10 -mb-12 w-[118vw] max-w-[520px] -translate-x-[25vw] -translate-y-[3vh] rotate-[-6deg]">
@@ -89,8 +89,7 @@ export default function ScrollBoundHandsBridge() {
         </div>
 
         <p
-          className="relative z-20 max-w-[12ch] text-center text-[clamp(2.4rem,12vw,4.1rem)] font-semibold leading-[0.92] tracking-[-0.06em] text-[var(--cinematic-accent)]"
-          style={{ fontFamily: "var(--font-serif)" }}
+          className="font-heading relative z-20 max-w-[12ch] text-center text-[clamp(2.4rem,12vw,4.1rem)] font-semibold leading-[0.92] tracking-[-0.06em] text-[var(--cinematic-accent)]"
         >
           Sztuka wizualnego wpływu.
         </p>
@@ -141,11 +140,8 @@ export default function ScrollBoundHandsBridge() {
 
         <div className="pointer-events-none absolute inset-0 z-40 hidden items-center overflow-hidden md:flex">
           <motion.p
-            style={{
-              fontFamily: "var(--font-serif)",
-              x: finalTextX,
-            }}
-            className="absolute left-0 w-max whitespace-nowrap text-left text-[clamp(4.2rem,7.4vw,8.8rem)] font-semibold leading-none tracking-[-0.06em] text-[var(--cinematic-accent)] will-change-transform"
+            style={{ x: finalTextX }}
+            className="font-heading absolute left-0 w-max whitespace-nowrap text-left text-[clamp(4.2rem,7.4vw,8.8rem)] font-semibold leading-none tracking-[-0.06em] text-[var(--cinematic-accent)] will-change-transform"
           >
             Sztuka wizualnego wpływu.
           </motion.p>

@@ -53,8 +53,7 @@ function CinematicHeader({
         <div>
           <motion.h3
             layoutId={layoutTitleId}
-            className="text-balance text-lg font-semibold tracking-tight text-white md:text-xl"
-            style={{ fontFamily: "var(--font-serif)" }}
+            className="font-heading text-balance text-lg font-semibold tracking-tight text-white md:text-xl"
           >
             {title}
           </motion.h3>
@@ -321,8 +320,7 @@ export function PortfolioBentoGrid({ className }: { className?: string }) {
                     <div className="absolute bottom-0 left-0 right-0 z-[2] px-5 pb-6 pt-12 text-white md:px-10 md:pb-9 md:pt-16">
                       <motion.h3
                         layoutId={layoutTitleId(layoutScope, activeTile.id)}
-                        className="text-balance text-2xl font-semibold leading-[1.02] tracking-[-0.03em] md:text-[2.7rem]"
-                        style={{ fontFamily: "var(--font-serif)" }}
+                        className="font-heading text-balance text-2xl font-semibold leading-[1.02] tracking-[-0.03em] md:text-[2.7rem]"
                       >
                         {activeTile.title}
                       </motion.h3>
