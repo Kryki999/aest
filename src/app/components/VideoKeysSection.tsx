@@ -19,7 +19,13 @@ import { MultiTrackMobile } from "./video-keys/MultiTrackMobile";
 import { ViewportGate } from "./video-keys/ViewportGate";
 import { useViewport } from "./video-keys/useViewport";
 import { VideoBufferProvider, useVideoBuffer } from "./video-keys/VideoBufferProvider";
-import { MULTI_TRACK_COUNT, PANELS, mod } from "./video-keys/panels";
+import {
+  DEFAULT_ACTIVE_INDEX,
+  HERO_SURFACE_LAYOUT_ID,
+  MULTI_TRACK_COUNT,
+  PANELS,
+  mod,
+} from "./video-keys/panels";
 
 type ViewMode = "multiTrack" | "heroStory";
 
@@ -146,8 +152,8 @@ function ControlsRow({
 
 function VideoKeysContent() {
   const [mode, setMode] = useState<ViewMode>("multiTrack");
-  const [activeIndex, setActiveIndex] = useState(4);
-  const [heroStartIndex, setHeroStartIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(DEFAULT_ACTIVE_INDEX);
+  const [heroStartIndex, setHeroStartIndex] = useState(DEFAULT_ACTIVE_INDEX);
   const [breakoutIdx, setBreakoutIdx] = useState<number | null>(null);
 
   const multiTrackItems = useMemo(() => PANELS.slice(0, MULTI_TRACK_COUNT), []);
@@ -309,6 +315,7 @@ function VideoKeysContent() {
           target={breakoutTarget}
           onClose={handleBreakoutClose}
           sharedLayout={!(isMulti && viewport === "mobile")}
+          layoutId={isMulti ? undefined : HERO_SURFACE_LAYOUT_ID}
         />
       </LayoutGroup>
     </section>

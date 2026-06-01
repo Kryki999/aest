@@ -8,10 +8,10 @@ import { PosterTile } from "./PosterTile";
 import {
   HERO_MOBILE_STAGGER_PAD_PX,
   HERO_MOBILE_STAGGER_PATTERN,
+  HERO_SURFACE_LAYOUT_ID,
   SWIPE_THRESHOLD_PX,
   VERTICAL_GESTURE_TOLERANCE_PX,
   mod,
-  tileLayoutId,
   type Panel,
 } from "./panels";
 
@@ -118,7 +118,7 @@ export function HeroMobile({
 
   return (
     <motion.div
-      layoutId={tileLayoutId(activeIndex)}
+      layoutId={HERO_SURFACE_LAYOUT_ID}
       onClick={() => onBreakout(activeIndex)}
       onKeyDown={(event) => {
         if (event.key === "Enter" || event.key === " ") {

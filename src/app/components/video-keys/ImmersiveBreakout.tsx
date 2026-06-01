@@ -24,6 +24,8 @@ type ImmersiveBreakoutProps = {
    * closing is instant instead of a half-second dead spring.
    */
   sharedLayout?: boolean;
+  /** Shared-element id to pair with the inline surface (defaults to the tile). */
+  layoutId?: string;
 };
 
 const HISTORY_MARKER = "video-keys-breakout";
@@ -34,6 +36,7 @@ export function ImmersiveBreakout({
   target,
   onClose,
   sharedLayout = true,
+  layoutId,
 }: ImmersiveBreakoutProps) {
   const prefersReducedMotion = useReducedMotion();
   const isOpen = target !== null;
@@ -129,13 +132,13 @@ export function ImmersiveBreakout({
 
           <motion.div
             key="video-keys-breakout-stage"
-            layoutId={useShared ? tileLayoutId(target.idx) : undefined}
+            layoutId={useShared ? (layoutId ?? tileLayoutId(target.idx)) : undefined}
             initial={
               prefersReducedMotion
                 ? { opacity: 0 }
                 : useShared
                   ? false
-                  : { opacity: 0, scale: 0.94 }
+                  : { opacity: 0, scale: 0.9 }
             }
             animate={
               prefersReducedMotion
@@ -149,14 +152,14 @@ export function ImmersiveBreakout({
                 ? { opacity: 0 }
                 : useShared
                   ? undefined
-                  : { opacity: 0, scale: 0.96 }
+                  : { opacity: 0, scale: 0.92 }
             }
             transition={
               prefersReducedMotion
                 ? { duration: 0.25 }
                 : useShared
                   ? { type: "spring", stiffness: 220, damping: 32, mass: 0.9 }
-                  : { duration: 0.32, ease: [0.22, 1, 0.36, 1] }
+                  : { type: "spring", stiffness: 260, damping: 30, mass: 0.85 }
             }
             drag={prefersReducedMotion ? false : "y"}
             dragConstraints={{ top: 0, bottom: 0 }}
@@ -173,6 +176,7 @@ export function ImmersiveBreakout({
             style={{
               willChange: "transform",
               transform: "translateZ(0)",
+              transformOrigin: "center center",
               touchAction: "pan-y",
             }}
           >

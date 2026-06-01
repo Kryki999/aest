@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from "motion/react";
 
 import { CanvasMirror } from "./CanvasMirror";
 import { PosterTile } from "./PosterTile";
-import { mod, tileLayoutId, type Panel } from "./panels";
+import { HERO_SURFACE_LAYOUT_ID, mod, type Panel } from "./panels";
 
 type HeroDesktopProps = {
   panels: Panel[];
@@ -138,7 +138,7 @@ export function HeroDesktop({
           <GapFiller />
 
           <motion.article
-            layoutId={tileLayoutId(activeIndex)}
+            layoutId={HERO_SURFACE_LAYOUT_ID}
             onClick={() => onBreakout(activeIndex)}
             onKeyDown={(event) => {
               if (event.key === "Enter" || event.key === " ") {

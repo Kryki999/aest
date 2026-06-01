@@ -50,6 +50,16 @@ export const HERO_MOBILE_STAGGER_PATTERN = [0, 14, -14, 0, -14];
 export const HERO_MOBILE_STAGGER_PAD_PX = 18;
 export const VERTICAL_GESTURE_TOLERANCE_PX = 10;
 
+/** Same starting clip on every device (desktop multiTrack + mobile hero). */
+export const DEFAULT_ACTIVE_INDEX = 4;
+
 export const mod = (n: number, m: number) => ((n % m) + m) % m;
 
 export const tileLayoutId = (idx: number) => `video-keys-tile-${idx}`;
+
+/**
+ * Stable shared-element id for the single hero surface. Unlike the per-clip
+ * `tileLayoutId`, this never changes when navigating clips, so the breakout
+ * zoom keeps pairing correctly after switching the hero clip.
+ */
+export const HERO_SURFACE_LAYOUT_ID = "video-keys-hero-surface";
