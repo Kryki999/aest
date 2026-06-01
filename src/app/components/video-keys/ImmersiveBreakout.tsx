@@ -2,9 +2,11 @@
 
 import { useEffect } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { X } from "lucide-react";
+import { Volume2, VolumeX, X } from "lucide-react";
 
 import { SharedVideoSurface } from "./SharedVideoSurface";
+import { useVideoBuffer } from "./VideoBufferProvider";
+import { VideoScrubber } from "./VideoScrubber";
 import { tileLayoutId, type Panel } from "./panels";
 
 type BreakoutTarget = {
@@ -24,6 +26,33 @@ const SWIPE_DISMISS_VELOCITY = 700;
 export function ImmersiveBreakout({ target, onClose }: ImmersiveBreakoutProps) {
   const prefersReducedMotion = useReducedMotion();
   const isOpen = target !== null;
+
+  const {
+    enterFullscreenAudio,
+    exitFullscreenAudio,
+    fullscreenMuted,
+    toggleFullscreenMute,
+    getElement,
+  } = useVideoBuffer();
+
+  const activeSrc = target?.panel.video ?? null;
+
+  // Fullscreen takes over audio for the shared element. On close we hand audio
+  // back to the global rule and resume inline playback on the shared element.
+  useEffect(() => {
+    if (!activeSrc) return;
+    enterFullscreenAudio(activeSrc);
+    return () => {
+      exitFullscreenAudio();
+      const el = getElement(activeSrc);
+      if (el) {
+        const promise = el.play();
+        if (promise && typeof promise.catch === "function") {
+          promise.catch(() => {});
+        }
+      }
+    };
+  }, [activeSrc, enterFullscreenAudio, exitFullscreenAudio, getElement]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -133,6 +162,29 @@ export function ImmersiveBreakout({ target, onClose }: ImmersiveBreakoutProps) {
 
             <motion.button
               type="button"
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={toggleFullscreenMute}
+              aria-label={fullscreenMuted ? "Włącz dźwięk" : "Wycisz"}
+              aria-pressed={!fullscreenMuted}
+              initial={{ opacity: 0, scale: 0.7 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.7 }}
+              transition={{
+                delay: prefersReducedMotion ? 0 : 0.25,
+                duration: prefersReducedMotion ? 0.15 : 0.35,
+                ease: "easeOut",
+              }}
+              className="absolute left-[max(1.25rem,env(safe-area-inset-left))] top-[max(1.25rem,env(safe-area-inset-top))] z-[3] inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white backdrop-blur-md transition hover:border-white/60 hover:bg-black/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            >
+              {fullscreenMuted ? (
+                <VolumeX className="h-5 w-5" strokeWidth={2.2} />
+              ) : (
+                <Volume2 className="h-5 w-5" strokeWidth={2.2} />
+              )}
+            </motion.button>
+
+            <motion.button
+              type="button"
               onClick={onClose}
               aria-label="Zamknij podgląd"
               initial={{ opacity: 0, scale: 0.7 }}
@@ -157,7 +209,7 @@ export function ImmersiveBreakout({ target, onClose }: ImmersiveBreakoutProps) {
                 duration: prefersReducedMotion ? 0.15 : 0.55,
                 ease: [0.2, 0.8, 0.2, 1],
               }}
-              className="absolute inset-x-0 bottom-0 z-[2] px-[6vw] pb-[max(2.4rem,env(safe-area-inset-bottom))] pt-10 text-foreground"
+              className="absolute inset-x-0 bottom-0 z-[2] px-[6vw] pb-[max(6.5rem,calc(env(safe-area-inset-bottom)+5.5rem))] pt-10 text-foreground"
               style={{ willChange: "transform" }}
             >
               <p className="mb-3 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-white/60">
@@ -171,10 +223,22 @@ export function ImmersiveBreakout({ target, onClose }: ImmersiveBreakoutProps) {
               <p className="mt-4 text-[0.95rem] uppercase tracking-[0.22em] text-white/70 sm:text-base">
                 {target.panel.subtitle}
               </p>
-              <p className="mt-6 hidden text-xs uppercase tracking-[0.28em] text-white/40 md:block">
-                Esc · ⤓ swipe down · klik poza
-              </p>
             </motion.div>
+          </motion.div>
+
+          <motion.div
+            key="video-keys-breakout-scrubber"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 24 }}
+            transition={{
+              delay: prefersReducedMotion ? 0 : 0.3,
+              duration: prefersReducedMotion ? 0.15 : 0.45,
+              ease: [0.2, 0.8, 0.2, 1],
+            }}
+            className="fixed inset-x-0 bottom-0 z-[122] px-[6vw] pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-6"
+          >
+            <VideoScrubber src={target.panel.video} />
           </motion.div>
         </>
       ) : null}

@@ -2,7 +2,14 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { LayoutGroup } from "motion/react";
-import { AudioLines, ChevronLeft, ChevronRight, Clapperboard } from "lucide-react";
+import {
+  AudioLines,
+  ChevronLeft,
+  ChevronRight,
+  Clapperboard,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 
 import { HeroDesktop } from "./video-keys/HeroDesktop";
 import { HeroMobile } from "./video-keys/HeroMobile";
@@ -83,6 +90,8 @@ function ControlsRow({
   ariaLabelNext,
   mode,
   setMode,
+  soundOn,
+  onToggleSound,
 }: {
   onPrev: () => void;
   onNext: () => void;
@@ -90,6 +99,8 @@ function ControlsRow({
   ariaLabelNext: string;
   mode: ViewMode;
   setMode: (m: ViewMode) => void;
+  soundOn: boolean;
+  onToggleSound: () => void;
 }) {
   return (
     <div className="mx-auto mt-2 grid w-full max-w-[600px] grid-cols-[auto_1fr_auto] items-center gap-4 md:mt-4">
@@ -101,7 +112,26 @@ function ControlsRow({
       >
         <ChevronLeft className="h-7 w-7 md:h-8 md:w-8" strokeWidth={2.8} />
       </button>
-      <ModeToggleButtons mode={mode} setMode={setMode} />
+      <div className="flex items-center justify-center gap-3">
+        <ModeToggleButtons mode={mode} setMode={setMode} />
+        <button
+          type="button"
+          aria-label={soundOn ? "Wyłącz dźwięk" : "Włącz dźwięk"}
+          aria-pressed={soundOn}
+          onClick={onToggleSound}
+          className={`inline-flex h-14 w-14 items-center justify-center rounded-full transition ${
+            soundOn
+              ? "border border-primary bg-primary text-primary-foreground"
+              : "border border-border bg-card/30 text-muted-foreground hover:border-primary/50 hover:text-foreground"
+          }`}
+        >
+          {soundOn ? (
+            <Volume2 className="h-7 w-7" strokeWidth={2.3} aria-hidden />
+          ) : (
+            <VolumeX className="h-7 w-7" strokeWidth={2.3} aria-hidden />
+          )}
+        </button>
+      </div>
       <button
         type="button"
         aria-label={ariaLabelNext}
@@ -121,7 +151,7 @@ function VideoKeysContent() {
   const [breakoutIdx, setBreakoutIdx] = useState<number | null>(null);
 
   const multiTrackItems = useMemo(() => PANELS.slice(0, MULTI_TRACK_COUNT), []);
-  const { prefetch } = useVideoBuffer();
+  const { prefetch, soundOn, setSoundOn, setAudioFocus } = useVideoBuffer();
 
   const viewport = useViewport();
   const initedRef = useRef(false);
@@ -181,6 +211,14 @@ function VideoKeysContent() {
     ? "Następny materiał Multi-Track"
     : "Następny materiał Hero Story";
 
+  const activeSrc = isMulti
+    ? multiTrackItems[mod(activeIndex, multiTrackItems.length)].video
+    : PANELS[mod(heroStartIndex, PANELS.length)].video;
+
+  useEffect(() => {
+    setAudioFocus(activeSrc);
+  }, [activeSrc, setAudioFocus]);
+
   return (
     <section
       id="start"
@@ -237,6 +275,8 @@ function VideoKeysContent() {
           ariaLabelNext={ariaNext}
           mode={mode}
           setMode={setMode}
+          soundOn={soundOn}
+          onToggleSound={() => setSoundOn(!soundOn)}
         />
 
         <ImmersiveBreakout target={breakoutTarget} onClose={handleBreakoutClose} />

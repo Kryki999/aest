@@ -4,6 +4,7 @@ import { Fragment, useState, type CSSProperties, type TouchEvent } from "react";
 import { motion, useReducedMotion } from "motion/react";
 
 import { CanvasMirror } from "./CanvasMirror";
+import { PosterTile } from "./PosterTile";
 import {
   HERO_MOBILE_STAGGER_PAD_PX,
   HERO_MOBILE_STAGGER_PATTERN,
@@ -143,6 +144,15 @@ export function HeroMobile({
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
+      <PosterTile
+        src={activeHero.image}
+        alt={activeHero.title}
+        priority
+        objectPosition="center"
+        sizes="(min-width: 768px) 40vw, 100vw"
+        style={{ zIndex: 0 }}
+      />
+
       <CanvasMirror
         src={activeHero.video}
         objectPosition="50% center"

@@ -4,6 +4,7 @@ import { Fragment, type CSSProperties } from "react";
 import { motion, useReducedMotion } from "motion/react";
 
 import { CanvasMirror } from "./CanvasMirror";
+import { PosterTile } from "./PosterTile";
 import { mod, tileLayoutId, type Panel } from "./panels";
 
 type HeroDesktopProps = {
@@ -109,6 +110,14 @@ export function HeroDesktop({
       }}
     >
       <div className="relative h-full" style={{ contain: "layout" }}>
+        <PosterTile
+          src={activeHero.image}
+          alt={activeHero.title}
+          priority
+          objectPosition="center"
+          sizes="100vw"
+          style={{ zIndex: 0 }}
+        />
         <CanvasMirror
           src={activeHero.video}
           objectPosition="50% center"

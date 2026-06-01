@@ -216,3 +216,42 @@ a {
     scroll-behavior: smooth;
   }
 }
+
+/* Branded scrubber thumb for the fullscreen video player */
+.video-scrubber-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 2px solid var(--cinematic-accent);
+  box-shadow: 0 1px 6px rgb(0 0 0 / 0.55);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.video-scrubber-range:hover::-webkit-slider-thumb,
+.video-scrubber-range:active::-webkit-slider-thumb {
+  transform: scale(1.18);
+}
+
+.video-scrubber-range::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 2px solid var(--cinematic-accent);
+  box-shadow: 0 1px 6px rgb(0 0 0 / 0.55);
+  cursor: pointer;
+}
+
+.video-scrubber-range:focus-visible {
+  outline: none;
+}
+
+.video-scrubber-range:focus-visible::-webkit-slider-thumb {
+  box-shadow:
+    0 0 0 3px rgb(255 255 255 / 0.85),
+    0 1px 6px rgb(0 0 0 / 0.55);
+}

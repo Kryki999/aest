@@ -7,6 +7,7 @@ import {
   useEffect,
   useMemo,
   useRef,
+  useState,
   type ReactNode,
 } from "react";
 
@@ -42,11 +43,43 @@ type VideoBufferContextValue = {
     canvas: HTMLCanvasElement,
     objectPosition: string,
   ) => () => void;
+  /** Global sound toggle (default off). Unmutes the focused inline clip when on. */
+  soundOn: boolean;
+  setSoundOn: (value: boolean) => void;
+  /** Marks which inline source should receive audio when `soundOn` is true. */
+  setAudioFocus: (src: string | null) => void;
+  /** Fullscreen took over audio: unmute only this source (unless muted in fullscreen). */
+  enterFullscreenAudio: (src: string) => void;
+  /** Leave fullscreen audio: fall back to the global `soundOn`/focus rule. */
+  exitFullscreenAudio: () => void;
+  /** Whether the fullscreen player is currently muted. */
+  fullscreenMuted: boolean;
+  toggleFullscreenMute: () => void;
+  /** Direct access to the pooled element for a source (e.g. for a scrubber). */
+  getElement: (src: string) => HTMLVideoElement | null;
 };
 
 const VideoBufferContext = createContext<VideoBufferContextValue | null>(null);
 
 const LRU_LIMIT = 3;
+
+type FullscreenAudio = { src: string; muted: boolean } | null;
+
+/**
+ * Single source of truth for which pooled element should be audible.
+ * Returns the `muted` value that an element with `src` must have.
+ */
+function computeMuted(
+  src: string,
+  soundOn: boolean,
+  audioFocusSrc: string | null,
+  fullscreen: FullscreenAudio,
+): boolean {
+  if (fullscreen) {
+    return !(src === fullscreen.src && !fullscreen.muted);
+  }
+  return !(soundOn && src === audioFocusSrc);
+}
 
 function configureVideoElement(el: HTMLVideoElement, src: string): void {
   el.src = src;
@@ -129,6 +162,29 @@ function getCoverSourceRect(
 export function VideoBufferProvider({ children }: { children: ReactNode }) {
   const pool = useRef<Map<string, PoolEntry>>(new Map());
   const parkRef = useRef<HTMLDivElement | null>(null);
+
+  const [soundOn, setSoundOnState] = useState(false);
+  const [fullscreen, setFullscreen] = useState<FullscreenAudio>(null);
+  // Mirror the audio state into refs so acquire/subscribeMirror/prefetch can
+  // mute brand-new elements synchronously, before the next render commits.
+  const soundOnRef = useRef(false);
+  const audioFocusRef = useRef<string | null>(null);
+  const fullscreenRef = useRef<FullscreenAudio>(null);
+
+  const applyMuted = useCallback((src: string, el: HTMLVideoElement) => {
+    el.muted = computeMuted(
+      src,
+      soundOnRef.current,
+      audioFocusRef.current,
+      fullscreenRef.current,
+    );
+  }, []);
+
+  const syncAudio = useCallback(() => {
+    pool.current.forEach((entry, src) => {
+      applyMuted(src, entry.element);
+    });
+  }, [applyMuted]);
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -246,10 +302,11 @@ export function VideoBufferProvider({ children }: { children: ReactNode }) {
       if (entry.element.parentNode !== container) {
         container.appendChild(entry.element);
       }
+      applyMuted(src, entry.element);
       ensureSourcePlaying(entry);
       return entry.element;
     },
-    [ensureSourcePlaying],
+    [applyMuted, ensureSourcePlaying],
   );
 
   const release = useCallback(
@@ -293,6 +350,7 @@ export function VideoBufferProvider({ children }: { children: ReactNode }) {
       element.autoplay = false;
       element.removeAttribute("autoplay");
       element.preload = "metadata";
+      applyMuted(src, element);
       map.set(src, {
         element,
         parents: [],
@@ -302,7 +360,7 @@ export function VideoBufferProvider({ children }: { children: ReactNode }) {
       });
       evict();
     },
-    [evict],
+    [applyMuted, evict],
   );
 
   const subscribeMirror = useCallback(
@@ -324,6 +382,7 @@ export function VideoBufferProvider({ children }: { children: ReactNode }) {
       entry.lastTouched = Date.now();
 
       parkSourceIfOrphan(entry);
+      applyMuted(src, entry.element);
       ensureSourcePlaying(entry);
       startRAF(entry);
 
@@ -344,8 +403,55 @@ export function VideoBufferProvider({ children }: { children: ReactNode }) {
         }
       };
     },
-    [ensureSourcePlaying, evict, parkSourceIfOrphan, startRAF, stopRAF],
+    [applyMuted, ensureSourcePlaying, evict, parkSourceIfOrphan, startRAF, stopRAF],
   );
+
+  const setSoundOn = useCallback(
+    (value: boolean) => {
+      soundOnRef.current = value;
+      setSoundOnState(value);
+      syncAudio();
+    },
+    [syncAudio],
+  );
+
+  const setAudioFocus = useCallback(
+    (src: string | null) => {
+      if (audioFocusRef.current === src) return;
+      audioFocusRef.current = src;
+      syncAudio();
+    },
+    [syncAudio],
+  );
+
+  const enterFullscreenAudio = useCallback(
+    (src: string) => {
+      const next = { src, muted: false };
+      fullscreenRef.current = next;
+      setFullscreen(next);
+      syncAudio();
+    },
+    [syncAudio],
+  );
+
+  const exitFullscreenAudio = useCallback(() => {
+    fullscreenRef.current = null;
+    setFullscreen(null);
+    syncAudio();
+  }, [syncAudio]);
+
+  const toggleFullscreenMute = useCallback(() => {
+    const current = fullscreenRef.current;
+    if (!current) return;
+    const next = { src: current.src, muted: !current.muted };
+    fullscreenRef.current = next;
+    setFullscreen(next);
+    syncAudio();
+  }, [syncAudio]);
+
+  const getElement = useCallback((src: string) => {
+    return pool.current.get(src)?.element ?? null;
+  }, []);
 
   useEffect(() => {
     const snapshot = pool.current;
@@ -356,8 +462,34 @@ export function VideoBufferProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo<VideoBufferContextValue>(
-    () => ({ acquire, release, prefetch, subscribeMirror }),
-    [acquire, release, prefetch, subscribeMirror],
+    () => ({
+      acquire,
+      release,
+      prefetch,
+      subscribeMirror,
+      soundOn,
+      setSoundOn,
+      setAudioFocus,
+      enterFullscreenAudio,
+      exitFullscreenAudio,
+      fullscreenMuted: fullscreen?.muted ?? false,
+      toggleFullscreenMute,
+      getElement,
+    }),
+    [
+      acquire,
+      release,
+      prefetch,
+      subscribeMirror,
+      soundOn,
+      setSoundOn,
+      setAudioFocus,
+      enterFullscreenAudio,
+      exitFullscreenAudio,
+      fullscreen,
+      toggleFullscreenMute,
+      getElement,
+    ],
   );
 
   return (
