@@ -35,37 +35,37 @@ const LOGO_ITEMS = [
 
 const SERVICES_DATA = [
   {
-    icon: "/3dicons-play-front-color.png",
+    icon: "/3dicons-play-front-clay.png",
     title: "Produkcja Wideo",
     description:
       "Tworzymy filmy, które definiują markę na nowo. Od pierwszego ujęcia po kinowy finał – budujemy historie, obok których nie da się przejść obojętnie.",
   },
   {
-    icon: "/3dicons-camera-front-color.png",
+    icon: "/3dicons-camera-front-clay.png",
     title: "Sesje Zdjęciowe",
     description:
       "Zatrzymujemy to, co najważniejsze w perfekcyjnych kadrach. Projektujemy sesje, które emanują prestiżem i przyciągają wzrok od pierwszej sekundy.",
   },
   {
-    icon: "/3dicons-music-front-color.png",
+    icon: "/3dicons-music-front-clay.png",
     title: "Teledyski / Klipy Muzyczne",
     description:
       "Przekładamy energię dźwięku na potężny obraz. Tworzymy klipy, które rezonują z publicznością i budują wizerunek artysty.",
   },
   {
-    icon: "/3dicons-money-front-color.png",
+    icon: "/3dicons-wallet-front-clay.png",
     title: "MATERIAŁY PROMOCYJNE",
     description:
       "Krótkie formy o potężnym uderzeniu. Dostarczamy nowoczesny, dynamiczny content, który błyskawicznie chwyta uwagę.",
   },
   {
-    icon: "/3dicons-setting-front-color.png",
+    icon: "/3dicons-setting-front-clay.png",
     title: "Postprodukcja / Montaż",
     description:
       "Nadajemy surowym nagraniom ostateczny, bezbłędny szlif. Perfekcyjny color grading i dynamika cięć.",
   },
   {
-    icon: "/3dicons-rocket-dynamic-color.png",
+    icon: "/3dicons-rocket-front-clay.png",
     title: "Kampanie Wizualne",
     description:
       "Dostarczamy pełne, spójne pakiety wizualne – wideo, zdjęcia i formaty pionowe – które natychmiast podnoszą status Twojej marki.",

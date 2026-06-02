@@ -13,7 +13,7 @@ const KIND_OPTIONS = [
   { id: "promo-video", label: "Wideo promocyjne" },
   { id: "photo-session", label: "Sesja zdjęciowa" },
   { id: "montaz", label: "Montaż" },
-  { id: "other", label: "Inny epicki pomysł" },
+  { id: "other", label: "Inny pomysł" },
 ] as const;
 
 type KindId = (typeof KIND_OPTIONS)[number]["id"];

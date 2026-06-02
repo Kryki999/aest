@@ -19,11 +19,7 @@ const GAP_PX = 8;
 const CURTAIN_BG = "var(--background)";
 const TILE_TINT = "rgba(12, 10, 9, 0)";
 
-/**
- * Tailwind v4 spacing-5 = 1.25rem ≈ 20px. We map the panel shiftClass to
- * pixel deltas so we can compose the curtain (fillers) and the window
- * (the article element with the shift transform) precisely.
- */
+/** Tailwind v4 spacing-5 = 1.25rem ≈ 20px. */
 function shiftPxFromClass(cls: string): number {
   if (cls === "-translate-y-5") return -20;
   if (cls === "translate-y-5") return 20;
@@ -34,31 +30,45 @@ const FILLER_BASE: CSSProperties = {
   position: "absolute",
   insetInline: 0,
   backgroundColor: CURTAIN_BG,
-  zIndex: 1,
+  zIndex: 3,
 };
 
-function TileWindowColumn({ shiftClass }: { shiftClass: string }) {
+function TileWindowColumn({
+  shiftClass,
+  onBreakout,
+  ariaLabel,
+}: {
+  shiftClass: string;
+  onBreakout: () => void;
+  ariaLabel: string;
+}) {
   const shiftPx = shiftPxFromClass(shiftClass);
-  const topFiller = shiftPx > 0 ? shiftPx : 0;
-  const bottomFiller = shiftPx < 0 ? -shiftPx : 0;
+  const topPad = shiftPx > 0 ? shiftPx : 0;
+  const bottomPad = shiftPx < 0 ? -shiftPx : 0;
   return (
-    <div className="relative h-full flex-1" style={{ zIndex: 1 }}>
-      {topFiller > 0 ? (
-        <div aria-hidden style={{ ...FILLER_BASE, top: 0, height: topFiller }} />
+    <div className="relative h-full flex-1 overflow-hidden" style={{ zIndex: 1 }}>
+      {topPad > 0 ? (
+        <div aria-hidden style={{ ...FILLER_BASE, top: 0, height: topPad }} />
       ) : null}
-      {bottomFiller > 0 ? (
+      {bottomPad > 0 ? (
         <div
           aria-hidden
-          style={{ ...FILLER_BASE, bottom: 0, height: bottomFiller }}
+          style={{ ...FILLER_BASE, bottom: 0, height: bottomPad }}
         />
       ) : null}
       <article
-        className={`absolute inset-0 overflow-hidden ${shiftClass}`}
-        style={{
-          zIndex: 2,
-          willChange: "transform",
-          transform: "translateZ(0)",
+        className="absolute inset-x-0 cursor-pointer overflow-clip outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        style={{ top: topPad, bottom: bottomPad, zIndex: 2 }}
+        onClick={onBreakout}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            onBreakout();
+          }
         }}
+        role="button"
+        tabIndex={0}
+        aria-label={ariaLabel}
       >
         <div
           aria-hidden
@@ -78,7 +88,7 @@ function GapFiller() {
         flex: `0 0 ${GAP_PX}px`,
         height: "100%",
         backgroundColor: CURTAIN_BG,
-        zIndex: 1,
+        zIndex: 3,
       }}
     />
   );
@@ -92,6 +102,8 @@ export function HeroDesktop({
   const prefersReducedMotion = useReducedMotion();
   const activeIndex = mod(heroStartIndex, panels.length);
   const activeHero = panels[activeIndex];
+  const breakoutLabel = `${activeHero.title} – ${activeHero.subtitle}`;
+  const openBreakout = () => onBreakout(activeIndex);
 
   const leftTiles = Array.from({ length: LEFT_TILE_COUNT }, (_, idx) => ({
     panel: panels[mod(heroStartIndex + idx, panels.length)],
@@ -110,19 +122,19 @@ export function HeroDesktop({
       }}
     >
       <div className="relative h-full" style={{ contain: "layout" }}>
-        <PosterTile
-          src={activeHero.image}
-          alt={activeHero.title}
-          priority
-          objectPosition="center"
-          sizes="100vw"
-          style={{ zIndex: 0 }}
-        />
-        <CanvasMirror
-          src={activeHero.video}
-          objectPosition="50% center"
-          style={{ zIndex: 0 }}
-        />
+        <div
+          className="absolute inset-0 overflow-clip"
+          style={{ zIndex: 0, isolation: "isolate" }}
+        >
+          <PosterTile
+            src={activeHero.image}
+            alt={activeHero.title}
+            priority
+            objectPosition="center"
+            sizes="100vw"
+          />
+          <CanvasMirror src={activeHero.video} objectPosition="50% center" />
+        </div>
 
         <div
           className="absolute inset-0 flex items-stretch"
@@ -131,7 +143,11 @@ export function HeroDesktop({
           {leftTiles.map(({ panel, idx }) => (
             <Fragment key={`hero-left-${idx}-${panel.title}`}>
               {idx > 0 ? <GapFiller /> : null}
-              <TileWindowColumn shiftClass={panel.shiftClass} />
+              <TileWindowColumn
+                shiftClass={panel.shiftClass}
+                onBreakout={openBreakout}
+                ariaLabel={breakoutLabel}
+              />
             </Fragment>
           ))}
 
@@ -140,16 +156,16 @@ export function HeroDesktop({
           <motion.article
             key={`hero-desktop-surface-${activeIndex}`}
             layoutId={tileLayoutId(activeIndex)}
-            onClick={() => onBreakout(activeIndex)}
+            onClick={openBreakout}
             onKeyDown={(event) => {
               if (event.key === "Enter" || event.key === " ") {
                 event.preventDefault();
-                onBreakout(activeIndex);
+                openBreakout();
               }
             }}
             role="button"
             tabIndex={0}
-            aria-label={`${activeHero.title} – ${activeHero.subtitle}`}
+            aria-label={breakoutLabel}
             transition={
               prefersReducedMotion
                 ? { duration: 0 }
@@ -174,7 +190,11 @@ export function HeroDesktop({
 
           <GapFiller />
 
-          <TileWindowColumn shiftClass={rightPanel.shiftClass} />
+          <TileWindowColumn
+            shiftClass={rightPanel.shiftClass}
+            onBreakout={openBreakout}
+            ariaLabel={breakoutLabel}
+          />
         </div>
       </div>
     </div>

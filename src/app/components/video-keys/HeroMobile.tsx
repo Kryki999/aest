@@ -31,30 +31,26 @@ const FILLER_BASE: CSSProperties = {
   position: "absolute",
   insetInline: 0,
   backgroundColor: CURTAIN_BG,
-  zIndex: 1,
+  zIndex: 3,
 };
 
 function MobileTileColumn({ offsetY }: { offsetY: number }) {
-  const topFiller = offsetY > 0 ? offsetY : 0;
-  const bottomFiller = offsetY < 0 ? -offsetY : 0;
+  const topPad = offsetY > 0 ? offsetY : 0;
+  const bottomPad = offsetY < 0 ? -offsetY : 0;
   return (
-    <div className="relative h-full flex-1" style={{ zIndex: 1 }}>
-      {topFiller > 0 ? (
-        <div aria-hidden style={{ ...FILLER_BASE, top: 0, height: topFiller }} />
+    <div className="relative h-full flex-1 overflow-hidden" style={{ zIndex: 1 }}>
+      {topPad > 0 ? (
+        <div aria-hidden style={{ ...FILLER_BASE, top: 0, height: topPad }} />
       ) : null}
-      {bottomFiller > 0 ? (
+      {bottomPad > 0 ? (
         <div
           aria-hidden
-          style={{ ...FILLER_BASE, bottom: 0, height: bottomFiller }}
+          style={{ ...FILLER_BASE, bottom: 0, height: bottomPad }}
         />
       ) : null}
       <article
-        className="absolute inset-0 overflow-hidden"
-        style={{
-          zIndex: 2,
-          transform: `translateY(${offsetY}px) translateZ(0)`,
-          willChange: "transform",
-        }}
+        className="pointer-events-none absolute inset-x-0 overflow-clip"
+        style={{ top: topPad, bottom: bottomPad, zIndex: 2 }}
       >
         <div
           aria-hidden
@@ -74,7 +70,7 @@ function MobileGapFiller() {
         flex: `0 0 ${GAP_PX}px`,
         height: "100%",
         backgroundColor: CURTAIN_BG,
-        zIndex: 1,
+        zIndex: 3,
       }}
     />
   );
@@ -144,20 +140,19 @@ export function HeroMobile({
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
-      <PosterTile
-        src={activeHero.image}
-        alt={activeHero.title}
-        priority
-        objectPosition="center"
-        sizes="(min-width: 768px) 40vw, 100vw"
-        style={{ zIndex: 0 }}
-      />
-
-      <CanvasMirror
-        src={activeHero.video}
-        objectPosition="50% center"
-        style={{ zIndex: 0 }}
-      />
+      <div
+        className="absolute inset-0 overflow-clip"
+        style={{ zIndex: 0, isolation: "isolate" }}
+      >
+        <PosterTile
+          src={activeHero.image}
+          alt={activeHero.title}
+          priority
+          objectPosition="center"
+          sizes="(min-width: 768px) 40vw, 100vw"
+        />
+        <CanvasMirror src={activeHero.video} objectPosition="50% center" />
+      </div>
 
       <div
         aria-hidden
@@ -165,9 +160,9 @@ export function HeroMobile({
           position: "absolute",
           insetInline: 0,
           top: 0,
-          height: HERO_MOBILE_STAGGER_PAD_PX,
+          height: HERO_MOBILE_STAGGER_PAD_PX + 1,
           backgroundColor: CURTAIN_BG,
-          zIndex: 1,
+          zIndex: 3,
         }}
       />
       <div
@@ -176,9 +171,9 @@ export function HeroMobile({
           position: "absolute",
           insetInline: 0,
           bottom: 0,
-          height: HERO_MOBILE_STAGGER_PAD_PX,
+          height: HERO_MOBILE_STAGGER_PAD_PX + 1,
           backgroundColor: CURTAIN_BG,
-          zIndex: 1,
+          zIndex: 3,
         }}
       />
 

@@ -8,7 +8,7 @@ const KIND_LABELS: Record<string, string> = {
   "promo-video": "Wideo promocyjne",
   "photo-session": "Sesja zdjęciowa",
   montaz: "Montaż",
-  other: "Inny epicki pomysł",
+  other: "Inny pomysł",
 };
 
 function escapeHtml(s: string) {

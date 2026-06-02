@@ -1,4 +1,11 @@
-const TAGS = ["ARTISTS & MUSIC", "BRANDS & BUSINESS"] as const;
+const TAGS = [
+  "RAP & UNDERGROUND",
+  "POP & MAINSTREAM",
+  "MARKI PREMIUM",
+  "KAMPANIE WIZERUNKOWE",
+  "FASHION & BEAUTY",
+  "B2B & EVENTY",
+] as const;
 
 export default function VersatilityShowcase() {
   return (
@@ -56,17 +63,18 @@ export default function VersatilityShowcase() {
       <div className="relative z-10 mx-auto max-w-5xl px-6 text-center md:px-10">
         <h2
           id="versatility-heading"
-          className="font-heading text-balance text-[clamp(2.2rem,5vw,4rem)] font-semibold leading-[1.02] tracking-tight text-foreground"
+          className="font-heading text-balance text-[clamp(2.2rem,5vw,4rem)] font-semibold leading-[1.02] tracking-tight"
         >
-          Pełne spektrum kreacji.
+          <span className="bg-gradient-to-r from-white via-[var(--cinematic-accent)] to-[var(--cinematic-accent-neon)] bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(225,29,72,0.35)]">
+            Czujemy każdy klimat.
+          </span>
         </h2>
 
-        <p className="mx-auto mt-6 max-w-[68ch] text-pretty text-sm leading-relaxed text-muted-foreground md:mt-8 md:text-base lg:text-lg lg:leading-relaxed">
-          Od surowych, ulicznych obrazków dla Fabijańskiego czy ZBUKU, przez
-          bangerowe hity dla Skolima i Cleo, aż po kinowe materiały i kampanie
-          dla marek oraz agencji. Przekładamy teledyskowy rozmach na świat
-          biznesu premium. Ta sama bezkompromisowa jakość, dopasowana w 100% do
-          Twoich potrzeb.
+        <p className="mx-auto mt-6 max-w-[68ch] text-pretty text-sm leading-relaxed text-white/92 md:mt-8 md:text-base md:leading-relaxed lg:text-lg">
+          Działamy bez ograniczeń. Od podziemia, przez mainstream, aż po kampanie
+          dla marek premium. Przekładamy teledyskową dynamikę na świat biznesu.
+          Nie narzucamy swoich schematów – po prostu wchodzimy w Twoją wizję i
+          dowozimy kinową jakość.
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4 md:mt-12 md:gap-6">

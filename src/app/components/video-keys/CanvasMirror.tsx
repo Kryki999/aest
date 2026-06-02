@@ -26,28 +26,28 @@ export function CanvasMirror({
   const { subscribeMirror, getElement } = useVideoBuffer();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  // Hide the canvas the moment the source changes (synchronously, before the
-  // browser paints) so the frozen frame from the previous clip is never shown.
-  // The poster behind becomes visible until the new source has a real frame.
+  // Wipe the pixel buffer and hide the canvas the moment the source changes
+  // (synchronously, before paint) so the poster behind stays visible until the
+  // new source has a real frame.
   useLayoutEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    canvas.style.opacity = "0";
+    canvas.style.visibility = "hidden";
+    const ctx = canvas.getContext("2d");
+    ctx?.clearRect(0, 0, canvas.width, canvas.height);
   }, [src]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    canvas.style.transition = "opacity 280ms ease";
     const unsubscribe = subscribeMirror(src, canvas, objectPosition);
 
-    // Reveal the canvas only once the NEW source can actually draw a frame, so
-    // we cross-fade from the new poster to live video instead of a stale frame.
+    // Reveal only once the NEW source can actually draw a frame.
     let rafId = requestAnimationFrame(function check() {
       const el = getElement(src);
       if (el && el.readyState >= 2 && el.videoWidth > 0) {
-        canvas.style.opacity = "1";
+        canvas.style.visibility = "visible";
         return;
       }
       rafId = requestAnimationFrame(check);
@@ -70,8 +70,6 @@ export function CanvasMirror({
         width: "100%",
         height: "100%",
         display: "block",
-        willChange: "transform",
-        transform: "translateZ(0)",
         ...style,
       }}
     />
