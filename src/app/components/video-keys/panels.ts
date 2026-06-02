@@ -42,6 +42,33 @@ export const PANELS: Panel[] = [
     video: "https://stream.mux.com/hYMbdGGUQP8XU31Hr63Aha5lBjrAfSswz9txpfGmlRI.m3u8",
     shiftClass: "-translate-y-5",
   },
+  {
+    title: "HELLFIELD, MALIK MONTANA - Wartość Akcji",
+    subtitle: "Klip Muzyczny",
+    image:
+      "https://image.mux.com/dqLeQLJrrlnRDyXIUN9bOP1EUZunzMZqxIaRcDG021v4/thumbnail.jpg",
+    video:
+      "https://stream.mux.com/dqLeQLJrrlnRDyXIUN9bOP1EUZunzMZqxIaRcDG021v4.m3u8",
+    shiftClass: "translate-y-5",
+  },
+  {
+    title: "HELLFIELD, SENTINO - Mallorca",
+    subtitle: "Klip Muzyczny",
+    image:
+      "https://image.mux.com/Bj4WF2XBUzG029SvPYNaFizrdZewa00ziC34mcdx1R8sE/thumbnail.jpg",
+    video:
+      "https://stream.mux.com/Bj4WF2XBUzG029SvPYNaFizrdZewa00ziC34mcdx1R8sE.m3u8",
+    shiftClass: "translate-y-0",
+  },
+  {
+    title: "SKOLIM & Blanka - NIEWINNA",
+    subtitle: "Klip Muzyczny",
+    image:
+      "https://image.mux.com/2G4uehW00zYbtN3xm8T0000GramJQMvpgcHPbOqKCwhxlk/thumbnail.jpg",
+    video:
+      "https://stream.mux.com/2G4uehW00zYbtN3xm8T0000GramJQMvpgcHPbOqKCwhxlk.m3u8",
+    shiftClass: "-translate-y-5",
+  },
 ];
 
 export const MULTI_TRACK_COUNT = PANELS.length;

@@ -245,9 +245,6 @@ export function ImmersiveBreakout({
               className="absolute inset-x-0 bottom-0 z-[2] px-[6vw] pb-[max(6.5rem,calc(env(safe-area-inset-bottom)+5.5rem))] pt-10 text-foreground"
               style={{ willChange: "transform" }}
             >
-              <p className="mb-3 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-white/60">
-                Hero Story
-              </p>
               <h2
                 className="font-heading text-balance text-[clamp(2.6rem,6vw,5.4rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-white"
               >

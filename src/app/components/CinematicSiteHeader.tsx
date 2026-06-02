@@ -10,9 +10,11 @@ import {
   useTransform,
 } from "motion/react";
 import { Bell, Mail, Menu, X } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
 
 import { NAV_LINKS } from "../nav-links";
+import { scrollToSection, syncLocationHash } from "../nav-scroll";
+import { lockPageScroll } from "../scroll-lock";
 import { useConfigurator } from "./configurator-shared";
 import NewsfeedDrawer from "./NewsfeedDrawer";
 import { CINEMATIC_EASE, menuCurtainTransition } from "./nav-motion";
@@ -140,13 +142,9 @@ export default function CinematicSiteHeader() {
   }, []);
 
   useEffect(() => {
-    if (!menuOpen && !newsfeedOpen && !configuratorOpen) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [menuOpen, newsfeedOpen, configuratorOpen]);
+    if (!overlayOpen) return;
+    return lockPageScroll();
+  }, [overlayOpen]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -190,25 +188,49 @@ export default function CinematicSiteHeader() {
     openConfigurator();
   }, [closeMenu, closeNewsfeed, openConfigurator]);
 
+  const handleNavClick = useCallback(
+    (e: MouseEvent<HTMLAnchorElement>, href: string) => {
+      e.preventDefault();
+      closeMenu();
+      window.requestAnimationFrame(() => {
+        scrollToSection(href);
+        syncLocationHash(href);
+      });
+    },
+    [closeMenu],
+  );
+
   return (
     <>
       <AnimatePresence>
         {menuOpen ? (
-          <motion.div
-            key="menu-curtain"
-            id={MENU_PANEL_ID}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Primary navigation"
-            initial={{ clipPath: "inset(0 0 100% 0)" }}
-            animate={{ clipPath: "inset(0 0 0% 0)" }}
-            exit={{ clipPath: "inset(0 0 100% 0)" }}
-            transition={menuCurtainTransition}
-            className="fixed left-0 right-0 top-0 z-[90] flex h-[100dvh] min-h-0 flex-col overflow-hidden bg-[var(--cinematic-base)] md:h-[min(640px,68vh)] md:rounded-b-[1.25rem] md:border-b md:border-white/[0.06] md:shadow-[0_28px_90px_rgba(0,0,0,0.55)]"
-          >
+          <>
+            <motion.div
+              key="menu-backdrop"
+              role="presentation"
+              aria-hidden
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35, ease: menuCurtainTransition.ease }}
+              className="fixed inset-0 z-[85] hidden bg-[var(--cinematic-base)]/45 backdrop-blur-md md:block"
+              onClick={closeMenu}
+            />
+            <motion.div
+              key="menu-curtain"
+              id={MENU_PANEL_ID}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Menu główne"
+              initial={{ clipPath: "inset(0 0 100% 0)" }}
+              animate={{ clipPath: "inset(0 0 0% 0)" }}
+              exit={{ clipPath: "inset(0 0 100% 0)" }}
+              transition={menuCurtainTransition}
+              className="fixed left-0 right-0 top-0 z-[90] flex h-[100dvh] min-h-0 flex-col overflow-hidden bg-[var(--cinematic-base)] md:h-[min(640px,68vh)] md:rounded-b-[1.25rem] md:border-b md:border-white/[0.06] md:shadow-[0_28px_90px_rgba(0,0,0,0.55)]"
+            >
             <div className="flex h-full flex-col px-[6vw] pb-16 pt-[calc(var(--site-header-h,7rem)+1.25rem)] md:pb-14 md:pt-[calc(var(--site-header-h,5rem)+2rem)]">
               <nav
-                aria-label="Primary"
+                aria-label="Nawigacja"
                 className="flex flex-1 flex-col items-center justify-center"
               >
                 <motion.ul
@@ -223,7 +245,7 @@ export default function CinematicSiteHeader() {
                         href={href}
                         ref={i === 0 ? firstMenuLinkRef : undefined}
                         className="block rounded-md text-center text-[2.4rem] font-medium tracking-tight text-foreground outline-none transition-colors hover:text-primary focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--cinematic-base)] md:text-[clamp(1.5rem,2.4vw,2.05rem)]"
-                        onClick={closeMenu}
+                        onClick={(e) => handleNavClick(e, href)}
                       >
                         {label}
                       </Link>
@@ -232,7 +254,8 @@ export default function CinematicSiteHeader() {
                 </motion.ul>
               </nav>
             </div>
-          </motion.div>
+            </motion.div>
+          </>
         ) : null}
       </AnimatePresence>
 
@@ -266,7 +289,7 @@ export default function CinematicSiteHeader() {
         <div className="relative mx-auto flex w-full max-w-[1600px] items-center justify-between gap-2 md:gap-3">
           <button
             type="button"
-            aria-label="Open newsfeed"
+            aria-label="Otwórz aktualności"
             aria-expanded={newsfeedOpen}
             aria-controls={NEWSFEED_PANEL_ID}
             disabled={bellUnreachableUnderDrawer}
@@ -282,7 +305,7 @@ export default function CinematicSiteHeader() {
           <Link
             href="/"
             scroll
-            aria-label="Go to homepage"
+            aria-label="Przejdź na stronę główną"
             className="font-heading whitespace-nowrap text-center text-3xl italic lowercase leading-none tracking-tight text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent sm:text-4xl md:text-5xl"
             onClick={handleBrandClick}
           >
@@ -304,7 +327,7 @@ export default function CinematicSiteHeader() {
             </button>
             <button
               type="button"
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-label={menuOpen ? "Zamknij menu" : "Otwórz menu"}
               aria-expanded={menuOpen}
               aria-controls={MENU_PANEL_ID}
               className="flex size-10 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent md:size-12"

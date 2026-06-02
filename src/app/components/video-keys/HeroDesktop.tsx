@@ -171,7 +171,7 @@ export function HeroDesktop({
                 ? { duration: 0 }
                 : { type: "spring", stiffness: 240, damping: 32 }
             }
-            className="relative flex h-full w-[14vw] min-w-[130px] max-w-[190px] cursor-pointer flex-col items-center justify-center border border-border bg-card/95 px-3 text-center outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="relative flex h-full w-[14vw] min-w-[130px] max-w-[190px] cursor-pointer flex-col items-center justify-center overflow-hidden border border-border bg-card/95 px-2 text-center outline-none focus-visible:ring-2 focus-visible:ring-primary"
             style={{
               zIndex: 2,
               willChange: "transform",
@@ -179,12 +179,9 @@ export function HeroDesktop({
             }}
           >
             <p
-              className="font-heading vertical-title text-[44px] leading-none text-foreground md:text-[52px]"
+              className="font-heading vertical-title max-h-[90%] shrink overflow-hidden text-[clamp(26px,2.2vw,36px)] leading-[0.95] text-foreground"
             >
               {activeHero.title}
-            </p>
-            <p className="mt-5 text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-              Hero Story
             </p>
           </motion.article>
 

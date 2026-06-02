@@ -123,7 +123,7 @@ export default function SlideInConfigurator() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35, ease: drawerSlideTransition.ease }}
-            className="fixed inset-0 z-[115] bg-[var(--cinematic-base)]/55"
+            className="fixed inset-0 z-[115] bg-[var(--cinematic-base)]/55 backdrop-blur-sm md:backdrop-blur-md"
             onClick={close}
           />
           <motion.aside
@@ -164,7 +164,10 @@ export default function SlideInConfigurator() {
             </div>
 
             <div className="relative flex min-h-0 w-full flex-1 flex-col bg-[var(--cinematic-base)] md:w-1/2">
-              <div className="relative min-h-0 flex-1 overflow-y-auto px-5 pb-12 pt-14 md:px-9 md:pb-14 md:pt-16">
+              <div
+                data-scroll-lock-scrollable
+                className="relative min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-12 pt-14 md:px-9 md:pb-14 md:pt-16"
+              >
                 <CinematicDrawerConfigurator
                   onStepChange={setWizardStep}
                   keyboardBottomInset={keyboardBottomInset}

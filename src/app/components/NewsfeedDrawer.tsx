@@ -4,10 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { AnimatePresence, motion } from "motion/react";
-import { X } from "lucide-react";
+import { ArrowRight, X } from "lucide-react";
 import type { RefObject } from "react";
 
-import { DISPATCH_ITEMS } from "../newsfeed-data";
+import { DISPATCH_ITEMS, getDispatchHref } from "../newsfeed-data";
 import { SOCIAL_LINKS } from "../social-links";
 import { drawerSlideTransition } from "./nav-motion";
 
@@ -61,7 +61,7 @@ export default function NewsfeedDrawer({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35, ease: drawerSlideTransition.ease }}
-            className="fixed inset-0 z-[105] bg-[var(--cinematic-base)]/60"
+            className="fixed inset-0 z-[105] bg-[var(--cinematic-base)]/55 backdrop-blur-sm md:backdrop-blur-md"
             onClick={onClose}
           />
           <motion.aside
@@ -69,7 +69,7 @@ export default function NewsfeedDrawer({
             id={drawerId}
             role="dialog"
             aria-modal="true"
-            aria-label="Latest dispatches and studio news"
+            aria-label="Najnowsze wpisy i wiadomości ze studia"
             initial={{ x: "-100%" }}
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
@@ -80,20 +80,22 @@ export default function NewsfeedDrawer({
               <button
                 ref={closeButtonRef}
                 type="button"
-                aria-label="Close newsfeed"
+                aria-label="Zamknij aktualności"
                 className="relative z-[2] rounded-md p-2 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--cinematic-surface)]"
                 onClick={onClose}
               >
                 <X className="size-5 shrink-0" strokeWidth={1.5} aria-hidden />
               </button>
               <nav
-                aria-label="Social links"
+                aria-label="Linki społecznościowe"
                 className="relative z-[2] flex flex-col items-center gap-5 pb-2"
               >
                 {SOCIAL_LINKS.map(({ href, label, icon }) => (
                   <Link
                     key={label}
                     href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     aria-label={label}
                     className="rounded-md outline-none focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--cinematic-surface)]"
                   >
@@ -103,7 +105,10 @@ export default function NewsfeedDrawer({
               </nav>
             </div>
 
-            <div className="newsfeed-scrollbar relative z-[1] flex min-w-0 flex-1 overflow-y-auto bg-[var(--cinematic-surface)]">
+            <div
+              data-scroll-lock-scrollable
+              className="newsfeed-scrollbar relative z-[1] flex min-w-0 flex-1 overflow-y-auto overscroll-contain bg-[var(--cinematic-surface)]"
+            >
               <motion.div
                 className="flex w-full flex-col gap-10 px-5 py-7 pb-14 md:gap-11 md:px-7 md:py-8 md:pb-16"
                 variants={containerVariants}
@@ -114,22 +119,23 @@ export default function NewsfeedDrawer({
                   <h2
                     className="font-heading text-xl font-semibold tracking-tight text-foreground md:text-2xl"
                   >
-                    Latest Dispatches
+                    Najnowsze wpisy
                   </h2>
                   <p className="mt-2 max-w-prose text-sm leading-relaxed text-muted-foreground">
-                    Notes from the studio — shoots, grade, and sound.
+                    Notatki ze studia — plany zdjęciowe, grading i dźwięk.
                   </p>
                 </motion.div>
 
                 <div className="flex flex-col gap-9 md:gap-10">
                   {DISPATCH_ITEMS.map((item) => (
                     <motion.article
-                      key={item.title}
+                      key={item.slug}
                       variants={itemVariants}
                       className="overflow-hidden rounded-xl border border-border/50 bg-[rgb(24_24_27_/0.55)] shadow-[0_1px_0_rgb(255_255_255_/0.04)_inset]"
                     >
                       <Link
-                        href={item.href}
+                        href={getDispatchHref(item.slug, "home")}
+                        onClick={onClose}
                         className="group block outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--cinematic-surface)]"
                       >
                         <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
@@ -172,6 +178,30 @@ export default function NewsfeedDrawer({
                     </motion.article>
                   ))}
                 </div>
+
+                <motion.div variants={itemVariants}>
+                  <Link
+                    href="/aktualnosci"
+                    onClick={onClose}
+                    className="group flex items-center justify-between gap-4 rounded-xl border border-dashed border-white/12 bg-[rgb(24_24_27_/0.35)] px-5 py-5 outline-none transition-[border-color,background-color] hover:border-[var(--cinematic-accent)]/45 hover:bg-[rgb(24_24_27_/0.55)] focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--cinematic-surface)] md:px-6 md:py-6"
+                  >
+                    <div>
+                      <p className="font-heading text-lg font-semibold tracking-tight text-foreground transition-colors group-hover:text-[var(--cinematic-accent)] md:text-xl">
+                        Wszystkie wpisy
+                      </p>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        Pełna lista wpisów ze studia
+                      </p>
+                    </div>
+                    <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-white/10 transition-colors group-hover:border-[var(--cinematic-accent)]/45">
+                      <ArrowRight
+                        className="size-4 text-foreground transition-transform duration-300 group-hover:translate-x-0.5"
+                        strokeWidth={1.5}
+                        aria-hidden
+                      />
+                    </span>
+                  </Link>
+                </motion.div>
               </motion.div>
             </div>
           </motion.aside>

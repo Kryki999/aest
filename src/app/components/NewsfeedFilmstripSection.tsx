@@ -7,7 +7,7 @@ import { useEffect, useId, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
-import { DISPATCH_ITEMS, type DispatchItem } from "../newsfeed-data";
+import { DISPATCH_ITEMS, getDispatchHref, type DispatchItem } from "../newsfeed-data";
 
 const MOBILE_CARD_WIDTH_CLS = "w-[78vw] max-w-[300px] sm:w-[72vw] sm:max-w-[330px]";
 
@@ -16,7 +16,7 @@ const CARD_ASPECT = "aspect-[3/4]";
 function ArticleCard({ item }: { item: DispatchItem }) {
   return (
     <Link
-      href={item.href}
+      href={getDispatchHref(item.slug, "home")}
       className={cn(
         "group relative block w-full overflow-hidden rounded-2xl border border-border/45",
         CARD_ASPECT,
@@ -58,8 +58,8 @@ function ArticleCard({ item }: { item: DispatchItem }) {
 
 function PortalCard() {
   return (
-    <a
-      href="#studio-newsletter"
+    <Link
+      href="/aktualnosci"
       className={cn(
         "group relative flex w-full flex-col items-center justify-center overflow-hidden rounded-2xl border border-dashed border-white/12 bg-[var(--cinematic-base)] text-center",
         CARD_ASPECT,
@@ -80,7 +80,7 @@ function PortalCard() {
       >
         Odkryj wszystkie historie
       </h3>
-    </a>
+    </Link>
   );
 }
 
@@ -233,7 +233,7 @@ export default function NewsfeedFilmstripSection() {
       <div className="hidden px-[6vw] md:block">
         <ul className="grid grid-cols-4 gap-6 lg:gap-7">
           {featuredItems.map((item) => (
-            <li key={item.title} className="w-full">
+            <li key={item.slug} className="w-full">
               <ArticleCard item={item} />
             </li>
           ))}
@@ -250,7 +250,7 @@ export default function NewsfeedFilmstripSection() {
         <ul className="flex items-center gap-4 px-[6vw] py-6 pr-[22vw]">
           {featuredItems.map((item) => (
             <li
-              key={item.title}
+              key={item.slug}
               className={cn(
                 "shrink-0 [scroll-snap-align:start] [scroll-snap-stop:always]",
                 MOBILE_CARD_WIDTH_CLS,

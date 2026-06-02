@@ -5,3 +5,5 @@ export const NAV_LINKS = [
   { href: "#aktualnosci", label: "Aktualności" },
   { href: "#kontakt", label: "Kontakt" },
 ] as const;
+
+export type NavLink = (typeof NAV_LINKS)[number];
